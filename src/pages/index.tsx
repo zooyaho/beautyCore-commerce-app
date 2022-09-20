@@ -11,15 +11,15 @@ function Home() {
   const router = useRouter();
 
   // For: Redirect To Starter Docs Page (나중에 꼭 지워주세요)
-  React.useEffect(() => {
+  /*  React.useEffect(() => {
     router.push(ROUTES.STARTER_DOCS.MAIN);
-  }, [router]);
+  }, [router]); */
 
   return (
     <>
       <Head>
         {/* ex) Your App Name | Page Name */}
-        <title>똑똑한 개발자 | 메인</title>
+        <title>Beauty Core | login</title>
       </Head>
       <HomeLayout content={<HomePage />} />
     </>

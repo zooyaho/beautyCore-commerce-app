@@ -42,7 +42,7 @@ exports.module = {
     /**  해당 프로젝트 repository 의 owner 로 써. organization 이름입니다 */
     owner: 'TOKTOKHAN-DEV',
     /**  이슈 생성시 이슈를 추적할 맴버의 아이디 목록 입니다 */
-    assignees: ['ldu1020'],
+    assignees: ['zooyaho'],
     /**  이슈 생성시 이슈에 달릴 수 있는 이슈 label 의 목록입니다 */
     labels: ['bug', 'feature'],
   },

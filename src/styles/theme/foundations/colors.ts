@@ -1,8 +1,8 @@
 import { getColorSchema } from '@utils/color-generator';
 
 const Light = {
-  primary: getColorSchema('#3395F0'),
-  secondary: getColorSchema('#5CB1FF'),
+  primary: getColorSchema('#FF710B'),
+  secondary: getColorSchema('#FFAB2E'),
   warning: getColorSchema('#FF6060'),
   success: getColorSchema('#4850FF'),
   gray: {
@@ -26,8 +26,8 @@ const Light = {
   },
   modal: '#FFFFFF',
   point: {
-    primary: '#5398FF',
-    secondary: '#D2EAFF',
+    primary: '#FFAB2E',
+    secondary: '#FFFCEF',
   },
 };
 

@@ -8,7 +8,9 @@ export const MY_IMAGES = {
     192: { src: '/icons/192.png', alt: '192' },
     384: { src: '/icons/384.png', alt: '384' },
     512: { src: '/icons/512.png', alt: '512' },
+    INTRO_LOGO: { src: '/icons/INTRO_LOGO.png', alt: 'logo' },
     LOGO: { src: '/icons/LOGO.png', alt: 'logo' },
+    // x_LOG/O: { src: '/icons/2x_LOGO.png', alt: 'logo' },
     SOCIAL: {
       APPLE: { src: '/icons/social/apple.png', alt: 'apple' },
       FACEBOOK: { src: '/icons/social/facebook.png', alt: 'facebook' },

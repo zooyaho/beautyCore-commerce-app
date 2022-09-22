@@ -11,17 +11,18 @@ function Home() {
   const router = useRouter();
 
   // For: Redirect To Starter Docs Page (나중에 꼭 지워주세요)
-  /*  React.useEffect(() => {
-    router.push(ROUTES.STARTER_DOCS.MAIN);
-  }, [router]); */
+  // 자동 로그인 기능이 없으므로 바로 intro login page로 이동
+  React.useEffect(() => {
+    router.push(ROUTES.Login.INTRO);
+  }, [router]);
 
   return (
     <>
-      <Head>
-        {/* ex) Your App Name | Page Name */}
-        <title>Beauty Core | login</title>
+      {/* <Head> */}
+      {/* ex) Your App Name | Page Name */}
+      {/* <title>Beauty Core | login</title>
       </Head>
-      <HomeLayout content={<HomePage />} />
+      <HomeLayout content={<HomePage />} /> */}
     </>
   );
 }

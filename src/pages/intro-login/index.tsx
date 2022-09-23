@@ -7,7 +7,7 @@ function IntroLogin() {
   return (
     <>
       <Head>
-        <title>Beauty Core | intro-login-page</title>
+        <title>Beauty Core | intro-login</title>
       </Head>
       <CardLayout content={<IntroLoginPage />} />
     </>

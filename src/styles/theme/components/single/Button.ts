@@ -63,7 +63,7 @@ const variantSolid: StyleObjectOrFn = (props) => {
   const {
     bg = `${c}.500`,
     color = 'white',
-    hoverBg = `${c}.600`,
+    hoverBg = `${c}.300`,
     activeBg = `${c}.700`,
     border = `${c}.500`,
   } = accessibleColorMap[c] ?? {};
@@ -99,7 +99,7 @@ export const Button: ComponentSingleStyleConfig = {
   sizes: {
     lg: {
       h: '50px',
-      fontSize: ['16px', '14px', '15px'],
+      fontSize: ['18px', '16px', '17px'],
       px: '15px',
     },
     md: {

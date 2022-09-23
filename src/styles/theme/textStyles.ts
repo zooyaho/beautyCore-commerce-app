@@ -1,7 +1,7 @@
 const textStyles = {
   sm: {
-    fontSize: ['12px', '10px', '12px'],
-    lineHeight: ['18px', '16px', '18px'],
+    fontSize: '12px',
+    lineHeight: '18px',
   },
   md: {
     fontSize: { base: '16px', sm: '14px', md: '15px' },
@@ -15,6 +15,11 @@ const textStyles = {
     fontSize: ['26px', '26px', '35px'],
     lineHeight: ['38px', '38px', '52px'],
   },
+  /* sm: {
+    fontSize: ['12px', '10px', '12px'],
+    lineHeight: ['18px', '16px', '18px'],
+  },
+  */
 };
 
 export default textStyles;

@@ -2,9 +2,6 @@ import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import React from 'react';
 
-import HomePage from '@components/HomePage';
-import HomeLayout from '@components/common/@Layout/HomeLayout';
-
 import { ROUTES } from '@constants/routes';
 
 function Home() {

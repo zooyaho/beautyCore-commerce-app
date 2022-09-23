@@ -13,7 +13,6 @@ import {
   Input,
   Text,
   Image,
-  Heading,
   Container,
   Select,
   Spacer,
@@ -45,13 +44,13 @@ const FormPageView = ({
         </Flex>
       </Box>
       <Container as='main' mt={LAYOUT.HEADER.HEIGHT}>
-        <Heading as='h2' size='lg' mt='1.6rem'>회원가입</Heading>
+        <Text as='h2' textStyle='xl' fontWeight='bold' mt='1.6rem'>회원가입</Text>
         {/* s: Form */}
         <Box as="form" onSubmit={onSubmit} {...basisProps}>
 
           {/* 회원정보입력 */}
           <Box mb='5rem'>
-            <Heading as='h3' fontSize='16px' mt='3.75rem'>회원정보입력</Heading>
+            <Text as='h3' textStyle='md' fontWeight='bold' mt='3.75rem'>회원정보입력</Text>
             <Flex justifyContent='center' my='2.5rem'>
               <UserProfileIcon />
             </Flex>
@@ -75,7 +74,7 @@ const FormPageView = ({
 
           {/* 추가정보입력 */}
           <Box mb='5rem'>
-            <Heading as='h3' fontSize='md' mb='2.5rem'>추가정보입력</Heading>
+            <Text as='h3' textStyle='md' fontWeight='bold' mb='2.5rem'>추가정보입력</Text>
             <Controller
               control={control}
               name="gender"
@@ -115,7 +114,6 @@ const FormPageView = ({
                   <Select
                     variant='flushed'
                     // isSearchable={false} 
-                    // color='gray.500'
                     iconColor='black'
                     iconSize='3rem'
                     focusBorderColor='primary.500'
@@ -135,7 +133,7 @@ const FormPageView = ({
 
           {/* s: 이용약관동의 */}
           <Box mb='5rem'>
-            <Heading as='h3' fontSize='md' mb='2.5rem'>이용약관동의</Heading>
+            <Text as='h3' textStyle='md' fontWeight='bold' mb='2.5rem'>이용약관동의</Text>
 
             {/* 모든 동의 버튼 */}
             <Flex alignItems='center' borderBottom='2px solid' borderBottomColor='primary.500'>

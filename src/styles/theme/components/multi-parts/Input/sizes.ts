@@ -11,7 +11,7 @@ const size: Record<string, CSSObject> = {
   md: {
     fontSize: 'md',
     px: 4,
-    h: '54px',
+    h: '40px',
   },
   sm: {
     fontSize: 'sm',

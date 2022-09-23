@@ -11,7 +11,7 @@ export const variants: InputThemeType['variants'] = {
       field: {
         border: '1px solid',
         borderColor: 'inherit',
-        borderRadius: 0,
+        borderRadius: '100px',
         bg: 'inherit',
         _hover: {
           borderColor: mode('gray.300', 'whiteAlpha.400')(props),
@@ -30,6 +30,7 @@ export const variants: InputThemeType['variants'] = {
         },
         _focus: {
           borderColor: getColor(theme, fc),
+          boxShadow: 'none',
         },
       },
       addon: {

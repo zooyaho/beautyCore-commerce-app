@@ -1,7 +1,7 @@
 const textStyles = {
   sm: {
-    fontSize: ['12px', '10px', '12px'],
-    lineHeight: ['18px', '16px', '18px'],
+    fontSize: ['12px', '10px', '16px'],
+    lineHeight: ['18px', '16px', '22px'],
   },
   md: {
     fontSize: { base: '16px', sm: '14px', md: '15px' },

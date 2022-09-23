@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Center, Flex } from '@chakra-ui/react';
+import { Box, Center, Flex } from '@chakra-ui/react';
 
 interface CardLayoutProps {
   content?: JSX.Element;
@@ -12,9 +12,9 @@ const CardLayout = ({
   return (
     <>
       <Flex alignItems="center" justifyContent="center">
-        <Center w="375px" h="100vh">
+        <Box w="375px" h="100vh" flexDirection="column" position="relative">
           {content}
-        </Center>
+        </Box>
       </Flex>
     </>
   );

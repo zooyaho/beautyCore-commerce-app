@@ -1,12 +1,17 @@
-import { Flex, IconButton, Image } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton, Image } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 
 import MenuIcon from '@components/common/@Icons/System/Menu';
 
 import { LAYOUT } from '@constants/layout';
 
-import { HOME_HEADER_VARIANTS, CommonHeaderVariantType } from './CommonHeader.data';
+import {
+  CommonHeaderVariantType,
+  HOME_HEADER_VARIANTS,
+} from './CommonHeader.data';
 import CommonHeaderDrawer from './_fragments/CommonHeaderDrawer';
+
+import { HeaderCartIcon } from 'generated/icons/MyIcons';
 
 interface CommonHeaderProps {
   variant?: CommonHeaderVariantType;
@@ -19,7 +24,7 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
 
   return (
     <>
-      <Flex //
+      <Flex //header section
         as="header"
         px={{ base: '16px', md: '80px' }}
         alignItems="center"
@@ -31,14 +36,7 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
         h={LAYOUT.HEADER.HEIGHT}
         {...cssByVariant.header}
       >
-        <Image //
-          src="/images/header/logo.png"
-          w="74px"
-          h="42px"
-          cursor="pointer"
-        />
-        <Image src="/images/header/menu.png" w="24px" h="24px" />
-        <IconButton //
+        <IconButton // 메뉴 버튼
           color={cssByVariant.pointColor}
           icon={<MenuIcon w="24px" h="24px" />}
           onClick={onOpen}
@@ -46,6 +44,20 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
           bg="transparent"
           aria-label="btn-toggle-drawer"
         />
+        <Image // LOGO
+          src="/images/LOGO.png"
+          w="35%"
+          h="25%"
+          cursor="pointer"
+        />
+        <Button // 장바구니 버튼
+          colorScheme="transparent"
+          border="none"
+          px="0"
+          cursor="pointer"
+        >
+          <HeaderCartIcon />
+        </Button>
       </Flex>
       <CommonHeaderDrawer
         isOpen={isOpen}

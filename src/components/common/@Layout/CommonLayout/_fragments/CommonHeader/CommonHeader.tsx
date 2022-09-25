@@ -26,13 +26,14 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
     <>
       <Flex //header section
         as="header"
-        px={{ base: '16px', md: '80px' }}
+        px="16px"
+        w="100%"
+        maxWidth="375px"
         alignItems="center"
         justifyContent="space-between"
         position="fixed"
         zIndex="sticky"
         transition="all 0.3s"
-        w="100%"
         h={LAYOUT.HEADER.HEIGHT}
         {...cssByVariant.header}
       >

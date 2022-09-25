@@ -1,5 +1,3 @@
-// import { Link } from '@chakra-ui/react';
-// import { Link as RouterLink } from 'next/link';
 import Link from 'next/link';
 
 import {
@@ -8,12 +6,10 @@ import {
   ChakraProps,
   Container,
   Divider,
-  DrawerHeader,
   DrawerProps,
   Flex,
   List,
   ListItem,
-  Spacer,
   Text,
 } from '@chakra-ui/react';
 import {
@@ -23,8 +19,6 @@ import {
   DrawerContent,
   DrawerOverlay,
 } from '@chakra-ui/react';
-
-import { LAYOUT } from '@constants/layout';
 
 import { LogoutIcon } from 'generated/icons/MyIcons';
 

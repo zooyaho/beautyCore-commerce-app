@@ -1,5 +1,7 @@
 import Head from 'next/head';
+
 import HomePage from '@components/HomePage';
+import CardLayout from '@components/common/@Layout/CardLayout';
 import CommonLayout from '@components/common/@Layout/CommonLayout';
 
 function Home() {
@@ -8,7 +10,7 @@ function Home() {
       <Head>
         <title>Beauty Core | home</title>
       </Head>
-      <CommonLayout content={<HomePage />} />
+      <CardLayout content={<CommonLayout content={<HomePage />} />} />
     </>
   );
 }

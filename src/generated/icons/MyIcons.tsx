@@ -215,3 +215,46 @@ export const HeaderCartIcon = (props: IconProps) => (
     />
   </Icon>
 );
+export const LogoutIcon = (props: IconProps) => (
+  <Icon
+    width="24px"
+    height="25px"
+    viewBox="0 0 24 25"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clipPath="url(#clip0_5136_23794)">
+      <path
+        d="M16.3136 8.5625L20.2501 12.5L16.3136 16.4375"
+        stroke="#1A1A1A"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.75 12.5H20.2472"
+        stroke="#1A1A1A"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.75 20.75H4.5C4.30109 20.75 4.11032 20.671 3.96967 20.5303C3.82902 20.3897 3.75 20.1989 3.75 20V5C3.75 4.80109 3.82902 4.61032 3.96967 4.46967C4.11032 4.32902 4.30109 4.25 4.5 4.25H9.75"
+        stroke="#1A1A1A"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_5136_23794">
+        <rect
+          width="24"
+          height="24"
+          fill="white"
+          transform="translate(0 0.5)"
+        />
+      </clipPath>
+    </defs>
+  </Icon>
+);

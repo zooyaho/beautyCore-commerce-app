@@ -76,6 +76,7 @@ const variantSolid: StyleObjectOrFn = (props) => {
     color: color,
     borderWidth: 1,
     borderColor: borderColor,
+    borderRadius: '100px',
     _hover: {
       bg: hoverBg,
       borderColor: hoverBg,

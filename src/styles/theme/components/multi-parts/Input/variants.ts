@@ -11,7 +11,6 @@ export const variants: InputThemeType['variants'] = {
       field: {
         border: '1px solid',
         borderColor: 'inherit',
-        borderRadius: '100px',
         bg: 'inherit',
         _hover: {
           borderColor: mode('gray.300', 'whiteAlpha.400')(props),

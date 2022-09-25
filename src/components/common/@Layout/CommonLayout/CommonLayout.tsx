@@ -4,6 +4,7 @@ import { Container, ContainerProps } from '@chakra-ui/react';
 
 import { LAYOUT } from '@constants/layout';
 
+import CommonFooter from './_fragments/CommonFooter';
 import CommonHeader from './_fragments/CommonHeader';
 
 interface HomeLayoutProps {
@@ -16,7 +17,7 @@ interface HomeLayoutProps {
 const CommonLayout = ({
   //
   header = <CommonHeader />,
-  footer,
+  footer = <CommonFooter />,
   containerProps,
   content,
 }: HomeLayoutProps) => {

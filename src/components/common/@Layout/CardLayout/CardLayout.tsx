@@ -10,7 +10,7 @@ const CardLayout = ({ content }: CardLayoutProps) => {
   return (
     <>
       <Flex alignItems="center" justifyContent="center">
-        <Box w="375px" h="100vh">
+        <Box w="375px" h="100vh" position="relative">
           {content}
         </Box>
       </Flex>

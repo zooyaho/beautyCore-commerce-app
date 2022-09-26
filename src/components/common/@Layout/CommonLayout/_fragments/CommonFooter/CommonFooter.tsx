@@ -4,10 +4,7 @@ const CommonFooter = () => {
   return (
     <Container
       as="footer"
-      position="absolute"
-      bottom="0"
-      left="0"
-      right="0"
+      mt="4404px"
       bg="gray.800"
       color="white"
       textStyle="sm"

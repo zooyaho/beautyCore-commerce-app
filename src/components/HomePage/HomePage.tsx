@@ -1,12 +1,20 @@
 import React from 'react';
-import { Box, ChakraProps, Button, Flex, Image, Text } from '@chakra-ui/react';
 
-interface HomePageProps extends ChakraProps { }
+import { Box, ChakraProps, Img, Text } from '@chakra-ui/react';
 
-function HomePage({ ...basisProps }: HomePageProps) {
+// interface HomePageProps extends ChakraProps { }
+
+function HomePage() {
   return (
-    <Box {...basisProps}>
-      <Text>MainPage</Text>
+    <Box as="main">
+      <Img
+        src="images/mainBg.png"
+        alt="home image"
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+      />
     </Box>
   );
 }

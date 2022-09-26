@@ -259,7 +259,6 @@ export const LogoutIcon = (props: IconProps) => (
     </defs>
   </Icon>
 );
-
 export const PlusIcon_p = (props: IconProps) => (
   <Icon
     width={props.width}
@@ -274,6 +273,52 @@ export const PlusIcon_p = (props: IconProps) => (
       stroke="#FF710B"
       strokeWidth="2"
       strokeLinecap="round"
+    />
+  </Icon>
+);
+export const CheckIcon_P = (props: IconProps) => (
+  <Icon
+    width="24px"
+    height="24px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M5.84302 11.3302L10.532 17.2472L17.465 7.51025"
+      stroke="#FF710B"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Icon>
+);
+export const VerticalLineIcon = (props: IconProps) => (
+  <Icon
+    width="2px"
+    height="489"
+    viewBox="0 0 2 489"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M1 0L0.999979 489" stroke="#CBCED6" strokeWidth="2" />
+  </Icon>
+);
+export const CurveIcon = (props: IconProps) => (
+  <Icon
+    width="375px"
+    height="39px"
+    viewBox="0 0 375 39"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M376 4.17195C322.562 25.5821 163.296 69.7897 -1.00001 1"
+      stroke="#FF710B"
+      strokeWidth="2"
     />
   </Icon>
 );

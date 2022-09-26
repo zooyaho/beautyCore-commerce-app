@@ -18,8 +18,8 @@ function HomePage() {
       <HomeSection3 />
       <HomeSection4 />
       <HomeSection5 />
-      {/* <HomeSection6 /> */}
-      {/* <HomeSection7 /> */}
+      <HomeSection6 />
+      <HomeSection7 />
       {/* <Box as="main">
       <Img
         src="images/mainBg.png"

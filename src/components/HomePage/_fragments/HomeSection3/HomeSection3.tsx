@@ -17,7 +17,6 @@ function HomeSection3() {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      mb="4rem"
       bgColor="gray.100"
     >
       <Text textStyle="xl" color="primary.500" fontWeight="700" mt="5rem">

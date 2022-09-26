@@ -54,8 +54,8 @@ const FormPageView = ({
       >
         <Flex alignItems="center" h="inherit" ml="1rem">
           <Image
-            src={MY_IMAGES.ICONS.LOGO.src}
-            alt={MY_IMAGES.ICONS.LOGO.alt}
+            src={MY_IMAGES.IMAGES.LOGO.src}
+            alt={MY_IMAGES.IMAGES.LOGO.alt}
           />
         </Flex>
       </Box>

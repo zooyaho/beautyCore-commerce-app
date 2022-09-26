@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Container, ContainerProps } from '@chakra-ui/react';
+import { Box, ContainerProps } from '@chakra-ui/react';
 
 import { LAYOUT } from '@constants/layout';
 
@@ -22,13 +22,13 @@ const CommonLayout = ({
   content,
 }: HomeLayoutProps) => {
   return (
-    <>
+    <Box h="auto" maxW="375px" pos="relative">
       {header}
-      <Box {...containerProps} pos="absolute" top="0" left="0" right="0">
+      <Box as="main" pb={LAYOUT.FOOTER.HEIGHT} {...containerProps}>
         {content}
       </Box>
       {footer}
-    </>
+    </Box>
   );
 };
 

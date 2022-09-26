@@ -6,17 +6,15 @@ import { Box, Container, Text } from '@chakra-ui/react';
 function HomeSection1() {
   return (
     <Container
-      position="relative"
       w="100%"
-      bgImage="url(./images/Home/Group_298.png)"
+      bgImage="url(./images/home/Group_298.png)"
       bgSize="cover"
-      pos="absolute"
       top="0"
       right="0"
       left="0"
       h="782px"
     >
-      <Box position="absolute" top="20%">
+      <Box position="absolute" top="22vh">
         <Text as="h2" textStyle="xl" fontWeight="bold">
           지속 가능한
           <br />

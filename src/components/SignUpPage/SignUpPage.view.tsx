@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import { MY_IMAGES } from '@image';
@@ -15,6 +15,7 @@ import {
   Select,
   Spacer,
   Text,
+  useBoolean,
 } from '@chakra-ui/react';
 
 import FormHelper from '@components/common/FormHelper';
@@ -42,6 +43,28 @@ const FormPageView = ({
   onSubmit,
   ...basisProps
 }: FormPageProps) => {
+  const [isAllAgreeFlag, setAllAgreeFlag] = useBoolean();
+  const [isServiceAgreeFlag, setServiceAgreeFlag] = useBoolean();
+  const [isPersonalInfoAgreeFlag, setPersonalInfoAgreeFlag] = useBoolean();
+  const [isMarketingAgreeFlag, setMarketingAgreeFlag] = useBoolean();
+
+  useEffect(() => {
+    if (isAllAgreeFlag) {
+      setServiceAgreeFlag.on();
+      setPersonalInfoAgreeFlag.on();
+      setMarketingAgreeFlag.on();
+    } else {
+      setServiceAgreeFlag.off();
+      setPersonalInfoAgreeFlag.off();
+      setMarketingAgreeFlag.off();
+    }
+  }, [
+    isAllAgreeFlag,
+    setMarketingAgreeFlag,
+    setPersonalInfoAgreeFlag,
+    setServiceAgreeFlag,
+  ]);
+
   return (
     <>
       <Box
@@ -79,6 +102,7 @@ const FormPageView = ({
               errorText={errors.username?.message}
             >
               <Input
+                borderRadius="100px"
                 size="md"
                 borderColor="black"
                 {...register('username')}
@@ -92,6 +116,7 @@ const FormPageView = ({
               errorText={errors.nickname?.message}
             >
               <Input
+                borderRadius="100px"
                 size="md"
                 borderColor="black"
                 {...register('nickname')}
@@ -105,6 +130,7 @@ const FormPageView = ({
               errorText={errors.phone?.message}
             >
               <Input
+                borderRadius="100px"
                 size="md"
                 borderColor="black"
                 {...register('phone')}
@@ -118,6 +144,7 @@ const FormPageView = ({
               errorText={errors.email?.message}
             >
               <Input
+                borderRadius="100px"
                 size="md"
                 borderColor="black"
                 {...register('email')}
@@ -205,12 +232,17 @@ const FormPageView = ({
               </Text>
               <Spacer />
               <Button
-                rightIcon={<CircleCheckIcon />}
+                rightIcon={
+                  <CircleCheckIcon
+                    boxSize="24px"
+                    color={isAllAgreeFlag ? 'primary.500' : 'gray.400'}
+                  />
+                }
                 colorScheme="transparent"
                 border="none"
-                sx={{ 'svg:hover path': { stroke: 'primary.500' } }}
-                _hover={{ background: 'transparent' }}
                 px="0"
+                _hover={{ background: 'transparent' }}
+                onClick={setAllAgreeFlag.toggle}
               />
             </Flex>
 
@@ -227,12 +259,17 @@ const FormPageView = ({
               </Link>
               <Spacer />
               <Button
-                rightIcon={<CheckLineIcon />}
-                sx={{ 'svg:hover path': { stroke: 'primary.500' } }}
+                rightIcon={
+                  <CheckLineIcon
+                    boxSize="24px"
+                    color={isServiceAgreeFlag ? 'primary.500' : 'gray.400'}
+                  />
+                }
                 colorScheme="transparent"
                 border="none"
-                _hover={{ background: 'transparent' }}
                 px="0"
+                _hover={{ background: 'transparent' }}
+                onClick={setServiceAgreeFlag.toggle}
               />
             </Flex>
             <Flex alignItems="center" my="1rem">
@@ -248,12 +285,17 @@ const FormPageView = ({
               </Link>
               <Spacer />
               <Button
-                rightIcon={<CheckLineIcon />}
-                sx={{ 'svg:hover path': { stroke: 'primary.500' } }}
+                rightIcon={
+                  <CheckLineIcon
+                    boxSize="24px"
+                    color={isPersonalInfoAgreeFlag ? 'primary.500' : 'gray.400'}
+                  />
+                }
                 colorScheme="transparent"
                 border="none"
-                _hover={{ background: 'transparent' }}
                 px="0"
+                _hover={{ background: 'transparent' }}
+                onClick={setPersonalInfoAgreeFlag.toggle}
               />
             </Flex>
             <Flex alignItems="center" my="1rem">
@@ -269,12 +311,17 @@ const FormPageView = ({
               </Link>
               <Spacer />
               <Button
-                rightIcon={<CheckLineIcon />}
-                sx={{ 'svg:hover path': { stroke: 'primary.500' } }}
+                rightIcon={
+                  <CheckLineIcon
+                    boxSize="24px"
+                    color={isMarketingAgreeFlag ? 'primary.500' : 'gray.400'}
+                  />
+                }
                 colorScheme="transparent"
                 border="none"
-                _hover={{ background: 'transparent' }}
                 px="0"
+                _hover={{ background: 'transparent' }}
+                onClick={setMarketingAgreeFlag.toggle}
               />
             </Flex>
           </Box>

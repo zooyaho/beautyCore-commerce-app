@@ -1,4 +1,5 @@
 import Head from 'next/head';
+
 import SignUpDonePage from '@components/SignUpDonePage';
 import CardLayout from '@components/common/@Layout/CardLayout';
 

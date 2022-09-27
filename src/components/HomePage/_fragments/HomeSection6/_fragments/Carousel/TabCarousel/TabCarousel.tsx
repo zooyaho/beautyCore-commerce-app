@@ -12,53 +12,24 @@ function TabCarousel() {
     centerMode: false,
     variableWidth: true,
   };
+  const tabTexts = [
+    '전체',
+    '바스&amp;샴푸',
+    '오일',
+    '로션',
+    '크림',
+    '파우더 로션',
+  ];
   return (
     <Slider {...settings}>
-      <Box mr=".7rem">
-        <Button borderRadius="15px" px="1rem" h="30px">
-          전체
-        </Button>
-      </Box>
-      <Box mr=".7rem">
-        <Button borderRadius="15px" px="1rem" h="30px">
-          바스&amp;샴푸
-        </Button>
-      </Box>
-      <Box mr=".7rem">
-        <Button borderRadius="15px" px="1rem" h="30px">
-          오일
-        </Button>
-      </Box>
-      <Box mr=".7rem">
-        <Button borderRadius="15px" px="1rem" h="30px">
-          로션
-        </Button>
-      </Box>
-      <Box mr=".7rem">
-        <Button borderRadius="15px" px="1rem" h="30px">
-          크림
-        </Button>
-      </Box>
-      <Box mr=".7rem">
-        <Button borderRadius="15px" px="1rem" h="30px">
-          파우더 로션
-        </Button>
-      </Box>
+      {tabTexts.map((text) => (
+        <Box mr=".7rem" key={text}>
+          <Button borderRadius="15px" px="1rem" h="30px">
+            {text}
+          </Button>
+        </Box>
+      ))}
     </Slider>
   );
 }
 export default TabCarousel;
-
-/* interface TabCarouselProps {
-  content: string[];
-}
-
-function TabCarousel({ content }: TabCarouselProps) {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-  };
-  return <Slider>{content.map((text)=>())}</Slider>;
-}
-export default TabCarousel;*/

@@ -12,14 +12,7 @@ function TabCarousel() {
     centerMode: false,
     variableWidth: true,
   };
-  const tabTexts = [
-    '전체',
-    '바스&amp;샴푸',
-    '오일',
-    '로션',
-    '크림',
-    '파우더 로션',
-  ];
+  const tabTexts = ['전체', '바스&샴푸', '오일', '로션', '크림', '파우더 로션'];
   return (
     <Slider {...settings}>
       {tabTexts.map((text) => (

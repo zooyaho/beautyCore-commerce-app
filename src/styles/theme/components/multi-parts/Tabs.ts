@@ -11,7 +11,14 @@ const parts = [
 
 export const Tabs: ChakraMultiPartComponentType<typeof parts> = {
   parts,
-  baseStyle: {},
+  baseStyle: {
+    root: {},
+    tab: {},
+    tablist: {},
+    tabpanel: {},
+    tabpanels: {},
+    indicator: {},
+  },
   defaultProps: {},
   sizes: {},
   variants: {},

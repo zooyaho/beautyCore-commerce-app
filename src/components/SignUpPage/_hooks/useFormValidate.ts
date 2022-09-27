@@ -43,8 +43,11 @@ export const signupFormSchema = yup.object().shape({
       'validate',
       '한글 1~5자, 영문 및 숫자 2~10자 사이로 입력해주세요.',
       (val) => {
-        // if(val?.charAt(0).getBytes())
-        // 영문은 다 uppercase로 해서 검사하기
+        const enNumRegExp = /^[a-zA-z0-9]{2,10}$/;
+        const koRegExp = /^[ㄱ-ㅎ|가-힣]{1,5}$/;
+        if (val && !(enNumRegExp.test(val) || koRegExp.test(val))) {
+          return false;
+        }
         return true;
       },
     ),
@@ -52,17 +55,9 @@ export const signupFormSchema = yup.object().shape({
     .string()
     .required('해당 항목은 필수값 입니다.')
     .test('isNumber', '정확한 핸드폰 번호를 입력해주세요.', (val) => {
-      console.log(val);
-      /* val?.split('').forEach((v, i, arr) => {
-        console.log(arr[3]);
-        if ((i >= 0 && i <= 2) || (i >= 4 && i <= 7) || (i >= 9 && i <= 12)) {
-          return !Number.isNaN(Number(val));
-        }
-        if (arr[3] === '-' || arr[8] === '-') return true;
-      }); */
       return !Number.isNaN(Number(val));
     })
-    .min(1, '정확한 핸드폰 번호를 입력해주세요.')
+    .min(10, '정확한 핸드폰 번호를 입력해주세요.')
     .max(13, '정확한 핸드폰 번호를 입력해주세요.'),
   email: yup
     .string()

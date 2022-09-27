@@ -8,9 +8,8 @@ export const MY_IMAGES = {
     192: { src: '/icons/192.png', alt: '192' },
     384: { src: '/icons/384.png', alt: '384' },
     512: { src: '/icons/512.png', alt: '512' },
-    INTRO_LOGO: { src: '/icons/INTRO_LOGO.png', alt: 'logo' },
-    LOGO: { src: '/images/LOGO.png', alt: 'logo' },
-    // x_LOG/O: { src: '/icons/2x_LOGO.png', alt: 'logo' },
+    // '2_X_LOGO': { src: '/icons/2x_LOGO.png', alt: '2-x-logo' },
+    // I_N_T_R_O_LOGO: { src: '/icons/INTRO_LOGO.png', alt: 'i-n-t-r-o-logo' },
     SOCIAL: {
       APPLE: { src: '/icons/social/apple.png', alt: 'apple' },
       FACEBOOK: { src: '/icons/social/facebook.png', alt: 'facebook' },
@@ -23,6 +22,12 @@ export const MY_IMAGES = {
       SUN: { src: '/icons/svg/sun.svg', alt: 'sun' },
     },
   },
-  IMAGES: { NEW_OG: { src: '/images/new_og.png', alt: 'new-og' } },
+  IMAGES: {
+    HOME: {},
+    LOGO: { src: '/images/LOGO.png', alt: 'logo' },
+    INTRO_LOGO: { src: '/images/INTRO_LOGO.png', alt: 'logo' },
+    MAIN_BG: { src: '/images/mainBg.png', alt: 'main-bg' },
+    NEW_OG: { src: '/images/new_og.png', alt: 'new-og' },
+  },
   VERCEL: { src: '/vercel.svg', alt: 'vercel' },
 };

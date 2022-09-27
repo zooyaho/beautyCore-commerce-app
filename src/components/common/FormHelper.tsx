@@ -55,7 +55,13 @@ const FormHelper = ({
   return (
     <FormControl isInvalid={!!errorText} {...basisProps}>
       {!!label && (
-        <FormLabel fontSize="sm" color='primary.500' fontWeight="bold" mb=".625rem" {...labelProps}>
+        <FormLabel
+          fontSize="sm"
+          color="primary.500"
+          fontWeight="bold"
+          mb=".625rem"
+          {...labelProps}
+        >
           {label}
         </FormLabel>
       )}

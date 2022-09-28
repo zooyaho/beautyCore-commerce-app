@@ -1,4 +1,4 @@
-import { useCallback } from 'React';
+import { useCallback } from 'react';
 
 import { RatingStarIcon } from 'generated/icons/MyIcons';
 

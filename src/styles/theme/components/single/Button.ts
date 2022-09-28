@@ -96,6 +96,15 @@ export const Button: ComponentSingleStyleConfig = {
   },
   variants: {
     solid: variantSolid,
+    whiteButton: {
+      colorScheme: 'primary',
+      bg: 'white',
+      fontWeight: 'bold',
+      borderWidth: 1,
+      borderColor: 'primary.500',
+      _active: { bg: 'primary.100', color: 'white' },
+      _hover: { bg: 'primary.100', color: 'white' },
+    },
   },
   sizes: {
     lg: {

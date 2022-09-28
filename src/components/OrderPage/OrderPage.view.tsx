@@ -9,13 +9,10 @@ import {
   Container,
   Divider,
   Flex,
-  Image,
   Img,
   Input,
-  Link,
   Radio,
   RadioGroup,
-  Select,
   Spacer,
   Text,
 } from '@chakra-ui/react';
@@ -26,12 +23,7 @@ import { LAYOUT } from '@constants/layout';
 
 import { FormDataType } from './_hooks/useFormValidate';
 
-import {
-  CardPayIcon,
-  CheckLineIcon,
-  CircleCheckIcon,
-  UserProfileIcon,
-} from 'generated/icons/MyIcons';
+import { CardPayIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;

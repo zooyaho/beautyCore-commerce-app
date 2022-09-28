@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import CardLayout from '@components/common/@Layout/CardLayout';
+
 import IntroLoginPage from '@components/IntroLoginPage';
+import CardLayout from '@components/common/@Layout/CardLayout';
 
 function IntroLogin() {
-
   return (
     <>
       <Head>
@@ -11,7 +11,6 @@ function IntroLogin() {
       </Head>
       <CardLayout content={<IntroLoginPage />} />
     </>
-
   );
 }
 

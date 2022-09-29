@@ -72,6 +72,7 @@ const variantSolid: StyleObjectOrFn = (props) => {
   const borderColor = border;
 
   return {
+    type: 'button',
     bg: background,
     color: color,
     borderWidth: 1,

@@ -118,7 +118,9 @@ function MyProductReviewPage() {
         <Button variant="pageButton">3</Button>
         <Button variant="pageButton">4</Button>
         <Button variant="pageButton">5</Button>
-        <RightArrowIcon boxSize="10px" ml="1rem" />
+        <Button colorScheme="transparent" ml="1rem" border="none">
+          <RightArrowIcon boxSize="10px" />
+        </Button>
       </Flex>
     </Box>
   );

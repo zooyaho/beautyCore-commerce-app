@@ -105,6 +105,15 @@ export const Button: ComponentSingleStyleConfig = {
       _active: { bg: 'primary.100', color: 'white' },
       _hover: { bg: 'primary.100', color: 'white' },
     },
+    pageButton: {
+      color: 'gray.400',
+      bg: 'transparent',
+      fontWeight: 'bold',
+      fontSize: '16px',
+      lineHeight: '24px',
+      _active: { borderColor: 'black', color: 'black' },
+      _hover: { borderColor: 'black', color: 'black' },
+    },
   },
   sizes: {
     lg: {

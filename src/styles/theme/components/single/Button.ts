@@ -114,6 +114,13 @@ export const Button: ComponentSingleStyleConfig = {
       _active: { borderColor: 'black', color: 'black' },
       _hover: { borderColor: 'black', color: 'black' },
     },
+    transparentButton: {
+      bg: 'transparent',
+      minW: '1rem',
+      padding: '0px',
+      _active: { borderColor: 'black', color: 'black' },
+      _hover: { borderColor: 'black', color: 'black' },
+    },
   },
   sizes: {
     lg: {

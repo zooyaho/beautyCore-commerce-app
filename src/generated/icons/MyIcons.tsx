@@ -569,3 +569,14 @@ export const RightArrowIcon = (props: IconProps) => (
     />
   </Icon>
 );
+export const MinusCartButtonIcon = (props: IconProps) => (
+  <Icon viewBox="0 0 25 26" fill="none" {...props}>
+    <path d="M17 12.5H8V13.5H17V12.5Z" fill="#4A4D55" />
+  </Icon>
+)
+export const PlusCartButtonIcon = (props: IconProps) => (
+  <Icon viewBox="0 0 25 26" fill="none" {...props}>
+    <path d="M17 12.75H8V13.75H17V12.75Z" fill="#4A4D55" />
+    <path d="M13 17.75V8.75H12V17.75H13Z" fill="#4A4D55" />
+  </Icon>
+)

@@ -63,7 +63,7 @@ const CommonHeaderDrawer = ({
             <Box as="nav">
               <List textStyle="md" fontWeight="bold">
                 <ListItem p="1rem">
-                  <Link href="/">홈</Link>
+                  <Link href="/home">홈</Link>
                 </ListItem>
                 <Divider />
                 <ListItem p="1rem">

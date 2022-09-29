@@ -97,13 +97,32 @@ export const Button: ComponentSingleStyleConfig = {
   variants: {
     solid: variantSolid,
     whiteButton: {
-      colorScheme: 'primary',
+      type: 'button',
+      colorScheme: 'primary.500',
+      color: 'primary.500',
       bg: 'white',
       fontWeight: 'bold',
+      borderRadius: '25px',
       borderWidth: 1,
       borderColor: 'primary.500',
       _active: { bg: 'primary.100', color: 'white' },
       _hover: { bg: 'primary.100', color: 'white' },
+    },
+    primaryButton: {
+      type: 'button',
+      colorScheme: 'primary.500',
+      color: 'white',
+      bg: 'primary.500',
+      fontWeight: 'bold',
+      borderRadius: '25px',
+      borderWidth: 1,
+      borderColor: 'primary.500',
+      _active: {
+        bg: 'primary.300',
+        color: 'white',
+        borderColor: 'primary.300',
+      },
+      _hover: { bg: 'primary.300', color: 'white', borderColor: 'primary.300' },
     },
     pageButton: {
       color: 'gray.400',
@@ -125,6 +144,7 @@ export const Button: ComponentSingleStyleConfig = {
   sizes: {
     lg: {
       h: '50px',
+      w: '100%',
       fontSize: ['18px', '16px', '17px'],
       px: '15px',
     },

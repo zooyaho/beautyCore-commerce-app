@@ -328,15 +328,7 @@ const FormPageView = ({
           {/* e: 이용약관동의 */}
 
           {/* Submit Button */}
-          <Button
-            w="100%"
-            size="lg"
-            fontWeight="bold"
-            borderRadius="25px"
-            mb="3.125rem"
-            colorScheme="primary"
-            type="submit"
-          >
+          <Button size="lg" mb="3.125rem" type="submit">
             회원가입 완료
           </Button>
         </Box>

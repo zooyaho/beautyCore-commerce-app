@@ -79,43 +79,72 @@ function WithdrawPageView({
           <Controller
             control={control}
             name="reason"
-            render={({ field: { onChange } }) => (
-              <FormHelper
-                mt="1rem"
-                mb="2rem"
-                errorText={errors.reason?.message}
-              >
-                <RadioGroup {...register('reason')} onChange={onChange}>
-                  <Stack direction="column" spacing=".7rem">
-                    <Radio value={REJOIN} colorScheme="primary">
-                      아이디 변경(재가입)
-                    </Radio>
-                    <Radio value={LOW_PURCHASE_FREQ} colorScheme="primary">
-                      낮은 구매 빈도
-                    </Radio>
-                    <Radio value={DISSATISFACTION} colorScheme="primary">
-                      서비스 및 고객지원 불만족
-                    </Radio>
-                    <Radio value={USE_OTHER_BRANDS} colorScheme="primary">
-                      타 브랜드 이용
-                    </Radio>
-                    <Radio value={ETC} colorScheme="primary">
-                      기타
-                    </Radio>
-                    <FormHelper errorText={errors.reason?.message}>
-                      <Input
-                        borderRadius="100px"
-                        size="md"
-                        borderColor="black"
-                        {...register('etcContent')}
-                        autoComplete="off"
-                        placeholder="사유를 입력해주세요."
-                      />
-                    </FormHelper>
-                  </Stack>
-                </RadioGroup>
-              </FormHelper>
-            )}
+            render={({ field: { onChange, value } }) => {
+              console.log(typeof value);
+              return (
+                <>
+                  <FormHelper
+                    mt="1rem"
+                    mb="1rem"
+                    errorText={errors.reason?.message}
+                  >
+                    <RadioGroup
+                      {...register('reason')}
+                      onChange={onChange}
+                      defaultValue="0"
+                    >
+                      <Stack direction="column" spacing=".7rem">
+                        <Radio value={`${REJOIN}`} colorScheme="primary">
+                          아이디 변경(재가입)
+                        </Radio>
+                        <Radio
+                          value={`${LOW_PURCHASE_FREQ}`}
+                          colorScheme="primary"
+                        >
+                          낮은 구매 빈도
+                        </Radio>
+                        <Radio
+                          value={`${DISSATISFACTION}`}
+                          colorScheme="primary"
+                        >
+                          서비스 및 고객지원 불만족
+                        </Radio>
+                        <Radio
+                          value={`${USE_OTHER_BRANDS}`}
+                          colorScheme="primary"
+                        >
+                          타 브랜드 이용
+                        </Radio>
+                        <Radio value={`${ETC}`} colorScheme="primary">
+                          기타
+                        </Radio>
+                      </Stack>
+                    </RadioGroup>
+                  </FormHelper>
+                  {value == ETC && (
+                    <Controller
+                      control={control}
+                      name="etcContent"
+                      render={({ field: { onChange, value } }) => {
+                        return (
+                          <FormHelper mb="1.5rem">
+                            <Input
+                              borderRadius="100px"
+                              size="md"
+                              borderColor="black"
+                              {...register('etcContent')}
+                              onChange={onChange}
+                              autoComplete="off"
+                              placeholder="사유를 입력해주세요."
+                            />
+                          </FormHelper>
+                        );
+                      }}
+                    />
+                  )}
+                </>
+              );
+            }}
           />
         </Container>
         <Container>
@@ -144,6 +173,7 @@ function WithdrawPageView({
             flexGrow="1"
             variant="whiteButton"
           >
+            {/* 클릭 시 리셋이 아니라 홈으로 가야하나? 확인해봐야 할덧 */}
             취소
           </Button>
           <Button
@@ -155,7 +185,8 @@ function WithdrawPageView({
             colorScheme="primary"
             flexGrow="1"
           >
-            <Link href="/">탈퇴하기</Link>
+            {/* <Link href="/intro-login">탈퇴하기</Link> */}
+            탈퇴하기
           </Button>
         </Flex>
       </Box>

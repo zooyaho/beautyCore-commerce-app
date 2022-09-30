@@ -1,19 +1,18 @@
 import React from 'react';
 
-import { Box, Button, ChakraProps, Flex, Image, Text } from '@chakra-ui/react';
+import WithdrawPageView from './WithdrawPage.view';
+import useFormValidate from './_hooks/useFormValidate';
 
-import { LAYOUT } from '@constants/layout';
+// interface SignUpPageProps extends ChakraProps { }
 
-interface WithdrawPageProps extends ChakraProps { }
+const ReviewWritePage = () => {
+  const formData = useFormValidate();
+  const { handleSubmit } = formData;
 
-function WithdrawPage({ ...basisProps }: WithdrawPageProps) {
-  return (
-    <Box pt={LAYOUT.HEADER.HEIGHT}>
-      <Text as="h2" textStyle="lg" fontWeight="bold" mt="1.6rem" px="1rem">
-        주문내역
-      </Text>
-    </Box>
-  );
-}
+  const onSubmit = handleSubmit(({ reason, requireText, etcContent }) => {
+    console.log(`submitted: ${reason},  ${requireText}, ${etcContent} `);
+  });
+  return <WithdrawPageView formData={formData} onSubmit={onSubmit} />;
+};
 
-export default WithdrawPage;
+export default ReviewWritePage;

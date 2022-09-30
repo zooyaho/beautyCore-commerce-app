@@ -9,7 +9,7 @@ export type FormDataType = {
   content: string;
 };
 
-export const signupFormSchema = yup.object().shape({
+export const reviewWriteFormSchema = yup.object().shape({
   starRating: yup.number().required('별점 항목은 필수 입니다.'),
   content: yup
     .string()
@@ -19,7 +19,7 @@ export const signupFormSchema = yup.object().shape({
 
 const useFormValidate = (options?: UseFormProps<FormDataType>) => {
   return useForm<FormDataType>({
-    resolver: yupResolver(signupFormSchema),
+    resolver: yupResolver(reviewWriteFormSchema),
     mode: 'onChange',
     ...options,
   });

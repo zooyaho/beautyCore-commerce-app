@@ -1,14 +1,18 @@
 import React from 'react';
-import { Box, ChakraProps, Button, Flex, Image, Text } from '@chakra-ui/react';
 
-interface ReviewWritePageProps extends ChakraProps {}
+import ReviewWritePageView from './ReviewWritePage.view';
+import useFormValidate from './_hooks/useFormValidate';
 
-function ReviewWritePage({ ...basisProps }: ReviewWritePageProps) {
-  return (
-    <Box {...basisProps}>
-      <Text>ReviewWritePage</Text>
-    </Box>
-  );
-}
+// interface SignUpPageProps extends ChakraProps { }
+
+const ReviewWritePage = () => {
+  const formData = useFormValidate();
+  const { handleSubmit } = formData;
+
+  const onSubmit = handleSubmit(({ starRating, content }) => {
+    console.log(`submitted: ${starRating},  ${content} `);
+  });
+  return <ReviewWritePageView formData={formData} onSubmit={onSubmit} />;
+};
 
 export default ReviewWritePage;

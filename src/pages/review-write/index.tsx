@@ -1,15 +1,16 @@
 import Head from 'next/head';
-import HomeLayout from '@components/common/@Layout/HomeLayout';
+
 import ReviewWritePage from '@components/ReviewWritePage';
+import CardLayout from '@components/common/@Layout/CardLayout';
+import CommonLayout from '@components/common/@Layout/CommonLayout';
 
 function ReviewWrite() {
   return (
     <>
       <Head>
-        {/* ex) Your App Name | Page Name */}
-        <title>인코스런 커머스트랙 | review-write</title>
+        <title>Beauty Core | review-write</title>
       </Head>
-      <HomeLayout content={<ReviewWritePage />} />
+      <CardLayout content={<CommonLayout content={<ReviewWritePage />} />} />
     </>
   );
 }

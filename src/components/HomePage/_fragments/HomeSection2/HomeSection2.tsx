@@ -3,7 +3,7 @@ import React from 'react';
 // import { PlusIcon } from '@chakra-ui/icon';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
-import { PlusIcon_p } from 'generated/icons/MyIcons';
+import { PlusIcon } from 'generated/icons/MyIcons';
 
 // interface HomeSection2Props extends ChakraProps { }
 function HomeSection2() {
@@ -34,7 +34,7 @@ function HomeSection2() {
       <Box position="absolute" top="481px" left="20%">
         <Flex alignItems="end">
           <Box p="15px">
-            <PlusIcon_p width="18px" height="18px" />
+            <PlusIcon boxSize="18px" color="primary.500" />
           </Box>
           <Text as="p" textStyle="xl" fontWeight="700">
             불합리한 유통구조

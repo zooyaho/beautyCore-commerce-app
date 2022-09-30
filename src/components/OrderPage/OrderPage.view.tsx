@@ -29,7 +29,7 @@ interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
 }
 
-const FormPageView = ({
+const OrderPageView = ({
   formData: {
     register,
     control,
@@ -40,7 +40,7 @@ const FormPageView = ({
 }: FormPageProps) => {
   return (
     <>
-      <Box as="main" pt={LAYOUT.HEADER.HEIGHT}>
+      <Box pt={LAYOUT.HEADER.HEIGHT}>
         <Text as="h2" textStyle="lg" fontWeight="bold" mt="1.6rem" px="1rem">
           주문결제
         </Text>
@@ -294,7 +294,7 @@ const FormPageView = ({
               render={({ field: { onChange } }) => (
                 <FormHelper errorText={errors.personalConsent?.message}>
                   <Checkbox
-                    // onChange={onChange}
+                    onChange={onChange}
                     colorScheme="primary"
                     size="lg"
                     my="1.25rem"
@@ -334,4 +334,4 @@ const FormPageView = ({
   );
 };
 
-export default FormPageView;
+export default OrderPageView;

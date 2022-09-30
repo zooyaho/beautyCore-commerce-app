@@ -8,7 +8,7 @@ interface IProps {
   onChange: (v: number) => void;
 }
 
-function RatingStar({ rate, value, onChange }: IProps) {
+function RatingStars({ rate, value, onChange }: IProps) {
   const onClickIcon = useCallback(() => {
     onChange(rate);
   }, [onChange, rate]);
@@ -17,11 +17,11 @@ function RatingStar({ rate, value, onChange }: IProps) {
     <RatingStarIcon
       boxSize="24px"
       m="6px"
-      color={rate <= value ? 'primary.500' : 'gray:400'}
+      color={rate <= value ? 'primary.500' : 'gray.400'}
       cursor="pointer"
       onClick={onClickIcon}
     />
   );
 }
 
-export default RatingStar;
+export default RatingStars;

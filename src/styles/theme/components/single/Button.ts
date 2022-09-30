@@ -135,6 +135,9 @@ export const Button: ComponentSingleStyleConfig = {
       _hover: { borderColor: 'black', color: 'black' },
     },
     transparentButton: {
+      type: 'button',
+      height: 'fit-content',
+      width: 'fit-content',
       bg: 'transparent',
       minW: '1rem',
       padding: '0px',

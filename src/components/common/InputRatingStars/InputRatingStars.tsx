@@ -8,7 +8,7 @@ interface IProps {
   onChange: (v: number) => void;
 }
 
-function RatingStars({ rate, value, onChange }: IProps) {
+function InputRatingStars({ rate, value, onChange }: IProps) {
   const onClickIcon = useCallback(() => {
     onChange(rate);
   }, [onChange, rate]);
@@ -24,4 +24,4 @@ function RatingStars({ rate, value, onChange }: IProps) {
   );
 }
 
-export default RatingStars;
+export default InputRatingStars;

@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 import FormHelper from '@components/common/FormHelper';
-import RatingStars from '@components/common/RatingStars';
+import RatingStars from '@components/common/InputRatingStars';
 
 import { LAYOUT } from '@constants/layout';
 

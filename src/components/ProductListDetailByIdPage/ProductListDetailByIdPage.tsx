@@ -7,25 +7,31 @@ import {
   ChakraProps,
   Container,
   Flex,
-  Grid,
-  GridItem,
   Img,
+  Tab,
   Text,
 } from '@chakra-ui/react';
 
 import { LAYOUT } from '@constants/layout';
 
+import OrderInfoSection from './_fragment/OrderInfoSection';
 import ReviewSection from './_fragment/ReviewSection';
 
-import { RatingStarIcon, UpArrowIcon } from 'generated/icons/MyIcons';
+import {
+  DownArrowIcon,
+  RatingStarIcon,
+  UpArrowIcon,
+} from 'generated/icons/MyIcons';
 
 interface ProductListDetailByIdPageProps extends ChakraProps {
   id?: string | string[];
 }
 
 function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
+  const [isShowDetail, setIsShowDetail] = React.useState(false);
+  const detailShowToggleHandler = () => setIsShowDetail((isShow) => !isShow);
   return (
-    <Box pt={LAYOUT.HEADER.HEIGHT} bg="gray.100">
+    <Box pt={LAYOUT.HEADER.HEIGHT} pos="relative" bg="gray.100">
       {/* s: 상품 이미지 */}
       <Center>
         <Img src="/images/dummyImg/Group_252.png" mt="1rem" />
@@ -95,48 +101,43 @@ function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
         <Button variant="transparentButton">리뷰 (78)</Button>
       </Flex>
       {/* e: 이동 버튼 */}
-      <Img src="/images/dummyImg/크림-상세이미지.png" alt="크림 상세이미지" />
-      {/* s: 주문 및 배송 안내 */}
-      <Flex
-        justifyContent="space-between"
-        alignItems="center"
-        px="1rem"
+
+      {/* 상세 정보 */}
+      <Img
+        src="/images/dummyImg/크림-상세이미지.png"
+        alt="크림 상세이미지"
+        w="100%"
+        h={isShowDetail ? 'auto' : '80vh'}
+        objectPosition="0 0"
+        objectFit="cover"
         mt="2rem"
-        h="4rem"
-      >
-        <Text fontWeight="bold">주문 및 배송 안내</Text>
-        <Button variant="transparentButton">
-          <UpArrowIcon />
-        </Button>
-      </Flex>
-      <Flex flexDirection="column" px="1rem">
-        <Text fontWeight="bold" mb="1rem">
-          [주문 및 배송 안내]
-        </Text>
-        <Grid
-          templateRows="repeat(3, 1fr)"
-          templateColumns="repeat(2, 1fr)"
-          gridTemplateRows={'auto auto auto 1fr'}
-          gridTemplateColumns={'20% 1fr'}
-          gap="4"
-        >
-          <GridItem>배송방법 :</GridItem>
-          <GridItem>인코스런 택배</GridItem>
-          <GridItem>배송지역 :</GridItem>
-          <GridItem>전국</GridItem>
-          <GridItem>배송비용 :</GridItem>
-          <GridItem>
-            단품 상품 구매 시 3,000배송비 발생 그외 단품 묶음 구매의 경우
-            30,000원 이상 구매 시 무료배송
-          </GridItem>
-        </Grid>
-      </Flex>
-      {/* e: 주문 및 배송 안내 */}
-      {/* s: 리뷰 */}
-      <Container bg="white" pt="3rem">
+      />
+      <Box>
+        <Container pb="2rem" pt={isShowDetail ? '2rem' : 'null'}>
+          <Button
+            w="100%"
+            bg="white"
+            border="1px solid #1A1A1A"
+            borderRadius="50px"
+            size="lg"
+            fontWeight="700"
+            textStyle="md"
+            boxShadow="0 0 10px #1A1A1A1A"
+            onClick={detailShowToggleHandler}
+          >
+            상세정보 접기
+            {isShowDetail ? (
+              <DownArrowIcon ml=".7rem" />
+            ) : (
+              <UpArrowIcon ml=".7rem" />
+            )}
+          </Button>
+        </Container>
+        {/* 주문 및 배송 안내 */}
+        <OrderInfoSection />
+        {/* 리뷰 */}
         <ReviewSection />
-      </Container>
-      {/* e: 리뷰 */}
+      </Box>
     </Box>
   );
 }

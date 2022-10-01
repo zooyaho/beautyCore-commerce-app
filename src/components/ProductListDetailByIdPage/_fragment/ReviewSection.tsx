@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   Box,
+  Button,
   Container,
   Divider,
   Flex,
@@ -17,7 +18,11 @@ import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingSta
 
 import { formatDate, getAverage, getStar } from '@utils/format';
 
-import { RatingHalfStarIcon, RatingStarIcon } from 'generated/icons/MyIcons';
+import {
+  RatingHalfStarIcon,
+  RatingStarIcon,
+  RightArrowIcon,
+} from 'generated/icons/MyIcons';
 
 const DUMMMY_REVIEW = {
   count: 5,
@@ -77,10 +82,10 @@ const DUMMMY_REVIEW = {
 
 const array = [5, 5, 5, 3, 4, 2, 1, 1];
 
-const ReviewSection = () => {
+function ReviewSection() {
   const { countNums, total, sum } = getAverage(array);
   return (
-    <>
+    <Container bg="white" pt="2rem">
       <Flex direction="column" w="100%" my="23px" id="ReviewInfo">
         <HStack justify="space-between">
           <Text as="span" fontWeight="bold">
@@ -117,7 +122,7 @@ const ReviewSection = () => {
             <Text
               w="40px"
               h="20px"
-              bg="commerse.500"
+              bg="primary.500"
               rounded="15px"
               color="white"
               fontWeight="bold"
@@ -125,28 +130,30 @@ const ReviewSection = () => {
             >
               {sum}
             </Text>
-            <HStack>
+            <Flex>
               {getStar(sum).map((num, i) => {
-                if (num === 2) return <RatingStarIcon key={i} />;
+                if (num === 2)
+                  return <RatingStarIcon color="primary.500" key={i} />;
                 else if (num === 1) return <RatingHalfStarIcon key={i} />;
                 else return <RatingHalfStarIcon key={i} />;
               })}
-            </HStack>
+            </Flex>
           </HStack>
+          <Divider orientation="vertical" h="80px" />
           <HStack spacing="-6">
             {countNums.reverse().map((num, i) => {
               return (
                 <VStack key={i}>
                   <Flex>
                     <Progress
-                      // color="primary.500"
-                      colorScheme="pink"
-                      position="relative"
+                      bg="#fff6d5"
+                      colorScheme="primary"
+                      pos="relative"
                       value={(num / total) * 100}
                       w="50px"
                       h="10px"
-                      mb="10px"
-                      roundedRight="5px"
+                      mb=".7rem"
+                      roundedRight="50px"
                       transform="rotateZ(-90deg)"
                     />
                   </Flex>
@@ -200,8 +207,18 @@ const ReviewSection = () => {
         ))}
       </Box>
       {/* e: 리뷰 리스트 */}
-    </>
+      <Flex justifyContent="center" alignItems="center" my="3rem">
+        <Button variant="pageButton">1</Button>
+        <Button variant="pageButton">2</Button>
+        <Button variant="pageButton">3</Button>
+        <Button variant="pageButton">4</Button>
+        <Button variant="pageButton">5</Button>
+        <Button colorScheme="transparent" ml="1rem" border="none">
+          <RightArrowIcon boxSize="10px" />
+        </Button>
+      </Flex>
+    </Container>
   );
-};
+}
 
 export default ReviewSection;

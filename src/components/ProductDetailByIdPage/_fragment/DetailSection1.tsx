@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-scroll';
 
-import { Box, Button, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Image, Img, Text } from '@chakra-ui/react';
 
 import { DownArrowIcon, UpwardArrowIcon } from 'generated/icons/MyIcons';
 
@@ -11,7 +11,7 @@ const DetailSection1 = () => {
   return (
     <Box position="relative" id="DetailInfo">
       <Image
-        src="/images/DetailImage.png"
+        src="/images/dummyImg/크림-상세이미지.png"
         alt="DetailImage"
         objectFit="cover"
         w="100%"

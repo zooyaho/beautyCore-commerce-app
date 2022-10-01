@@ -1,10 +1,23 @@
 import React from 'react';
 
-import { Box, Button, ChakraProps, Flex, Img, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  ChakraProps,
+  Container,
+  Flex,
+  Grid,
+  GridItem,
+  Img,
+  Text,
+} from '@chakra-ui/react';
 
 import { LAYOUT } from '@constants/layout';
 
-import { RatingStarIcon } from 'generated/icons/MyIcons';
+import ReviewSection from './_fragment/ReviewSection';
+
+import { RatingStarIcon, UpArrowIcon } from 'generated/icons/MyIcons';
 
 interface ProductListDetailByIdPageProps extends ChakraProps {
   id?: string | string[];
@@ -12,9 +25,14 @@ interface ProductListDetailByIdPageProps extends ChakraProps {
 
 function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
   return (
-    <Box pt={LAYOUT.HEADER.HEIGHT}>
-      <Img src="/images/dummyImg/Group_252.png" mt="1rem" zIndex="0" />
+    <Box pt={LAYOUT.HEADER.HEIGHT} bg="gray.100">
+      {/* s: 상품 이미지 */}
+      <Center>
+        <Img src="/images/dummyImg/Group_252.png" mt="1rem" />
+      </Center>
+      {/* e: 상품 이미지 */}
       <Box
+        bg="white"
         boxShadow=" 0px 0px 10px rgba(26, 26, 26, 0.1)"
         borderRadius="20px 20px 0px 0px"
         px="1rem"
@@ -50,7 +68,7 @@ function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
           고보습 로션
         </Text>
         <Flex alignItems="center" gap="3px" pb="1rem">
-          <RatingStarIcon color="primary.500" boxSize="10px" />
+          <RatingStarIcon color="primary.500" boxSize="14px" />
           <Text fontWeight="bold">3.5</Text>
           <Text textColor="gray.700">(리뷰 125개)</Text>
         </Flex>
@@ -63,11 +81,62 @@ function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
           </Button>
         </Flex>
       </Box>
-      <Flex>
-        <Button>상세정보</Button>
-        <Button>구매정보</Button>
-        <Button>리뷰 (78)</Button>
+      {/* s: 이동 버튼 */}
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        px="2rem"
+        h="5rem"
+        bg="white"
+        textColor="gray.600"
+      >
+        <Button variant="transparentButton">상세정보</Button>
+        <Button variant="transparentButton">구매정보</Button>
+        <Button variant="transparentButton">리뷰 (78)</Button>
       </Flex>
+      {/* e: 이동 버튼 */}
+      <Img src="/images/dummyImg/크림-상세이미지.png" alt="크림 상세이미지" />
+      {/* s: 주문 및 배송 안내 */}
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        px="1rem"
+        mt="2rem"
+        h="4rem"
+      >
+        <Text fontWeight="bold">주문 및 배송 안내</Text>
+        <Button variant="transparentButton">
+          <UpArrowIcon />
+        </Button>
+      </Flex>
+      <Flex flexDirection="column" px="1rem">
+        <Text fontWeight="bold" mb="1rem">
+          [주문 및 배송 안내]
+        </Text>
+        <Grid
+          templateRows="repeat(3, 1fr)"
+          templateColumns="repeat(2, 1fr)"
+          gridTemplateRows={'auto auto auto 1fr'}
+          gridTemplateColumns={'20% 1fr'}
+          gap="4"
+        >
+          <GridItem>배송방법 :</GridItem>
+          <GridItem>인코스런 택배</GridItem>
+          <GridItem>배송지역 :</GridItem>
+          <GridItem>전국</GridItem>
+          <GridItem>배송비용 :</GridItem>
+          <GridItem>
+            단품 상품 구매 시 3,000배송비 발생 그외 단품 묶음 구매의 경우
+            30,000원 이상 구매 시 무료배송
+          </GridItem>
+        </Grid>
+      </Flex>
+      {/* e: 주문 및 배송 안내 */}
+      {/* s: 리뷰 */}
+      <Container bg="white" pt="3rem">
+        <ReviewSection />
+      </Container>
+      {/* e: 리뷰 */}
     </Box>
   );
 }

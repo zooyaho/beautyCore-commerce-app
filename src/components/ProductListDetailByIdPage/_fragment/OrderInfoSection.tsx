@@ -4,11 +4,15 @@ import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 
 import { DownArrowIcon, UpArrowIcon } from 'generated/icons/MyIcons';
 
-function OrderInfoSection() {
+interface IOrderInfoSectionProps {
+  focusTarget: React.MutableRefObject<(HTMLDivElement | null)[]>;
+}
+
+function OrderInfoSection({ focusTarget }: IOrderInfoSectionProps) {
   const [isShowOderInfo, setIsShowOderInfo] = React.useState(false);
 
   return (
-    <Box>
+    <Box ref={(el) => (focusTarget.current[1] = el)}>
       <Flex
         justifyContent="space-between"
         alignItems="center"

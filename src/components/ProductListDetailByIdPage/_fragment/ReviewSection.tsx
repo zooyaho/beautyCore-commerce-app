@@ -3,6 +3,8 @@ import React from 'react';
 import {
   Box,
   Button,
+  ChakraComponent,
+  ChakraProps,
   Container,
   Divider,
   Flex,
@@ -16,82 +18,44 @@ import {
 
 import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingStars';
 
-import { formatDate, getAverage, getStar } from '@utils/format';
+import { countProgress, formatDate } from '@utils/format';
 
-import {
-  RatingHalfStarIcon,
-  RatingStarIcon,
-  RightArrowIcon,
-} from 'generated/icons/MyIcons';
+import { RightArrowIcon } from 'generated/icons/MyIcons';
 
-const DUMMMY_REVIEW = {
-  count: 5,
-  next: 'http://api.example.org/accounts/?page=4',
-  previous: 'http://api.example.org/accounts/?page=2',
-  results: [
-    {
-      id: 'u1',
-      user: 'zooyaho',
-      product: 2,
-      rate: 1.5,
-      content:
-        '순해서 아이피부에도 자극없이 사용할 수 있어요! 아이 뿐 만아니라 온가족이 사용할 수 있는 화장품이라고 추천받았어요.처음엔 반신반의하는 마음으로 사용하기 시작했는데 지금은 모든 단계에서 인코스런 제품을 사용하고있어요! 아토피로 고생했던 우리 아이 피부도 지금은 거의 완치단계입니다 .아이 엄마들에게 추천드려요!',
-      reviewimageSet: [
-        {
-          reviewId: 1,
-          url: '/images/home/Rectangle_9.png',
-        },
-        {
-          reviewId: 2,
-          url: '/images/home/Rectangle_9.png',
-        },
-        {
-          reviewId: 3,
-          url: '/images/home/Rectangle_9.png',
-        },
-      ],
-      created: '2022-03-26T12:22:25.934Z',
-    },
-    {
-      id: 'u2',
-      user: 'mark',
-      product: 2,
-      rate: 3,
-      content:
-        '아이 뿐 만아니라 온가족이 사용할 수 있는 화장품이라고 추천받았어요.처음엔 반신반의하는 마음으로 사용하기 시작했는데 지금은 모든 단계에서 인코스런 제품을 사용하고있어요! 아토피로 고생했던 우리 아이 피부도 지금은 거의 완치단계입니다 .아이 엄마들에게 추천드려요!',
-      reviewimageSet: [],
-      created: '2022-05-16T12:22:25.934Z',
-    },
-    {
-      id: 'u3',
-      user: 'lee',
-      product: 2,
-      rate: 2.5,
-      content:
-        '처음엔 반신반의하는 마음으로 사용하기 시작했는데 지금은 모든 단계에서 인코스런 제품을 사용하고있어요! 아토피로 고생했던 우리 아이 피부도 지금은 거의 완치단계입니다 .아이 엄마들에게 추천드려요!',
-      reviewimageSet: [
-        {
-          reviewId: 1,
-          url: '/images/home/Rectangle_9.png',
-        },
-      ],
-      created: '2022-05-06T12:22:25.934Z',
-    },
-  ],
-};
+interface Review {
+  id: string; // 나중에 number로
+  user: string; // 나중에 number로
+  rate: number;
+  content: string;
+  reviewimageSet: Array<{
+    reviewId?: number;
+    url?: string;
+  }>;
+  created: string;
+}
 
-const array = [5, 5, 5, 3, 4, 2, 1, 1];
+interface IReviewSectionProps {
+  reviewList: Array<Review>;
+  avgRate: number;
+  focusTarget: React.MutableRefObject<(HTMLDivElement | null)[]>;
+}
 
-function ReviewSection() {
-  const { countNums, total, sum } = getAverage(array);
+function ReviewSection({
+  reviewList,
+  avgRate,
+  focusTarget,
+}: IReviewSectionProps) {
+  const ratings = reviewList.map((review) => review.rate);
+  const countNums = countProgress(ratings);
+
   return (
-    <Container bg="white" pt="2rem">
+    <Container bg="white" pt="2rem" ref={(el) => (focusTarget.current[2] = el)}>
       <Flex direction="column" w="100%" my="23px" id="ReviewInfo">
         <HStack justify="space-between">
           <Text as="span" fontWeight="bold">
             리뷰
             <Box as="span" color="commerse.500">
-              {` ${total}`}
+              {reviewList.length}
             </Box>
             건
           </Text>
@@ -128,15 +92,16 @@ function ReviewSection() {
               fontWeight="bold"
               textAlign="center"
             >
-              {sum}
+              {avgRate}
             </Text>
             <Flex>
-              {getStar(sum).map((num, i) => {
-                if (num === 2)
-                  return <RatingStarIcon color="primary.500" key={i} />;
-                else if (num === 1) return <RatingHalfStarIcon key={i} />;
-                else return <RatingHalfStarIcon key={i} />;
-              })}
+              {
+                <PrintRatingStars
+                  rate={avgRate}
+                  alignItems="center"
+                  starBoxSize="16px"
+                />
+              }
             </Flex>
           </HStack>
           <Divider orientation="vertical" h="80px" />
@@ -149,16 +114,16 @@ function ReviewSection() {
                       bg="#fff6d5"
                       colorScheme="primary"
                       pos="relative"
-                      value={(num / total) * 100}
-                      w="50px"
-                      h="10px"
+                      value={(num / reviewList.length) * 100}
+                      w="3rem"
+                      h=".7rem"
                       mb=".7rem"
-                      roundedRight="50px"
+                      roundedRight="3rem"
                       transform="rotateZ(-90deg)"
                     />
                   </Flex>
                   <Divider transform={'translateY(1px)'} />
-                  <Text color="gray.600" fontSize="12px">
+                  <Text color="gray.600" textStyle="sm">
                     {5 - i}점
                   </Text>
                 </VStack>
@@ -169,7 +134,7 @@ function ReviewSection() {
       </Flex>
       {/* s: 리뷰 리스트 */}
       <Box pt="1.5rem">
-        {DUMMMY_REVIEW.results.map((review) => (
+        {reviewList.map((review) => (
           <Box key={review.id} mb="1.5rem" textStyle="sm">
             <Flex justifyContent="space-between">
               <Text fontWeight="bold">{review.user}</Text>

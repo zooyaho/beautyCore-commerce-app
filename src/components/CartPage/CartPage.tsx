@@ -16,7 +16,11 @@ import {
 
 import { LAYOUT } from '@constants/layout';
 
-import { CloseButtonIcon, MinusCartButtonIcon, PlusCartButtonIcon } from 'generated/icons/MyIcons';
+import {
+  CloseButtonIcon,
+  MinusCartButtonIcon,
+  PlusCartButtonIcon,
+} from 'generated/icons/MyIcons';
 
 // interface CartPageProps extends ChakraProps { }
 
@@ -88,9 +92,7 @@ function CartPage() {
                       borderRadius="5px"
                       h="25px"
                     >
-                      <Button variant="transparentButton"
-                        w="1.5rem" h="1.5rem"
-                      >
+                      <Button variant="transparentButton" w="1.5rem" h="1.5rem">
                         <MinusCartButtonIcon boxSize="25px" />
                       </Button>
                       <Text
@@ -103,9 +105,7 @@ function CartPage() {
                       >
                         2
                       </Text>
-                      <Button variant="transparentButton"
-                        w="1.5rem" h="1.5rem"
-                      >
+                      <Button variant="transparentButton" w="1.5rem" h="1.5rem">
                         <PlusCartButtonIcon boxSize="25px" />
                       </Button>
                     </Flex>

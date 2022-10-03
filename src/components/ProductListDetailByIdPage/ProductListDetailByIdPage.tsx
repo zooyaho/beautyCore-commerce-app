@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -8,12 +8,13 @@ import {
   Container,
   Flex,
   Img,
-  Tab,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { LAYOUT } from '@constants/layout';
 
+import CartDrawer from './_fragment/CartDrawer';
 import OrderInfoSection from './_fragment/OrderInfoSection';
 import ReviewSection from './_fragment/ReviewSection';
 
@@ -95,6 +96,7 @@ function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
   const [isShowDetail, setIsShowDetail] = React.useState(false);
   const detailShowToggleHandler = () => setIsShowDetail((isShow) => !isShow);
   const focusTarget = React.useRef<Array<null | HTMLDivElement>>([]);
+  const { onOpen } = useDisclosure();
 
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT} pos="relative" bg="gray.100">
@@ -144,14 +146,7 @@ function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
           <Text fontWeight="bold">3.5</Text>
           <Text textColor="gray.700">(리뷰 125개)</Text>
         </Flex>
-        <Flex flexDirection="column" gap=".7rem">
-          <Button variant="whiteButton" size="lg">
-            장바구니
-          </Button>
-          <Button variant="primaryButton" size="lg">
-            바로구매
-          </Button>
-        </Flex>
+        <CartDrawer />
       </Box>
       {/* s: 이동 버튼 */}
       <Flex

@@ -164,7 +164,13 @@ function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
             });
           };
           return (
-            <Button variant="transparentButton" onClick={scrollTo} key={target}>
+            <Button
+              variant="transparentButton"
+              onClick={scrollTo}
+              key={target}
+              _hover={{ textColor: 'primary.500', fontWeight: '700' }}
+              _focus={{ textColor: 'primary.500', fontWeight: '700' }}
+            >
               {title}
             </Button>
           );

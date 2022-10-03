@@ -3,8 +3,6 @@ import React from 'react';
 import {
   Box,
   Button,
-  ChakraComponent,
-  ChakraProps,
   Container,
   Divider,
   Flex,
@@ -50,7 +48,7 @@ function ReviewSection({
 
   return (
     <Container bg="white" pt="2rem" ref={(el) => (focusTarget.current[2] = el)}>
-      <Flex direction="column" w="100%" my="23px" id="ReviewInfo">
+      <Flex direction="column" w="100%" my="1rem">
         <HStack justify="space-between">
           <Text as="span" fontWeight="bold">
             리뷰
@@ -81,7 +79,7 @@ function ReviewSection({
             </Select>
           </HStack>
         </HStack>
-        <Flex justify="space-between" align="center" my="50px">
+        <Flex justify="space-between" align="center" mt="3rem">
           <HStack>
             <Text
               w="40px"

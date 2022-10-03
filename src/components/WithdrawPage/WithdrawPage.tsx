@@ -9,8 +9,8 @@ const ReviewWritePage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
 
-  const onSubmit = handleSubmit(({ reason, requireText, etcContent }) => {
-    console.log(`submitted: ${reason},  ${requireText}, ${etcContent} `);
+  const onSubmit = handleSubmit(({ reason, requireText, additionalReason }) => {
+    console.log(`submitted: ${reason},  ${requireText}, ${additionalReason} `);
   });
   return <WithdrawPageView formData={formData} onSubmit={onSubmit} />;
 };

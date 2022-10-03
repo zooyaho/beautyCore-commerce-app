@@ -6,13 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 export type FormDataType = {
   reason: number;
-  etcContent: string;
+  additionalReason: string;
   requireText: string;
 };
 
 export const reasonFormSchema = yup.object().shape({
-  reason: yup.string().nullable().required('탈퇴 사유를 선택해주세요.'),
-  etcContent: yup.string().nullable(),
+  reason: yup.string().required('탈퇴 사유를 선택해주세요.'),
+  additionalReason: yup.string().nullable(),
   requireText: yup
     .string()
     .required('인코스런을 입력해주세요.')

@@ -8,12 +8,11 @@ import useFormValidate from './_hooks/useFormValidate';
 const EditUserInfoPage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
-  console.log('formData: ', formData);
 
   const onSubmit = handleSubmit(
     ({ username, nickname, email, phone, gender, age }) => {
       console.log(
-        `submitted: ${username}, ${nickname}, ${email}, ${phone}, ${gender.value}, ${age}`,
+        `submitted: ${username}, ${nickname}, ${email}, ${phone}, ${gender}, ${age}`,
       );
     },
   );

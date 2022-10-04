@@ -80,10 +80,6 @@ const variantSolid: StyleObjectOrFn = (props) => {
     borderRadius: '100px',
     _hover: {
       bg: hoverBg,
-      borderColor: hoverBg,
-      _disabled: {
-        bg: background,
-      },
     },
     _active: { bg: activeBg, borderColor: activeBg },
   };
@@ -94,6 +90,13 @@ export const Button: ComponentSingleStyleConfig = {
     w: 'fit-content',
     h: 'fit-content',
     _focus: { boxShadow: 'none' },
+    _disabled: {
+      borderRadius: '25px',
+      bg: 'gray.500',
+      color: 'gray.900',
+      borderColor: 'gray.500',
+      pointerEvents: 'none',
+    },
   },
   variants: {
     solid: variantSolid,
@@ -123,7 +126,11 @@ export const Button: ComponentSingleStyleConfig = {
         color: 'white',
         borderColor: 'primary.300',
       },
-      _hover: { bg: 'primary.300', color: 'white', borderColor: 'primary.300' },
+      _hover: {
+        bg: 'primary.300',
+        color: 'white',
+        borderColor: 'primary.300',
+      },
     },
     pageButton: {
       color: 'gray.400',

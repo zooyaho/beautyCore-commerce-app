@@ -20,21 +20,25 @@ const textStyles = {
     fontSize: '12px',
     lineHeight: '18px',
     fontWeight: '700',
+    textColor: 'black',
   },
   sm_wb: {
     fontSize: '16px',
     lineHeight: '28px',
     fontWeight: '700',
+    textColor: 'black',
   },
   sl_wb: {
     fontSize: '20px',
     lineHeight: '29px',
     fontWeight: '700',
+    textColor: 'black',
   },
   sxl_wb: {
     fontSize: '26px',
     lineHeight: '38px',
     fontWeight: '700',
+    textColor: 'black',
   },
   /* size weight-normal color-primary.500 */
   ss_wn_cp: {

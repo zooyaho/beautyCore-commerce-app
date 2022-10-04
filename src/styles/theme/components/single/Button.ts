@@ -152,7 +152,11 @@ export const Button: ComponentSingleStyleConfig = {
       minW: '1rem',
       padding: '0px',
       _active: { borderColor: 'black', color: 'black' },
-      _hover: { borderColor: 'black', color: 'black' },
+      _hover: {
+        borderColor: 'black',
+        color: 'black',
+        background: 'transparent',
+      },
     },
   },
   sizes: {

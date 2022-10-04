@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Box,
   Button,
+  Center,
   Divider,
   Flex,
   HStack,
@@ -185,7 +186,7 @@ function ReviewSection({
         <Button variant="pageButton">3</Button>
         <Button variant="pageButton">4</Button>
         <Button variant="pageButton">5</Button>
-        <Button colorScheme="transparent" ml="1rem" border="none">
+        <Button colorScheme="transparent" border="none">
           <RightArrowIcon boxSize="10px" />
         </Button>
       </Flex>

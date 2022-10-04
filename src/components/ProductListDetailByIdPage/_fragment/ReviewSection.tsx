@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Box,
   Button,
-  Container,
   Divider,
   Flex,
   HStack,
@@ -47,12 +46,18 @@ function ReviewSection({
   const countNums = countProgress(ratings);
 
   return (
-    <Container bg="white" pt="2rem" ref={(el) => (focusTarget.current[2] = el)}>
+    <Flex
+      flexDirection="column"
+      bg="white"
+      pt="2rem"
+      px="1rem"
+      ref={(el) => (focusTarget.current[2] = el)}
+    >
       <Flex direction="column" w="100%" my="1rem">
         <HStack justify="space-between">
           <Text as="span" fontWeight="bold">
-            리뷰
-            <Box as="span" color="commerse.500">
+            리뷰&nbsp;
+            <Box as="span" color="primary.500">
               {reviewList.length}
             </Box>
             건
@@ -121,9 +126,7 @@ function ReviewSection({
                     />
                   </Flex>
                   <Divider transform={'translateY(1px)'} />
-                  <Text color="gray.600" textStyle="sm">
-                    {5 - i}점
-                  </Text>
+                  <Text textStyle="ss_wn_cg600">{5 - i}점</Text>
                 </VStack>
               );
             })}
@@ -133,16 +136,16 @@ function ReviewSection({
       {/* s: 리뷰 리스트 */}
       <Box pt="1.5rem">
         {reviewList.map((review) => (
-          <Box key={review.id} mb="1.5rem" textStyle="sm">
+          <Box key={review.id} mb="1.5rem">
             <Flex justifyContent="space-between">
-              <Text fontWeight="bold">{review.user}</Text>
+              <Text textStyle="ss_wb">{review.user}</Text>
               <PrintRatingStars
                 rate={review.rate}
                 starBoxSize="12px"
                 alignItems="center"
               />
             </Flex>
-            <Text textColor="gray.700">{formatDate(review.created)}</Text>
+            <Text textStyle="ss_wn_cg700">{formatDate(review.created)}</Text>
             <Flex flexDirection="column" mt="1rem" mb="1.5rem">
               <Text
                 textOverflow="ellipsis"
@@ -170,7 +173,13 @@ function ReviewSection({
         ))}
       </Box>
       {/* e: 리뷰 리스트 */}
-      <Flex justifyContent="center" alignItems="center" my="3rem">
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        alignSelf="center"
+        my="3rem"
+        w="80%"
+      >
         <Button variant="pageButton">1</Button>
         <Button variant="pageButton">2</Button>
         <Button variant="pageButton">3</Button>
@@ -180,7 +189,7 @@ function ReviewSection({
           <RightArrowIcon boxSize="10px" />
         </Button>
       </Flex>
-    </Container>
+    </Flex>
   );
 }
 

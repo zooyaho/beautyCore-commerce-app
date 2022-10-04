@@ -215,6 +215,56 @@ const textStyles = {
     fontWeight: '700',
     textColor: 'gray.700',
   },
+  /* size weight-normal color-gray.800 */
+  ss_wn_cg800: {
+    fontSize: '12px',
+    lineHeight: '18px',
+    fontWeight: '400',
+    textColor: 'gray.800',
+  },
+  sm_wn_cg800: {
+    fontSize: '16px',
+    lineHeight: '28px',
+    fontWeight: '400',
+    textColor: 'gray.800',
+  },
+  sl_wn_cg800: {
+    fontSize: '20px',
+    lineHeight: '29px',
+    fontWeight: '400',
+    textColor: 'gray.800',
+  },
+  sxl_nb_cg800: {
+    fontSize: '26px',
+    lineHeight: '38px',
+    fontWeight: '400',
+    textColor: 'gray.800',
+  },
+  /* size weight-bold color-gray.800 */
+  ss_wb_cg800: {
+    fontSize: '12px',
+    lineHeight: '18px',
+    fontWeight: '700',
+    textColor: 'gray.800',
+  },
+  sm_wb_cg800: {
+    fontSize: '16px',
+    lineHeight: '28px',
+    fontWeight: '700',
+    textColor: 'gray.800',
+  },
+  sl_wb_cg800: {
+    fontSize: '20px',
+    lineHeight: '29px',
+    fontWeight: '700',
+    textColor: 'gray.800',
+  },
+  sxl_wb_cg800: {
+    fontSize: '26px',
+    lineHeight: '38px',
+    fontWeight: '700',
+    textColor: 'gray.800',
+  },
 };
 
 export default textStyles;

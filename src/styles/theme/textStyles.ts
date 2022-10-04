@@ -15,7 +15,7 @@ const textStyles = {
     fontSize: '26px',
     lineHeight: '38px',
   },
-  /* size weight color-black */
+  /* size weigh-bold color-black */
   ss_wb: {
     fontSize: '12px',
     lineHeight: '18px',
@@ -40,7 +40,7 @@ const textStyles = {
     fontWeight: '700',
     textColor: 'black',
   },
-  /* size weight color-white */
+  /* size weight-bold color-white */
   ss_wb_cw: {
     fontSize: '12px',
     lineHeight: '18px',

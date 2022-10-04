@@ -102,6 +102,7 @@ export const Button: ComponentSingleStyleConfig = {
     solid: variantSolid,
     whiteButton: {
       type: 'button',
+      h: '50px',
       colorScheme: 'primary.500',
       color: 'primary.500',
       bg: 'white',
@@ -114,6 +115,7 @@ export const Button: ComponentSingleStyleConfig = {
     },
     primaryButton: {
       type: 'button',
+      h: '50px',
       colorScheme: 'primary.500',
       color: 'white',
       bg: 'primary.500',
@@ -162,16 +164,19 @@ export const Button: ComponentSingleStyleConfig = {
     },
     md: {
       h: '40px',
+      w: '100%',
       fontSize: ['16px', '14px', '12px'],
       px: '15px',
     },
     sm: {
       h: '30px',
+      w: '100%',
       fontSize: ['12px', '10px', '12px'],
       px: '15px',
     },
     xs: {
       h: '26px',
+      w: '100%',
       fontSize: ['12px', '10px', '12px'],
       px: '8px',
     },

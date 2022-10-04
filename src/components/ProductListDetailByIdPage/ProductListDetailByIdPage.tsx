@@ -12,6 +12,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import ScrollToTop from '@components/common/ScrollToTop';
+
 import { LAYOUT } from '@constants/layout';
 
 import CartDrawer from './_fragment/CartDrawer';
@@ -99,128 +101,125 @@ function ProductListDetailByIdPage({ id }: ProductListDetailByIdPageProps) {
   const { onOpen } = useDisclosure();
 
   return (
-    <Box pt={LAYOUT.HEADER.HEIGHT} pos="relative" bg="gray.100">
-      {/* s: 상품 이미지 */}
-      <Center>
-        <Img src="/images/dummyImg/Group_252.png" mt="1rem" />
-      </Center>
-      {/* e: 상품 이미지 */}
-      <Box
-        bg="white"
-        boxShadow=" 0px 0px 10px rgba(26, 26, 26, 0.1)"
-        borderRadius="20px 20px 0px 0px"
-        px="1rem"
-      >
-        <Flex justifyContent="center" pt=".7rem">
-          <Box w="50px" h="5px" bg="gray.200" borderRadius="2.5px" />
-        </Flex>
-        <Text textStyle="lg" fontWeight="bold" pt="2rem">
-          인코스런 로션
-          <Text as="span" textColor="gray.600" ml="5px">
-            120ml
-          </Text>
-        </Text>
-        <Text
-          textStyle="lg"
-          textColor="primary.500"
-          fontWeight="bold"
-          mt=".7rem"
+    <>
+      <Box pt={LAYOUT.HEADER.HEIGHT} pos="relative" bg="gray.100">
+        {/* s: 상품 이미지 */}
+        <Center>
+          <Img src="/images/dummyImg/Group_252.png" mt="1rem" />
+        </Center>
+        {/* e: 상품 이미지 */}
+        <Box
+          bg="white"
+          boxShadow=" 0px 0px 10px rgba(26, 26, 26, 0.1)"
+          borderRadius="20px 20px 0px 0px"
+          px="1rem"
         >
-          27,000
-          <Text as="span" textColor="black" fontWeight="normal">
-            원
+          <Flex justifyContent="center" pt=".7rem">
+            <Box w="50px" h="5px" bg="gray.200" borderRadius="2.5px" />
+          </Flex>
+          <Text textStyle="sl_wb" pt="2rem">
+            {DUMMY_PRODUCT.name}
+            <Text as="span" textColor="gray.600" ml="5px">
+              {DUMMY_PRODUCT.capacity}ml
+            </Text>
           </Text>
-        </Text>
-        <Text textStyle="sm" fontWeight="bold" textColor="gray.800">
-          3만원 이상 구매시
-          <Text as="span" textColor="primary.500">
-            &nbsp;무료배송
+          <Text textStyle="sl_wb_cp" mt=".7rem">
+            {DUMMY_PRODUCT.price}
+            <Text as="span" textColor="black" fontWeight="normal">
+              원
+            </Text>
           </Text>
-        </Text>
-        <Text my=".7rem">
-          순하고 마일드한 안심 처방으로 피부가 민감하고 연약한 우리 아이를 위한
-          고보습 로션
-        </Text>
-        <Flex alignItems="center" gap="3px" pb="1rem">
-          <RatingStarIcon color="primary.500" boxSize="14px" />
-          <Text fontWeight="bold">3.5</Text>
-          <Text textColor="gray.700">(리뷰 125개)</Text>
+          <Text textStyle="ss_wb_cg800">
+            3만원 이상 구매시
+            <Text as="span" textColor="primary.500">
+              &nbsp;무료배송
+            </Text>
+          </Text>
+          <Text my=".7rem" textStyle="md">
+            {DUMMY_PRODUCT.description}
+          </Text>
+          <Flex alignItems="center" gap="3px" pb="1rem">
+            <RatingStarIcon color="primary.500" boxSize="14px" />
+            <Text textStyle="sm_wb">{DUMMY_PRODUCT.avgRate}</Text>
+            <Text textStyle="sm_wn_cg700">
+              (리뷰 {DUMMY_PRODUCT.reviewCount}개)
+            </Text>
+          </Flex>
+          <CartDrawer />
+        </Box>
+        {/* s: 이동 버튼 */}
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          px="2rem"
+          h="5rem"
+          bg="white"
+          textColor="gray.600"
+        >
+          {SCROLL_BUTTONS.map(({ title, target }) => {
+            const scrollTo = () => {
+              focusTarget.current[target]?.scrollIntoView({
+                behavior: 'smooth',
+              });
+            };
+            return (
+              <Button
+                variant="transparentButton"
+                onClick={scrollTo}
+                key={target}
+                _hover={{ textColor: 'primary.500', fontWeight: '700' }}
+                _focus={{ textColor: 'primary.500', fontWeight: '700' }}
+              >
+                {title}
+              </Button>
+            );
+          })}
         </Flex>
-        <CartDrawer />
-      </Box>
-      {/* s: 이동 버튼 */}
-      <Flex
-        justifyContent="space-between"
-        alignItems="center"
-        px="2rem"
-        h="5rem"
-        bg="white"
-        textColor="gray.600"
-      >
-        {SCROLL_BUTTONS.map(({ title, target }) => {
-          const scrollTo = () => {
-            focusTarget.current[target]?.scrollIntoView({
-              behavior: 'smooth',
-            });
-          };
-          return (
-            <Button
-              variant="transparentButton"
-              onClick={scrollTo}
-              key={target}
-              _hover={{ textColor: 'primary.500', fontWeight: '700' }}
-              _focus={{ textColor: 'primary.500', fontWeight: '700' }}
-            >
-              {title}
-            </Button>
-          );
-        })}
-      </Flex>
-      {/* e: 이동 버튼 */}
+        {/* e: 이동 버튼 */}
 
-      {/* 상세 정보 */}
-      <Img
-        src="/images/dummyImg/크림-상세이미지.png"
-        alt="크림 상세이미지"
-        w="100%"
-        h={isShowDetail ? 'auto' : '80vh'}
-        objectPosition="0 0"
-        objectFit="cover"
-        mt="2rem"
-        ref={(el) => (focusTarget.current[0] = el)}
-      />
-      <Box>
-        <Container pb="2rem" pt={isShowDetail ? '2rem' : 'null'}>
-          <Button
-            w="100%"
-            bg="white"
-            border="1px solid #1A1A1A"
-            borderRadius="50px"
-            size="lg"
-            fontWeight="700"
-            textStyle="md"
-            boxShadow="0 0 10px #1A1A1A1A"
-            onClick={detailShowToggleHandler}
-          >
-            상세정보 접기
-            {isShowDetail ? (
-              <DownArrowIcon ml=".7rem" />
-            ) : (
-              <UpArrowIcon ml=".7rem" />
-            )}
-          </Button>
-        </Container>
-        {/* 주문 및 배송 안내 */}
-        <OrderInfoSection focusTarget={focusTarget} />
-        {/* 리뷰 */}
-        {/* <Box ref={(el) => (focusTarget.current[2] = el)}> */}
-        <ReviewSection
-          reviewList={DUMMY_PRODUCT.reviewList}
-          avgRate={DUMMY_PRODUCT.avgRate}
-          focusTarget={focusTarget}
+        {/* 상세 정보 */}
+        <Img
+          src="/images/dummyImg/크림-상세이미지.png"
+          alt="크림 상세이미지"
+          w="100%"
+          h={isShowDetail ? 'auto' : '80vh'}
+          objectPosition="0 0"
+          objectFit="cover"
+          mt="2rem"
+          ref={(el) => (focusTarget.current[0] = el)}
         />
+        <Box>
+          <Container pb="2rem" pt={isShowDetail ? '2rem' : 'null'}>
+            <Button
+              w="100%"
+              bg="white"
+              border="1px solid #1A1A1A"
+              borderRadius="50px"
+              size="lg"
+              textStyle="sm_wb"
+              boxShadow="0 0 10px #1A1A1A1A"
+              onClick={detailShowToggleHandler}
+            >
+              상세정보 접기
+              {isShowDetail ? (
+                <DownArrowIcon ml=".7rem" />
+              ) : (
+                <UpArrowIcon ml=".7rem" />
+              )}
+            </Button>
+          </Container>
+          {/* 주문 및 배송 안내 */}
+          <OrderInfoSection focusTarget={focusTarget} />
+          {/* 리뷰 */}
+          <ReviewSection
+            reviewList={DUMMY_PRODUCT.reviewList}
+            avgRate={DUMMY_PRODUCT.avgRate}
+            focusTarget={focusTarget}
+          />
+        </Box>
       </Box>
-    </Box>
+      <ScrollToTop />
+    </>
   );
 }
 

@@ -34,6 +34,7 @@ function ScrollToTop() {
             'svg:hover path': { stroke: '#EBEBEB', fill: 'black' },
           }}
           pos="fixed"
+          w="fit-content"
           bottom="2rem"
           right="1rem"
           zIndex="999"

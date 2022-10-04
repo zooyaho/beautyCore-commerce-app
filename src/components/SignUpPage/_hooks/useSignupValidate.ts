@@ -63,12 +63,8 @@ export const signupFormSchema = yup.object().shape({
     .string()
     .required('해당 항목은 필수값 입니다.')
     .email('이메일 주소를 정확하게 입력해주세요.'),
-  gender: yup.object().shape({
-    value: yup.string().required('해당 항목은 필수값 입니다.'),
-  }),
-  age: yup.object().shape({
-    value: yup.string().required('해당 항목은 필수값 입니다.'),
-  }),
+  gender: yup.string().required('해당 항목은 필수값 입니다.'),
+  age: yup.string().required('해당 항목은 필수값 입니다.'),
 });
 
 const useFormValidate = (options?: UseFormProps<FormDataType>) => {

@@ -43,7 +43,7 @@ function WithdrawPageView({
 
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>
-      <Text as="h2" textStyle="lg" fontWeight="bold" mt="1.6rem" px="1rem">
+      <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
         회원 탈퇴
       </Text>
       <Text p="1.1rem 1rem" bg="gray.100" mt="5rem">
@@ -51,7 +51,7 @@ function WithdrawPageView({
         삭제됩니다. 한 번 삭제된 정보는 복구가 불가능합니다.
       </Text>
       <Container borderBottom="solid 10px #F9F9F9">
-        <Text as="h3" py=".8rem" fontWeight="700">
+        <Text as="h3" py=".8rem" textStyle="sm_wb">
           회원 정보
         </Text>
         <Divider />
@@ -72,7 +72,7 @@ function WithdrawPageView({
       </Container>
       <Box as="form" onSubmit={onSubmit} {...basisProps}>
         <Container borderBottom="solid 10px #F9F9F9">
-          <Text as="h3" py=".8rem" fontWeight="700">
+          <Text as="h3" py=".8rem" textStyle="sm_wb">
             탈퇴 사유
           </Text>
           <Divider />
@@ -124,7 +124,7 @@ function WithdrawPageView({
           />
         </Container>
         <Container>
-          <Text as="h3" py=".8rem" fontWeight="700">
+          <Text as="h3" py=".8rem" textStyle="sm_wb">
             인코스런을 입력해주세요
           </Text>
           <FormHelper errorText={errors.requireText?.message}>
@@ -142,25 +142,14 @@ function WithdrawPageView({
         <Flex mt="5rem" pb="2rem" mx="1rem" gap=".7rem">
           <Button
             type="button"
-            size="lg"
             fontSize="md"
-            borderRadius="25px"
-            textColor="primary.500"
             flexGrow="1"
             variant="whiteButton"
           >
             {/* 클릭 시 리셋이 아니라 홈으로 가야하나? 확인해봐야 할덧 */}
             취소
           </Button>
-          <Button
-            type="submit"
-            size="lg"
-            fontSize="md"
-            fontWeight="bold"
-            borderRadius="25px"
-            colorScheme="primary"
-            flexGrow="1"
-          >
+          <Button type="submit" variant="primaryButton" flexGrow="1">
             {/* <Link href="/intro-login">탈퇴하기</Link> */}
             탈퇴하기
           </Button>

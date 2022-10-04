@@ -26,8 +26,8 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
     <>
       <Flex //header section
         as="header"
-        px="16px"
         w="100%"
+        px="1rem"
         maxWidth="375px"
         alignItems="center"
         justifyContent="space-between"
@@ -41,8 +41,7 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
           color={cssByVariant.pointColor}
           icon={<MenuIcon w="24px" h="24px" />}
           onClick={onOpen}
-          cursor="pointer"
-          bg="transparent"
+          variant="transparentButton"
           aria-label="btn-toggle-drawer"
         />
         <Image // LOGO
@@ -52,10 +51,7 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
           cursor="pointer"
         />
         <Button // 장바구니 버튼
-          colorScheme="transparent"
-          border="none"
-          px="0"
-          cursor="pointer"
+          variant="transparentButton"
         >
           <HeaderCartIcon />
         </Button>

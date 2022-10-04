@@ -41,12 +41,12 @@ function RiewviewWritePageView({
 }: FormPageProps) {
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>
-      <Text as="h2" textStyle="lg" fontWeight="bold" mt="1.6rem" px="1rem">
+      <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
         리뷰작성
       </Text>
       <Box mt="5rem">
         <Divider />
-        <Text py="1rem" pl="1rem" textStyle="sm" fontWeight="700">
+        <Text py="1rem" pl="1rem" textStyle="ss_wb">
           [2021 - 04 - 01]
         </Text>
         <Divider />
@@ -58,12 +58,12 @@ function RiewviewWritePageView({
           h="3.75rem"
           src="/images/dummyImg/상품이미지.png"
         />
-        <Box textStyle="sm">
-          <Text fontWeight="bold">바스 &amp; 샴푸</Text>
-          <Text textColor="gray.600">바스 &amp; 샴푸 | 120ml</Text>
-          <Text textColor="primary.500" fontWeight="bold">
-            27,000원&nbsp;/&nbsp;1개
+        <Box>
+          <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
+          <Text textStyle="ss_wn_cg600" textColor="gray.600">
+            바스 &amp; 샴푸 | 120ml
           </Text>
+          <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
         </Box>
         <Spacer />
       </Flex>
@@ -122,6 +122,7 @@ function RiewviewWritePageView({
           사진첨부&nbsp;<Text as="span">(0/3)</Text>
         </Text>
         <Flex gap="10px" pt=".7rem">
+          {/* 사진 추가 버튼 */}
           <Button variant="transparentButton" pt=".7rem" mr=".6rem">
             <Center p="2rem" border="1px dashed #CBCED6" borderRadius="5px">
               <PlusIcon color="gray.400" boxSize="18px" />
@@ -164,12 +165,10 @@ function RiewviewWritePageView({
         </Flex>
         {/* Submit Button */}
         <Button
-          w="100%"
+          variant="primaryButton"
           size="lg"
-          fontWeight="bold"
           mt="6rem"
           mb="2rem"
-          colorScheme="primary"
           type="submit"
         >
           결제하기

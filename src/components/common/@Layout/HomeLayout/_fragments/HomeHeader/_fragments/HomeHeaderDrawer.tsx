@@ -19,13 +19,8 @@ const HomeHeaderDrawer = ({
     <Drawer placement="right" size="sm" {...basisProps}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerBody //
-          {...bodyProps}
-          py="0px"
-          px="16px"
-          position="relative"
-        >
-          <DrawerCloseButton //
+        <DrawerBody {...bodyProps} py="0px" px="16px" position="relative">
+          <DrawerCloseButton
             w="40px"
             h="40px"
             top="20px"

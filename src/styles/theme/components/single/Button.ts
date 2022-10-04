@@ -136,6 +136,7 @@ export const Button: ComponentSingleStyleConfig = {
     },
     transparentButton: {
       type: 'button',
+      fontWeight: 'normal',
       height: 'fit-content',
       width: 'fit-content',
       bg: 'transparent',
@@ -154,7 +155,7 @@ export const Button: ComponentSingleStyleConfig = {
     },
     md: {
       h: '40px',
-      fontSize: ['12px', '10px', '12px'],
+      fontSize: ['16px', '14px', '12px'],
       px: '15px',
     },
     sm: {

@@ -8,10 +8,6 @@ const CommonFooter = () => {
       as="footer"
       flexDirection="column"
       justifyContent="center"
-      pos="absolute"
-      bottom="0"
-      left="0"
-      right="0"
       minH={LAYOUT.FOOTER.HEIGHT}
       bg="gray.800"
       color="white"

@@ -109,28 +109,10 @@ export const formatExamTime = (SECONDS: number) => {
   }
   return `${seconds}초`;
 };
-/* 펜타닐 코드~~ */
-export const getAverage = (Ratings: number[]) => {
-  const n = Ratings.length;
+export const countProgress = (ratings: number[]) => {
   const countNums = Array(5).fill(0);
-  let sum = 0;
-  Ratings.map((rating) => {
-    sum += rating;
-    countNums[rating - 1] = countNums[rating - 1] + 1;
+  ratings.map((rating) => {
+    countNums[Math.floor(rating) - 1] += 1;
   });
-  if (((sum / n) % 1) * 2 >= 1) sum = Math.ceil(sum / n);
-  else sum = Math.floor(sum / n) + 0.5;
-
-  return { sum, countNums, total: n };
-};
-/*
-1 - 반개
-2 - 꽉찬거
-0 - 빈거 
- */
-export const getStar = (rating: number) => {
-  const stars = Array(Math.floor(rating / 1)).fill(2);
-  if (rating % 1 > 0) stars.push(1);
-  while (stars.length !== 5) stars.push(0);
-  return stars;
+  return countNums;
 };

@@ -80,7 +80,6 @@ function WithdrawPageView({
             control={control}
             name="reason"
             render={({ field: { onChange, value } }) => {
-              console.log(typeof value);
               return (
                 <>
                   <FormHelper
@@ -88,58 +87,35 @@ function WithdrawPageView({
                     mb="1rem"
                     errorText={errors.reason?.message}
                   >
-                    <RadioGroup
-                      {...register('reason')}
-                      onChange={onChange}
-                      defaultValue="0"
-                    >
+                    <RadioGroup onChange={onChange} value={value}>
                       <Stack direction="column" spacing=".7rem">
-                        <Radio value={`${REJOIN}`} colorScheme="primary">
+                        <Radio value={REJOIN} colorScheme="primary">
                           아이디 변경(재가입)
                         </Radio>
-                        <Radio
-                          value={`${LOW_PURCHASE_FREQ}`}
-                          colorScheme="primary"
-                        >
+                        <Radio value={LOW_PURCHASE_FREQ} colorScheme="primary">
                           낮은 구매 빈도
                         </Radio>
-                        <Radio
-                          value={`${DISSATISFACTION}`}
-                          colorScheme="primary"
-                        >
+                        <Radio value={DISSATISFACTION} colorScheme="primary">
                           서비스 및 고객지원 불만족
                         </Radio>
-                        <Radio
-                          value={`${USE_OTHER_BRANDS}`}
-                          colorScheme="primary"
-                        >
+                        <Radio value={USE_OTHER_BRANDS} colorScheme="primary">
                           타 브랜드 이용
                         </Radio>
-                        <Radio value={`${ETC}`} colorScheme="primary">
+                        <Radio value={ETC} colorScheme="primary">
                           기타
                         </Radio>
                       </Stack>
                     </RadioGroup>
                   </FormHelper>
-                  {value == ETC && (
-                    <Controller
-                      control={control}
-                      name="etcContent"
-                      render={({ field: { onChange, value } }) => {
-                        return (
-                          <FormHelper mb="1.5rem">
-                            <Input
-                              borderRadius="100px"
-                              size="md"
-                              borderColor="black"
-                              {...register('etcContent')}
-                              onChange={onChange}
-                              autoComplete="off"
-                              placeholder="사유를 입력해주세요."
-                            />
-                          </FormHelper>
-                        );
-                      }}
+                  {(value as unknown as string) === ETC && (
+                    <Input
+                      borderRadius="100px"
+                      size="md"
+                      borderColor="black"
+                      mb="1rem"
+                      {...register('additionalReason')}
+                      autoComplete="off"
+                      placeholder="사유를 입력해주세요."
                     />
                   )}
                 </>

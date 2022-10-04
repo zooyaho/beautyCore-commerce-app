@@ -2,9 +2,10 @@ import Slider from 'react-slick';
 
 import { Box, Container, Divider, Flex, Image, Text } from '@chakra-ui/react';
 
+import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingStars';
+
 import { formatDate } from '@utils/format';
 
-import { RatingHalfStarIcon, RatingStarIcon } from 'generated/icons/MyIcons';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
@@ -100,35 +101,11 @@ function ReviewCarousel() {
                 <Text textStyle="sm" fontWeight="bold">
                   {review.user}
                 </Text>
-                <Flex gap="4px" alignItems="center">
-                  {[1, 2, 3, 4, 5].map((item) => {
-                    if (review.rate - (item - 1) === 0.5) {
-                      return (
-                        <RatingHalfStarIcon
-                          key={item}
-                          boxSize="12px"
-                          color="primary.500"
-                        />
-                      );
-                    } else if (item <= review.rate) {
-                      return (
-                        <RatingStarIcon
-                          key={item}
-                          boxSize="8px"
-                          color="primary.500"
-                        />
-                      );
-                    } else {
-                      return (
-                        <RatingStarIcon
-                          key={item}
-                          boxSize="8px"
-                          color="gray.400"
-                        />
-                      );
-                    }
-                  })}
-                </Flex>
+                <PrintRatingStars
+                  rate={review.rate}
+                  alignItems="center"
+                  starBoxSize="12px"
+                />
               </Flex>
               <Text textStyle="sm" textColor="gray.700">
                 {formatDate(review.created)}

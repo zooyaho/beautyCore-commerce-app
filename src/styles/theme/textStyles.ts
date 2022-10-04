@@ -1,19 +1,19 @@
 const textStyles = {
   sm: {
-    fontSize: ['12px', '10px', '16px'],
-    lineHeight: ['18px', '16px', '22px'],
+    fontSize: '12px',
+    lineHeight: '18px',
   },
   md: {
-    fontSize: { base: '16px', sm: '14px', md: '15px' },
-    lineHeight: ['28px', '26px', '27px'],
+    fontSize: '16px',
+    lineHeight: '28px',
   },
   lg: {
-    fontSize: ['20px', '20px', '26px'],
-    lineHeight: ['29px', '29px', '42px'],
+    fontSize: '20px',
+    lineHeight: '29px',
   },
   xl: {
-    fontSize: ['26px', '26px', '35px'],
-    lineHeight: ['38px', '38px', '52px'],
+    fontSize: '26px',
+    lineHeight: '38px',
   },
 };
 

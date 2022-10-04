@@ -72,6 +72,7 @@ const variantSolid: StyleObjectOrFn = (props) => {
   const borderColor = border;
 
   return {
+    type: 'button',
     bg: background,
     color: color,
     borderWidth: 1,
@@ -134,6 +135,10 @@ export const Button: ComponentSingleStyleConfig = {
       _hover: { borderColor: 'black', color: 'black' },
     },
     transparentButton: {
+      type: 'button',
+      fontWeight: 'normal',
+      height: 'fit-content',
+      width: 'fit-content',
       bg: 'transparent',
       minW: '1rem',
       padding: '0px',
@@ -150,7 +155,7 @@ export const Button: ComponentSingleStyleConfig = {
     },
     md: {
       h: '40px',
-      fontSize: ['12px', '10px', '12px'],
+      fontSize: ['16px', '14px', '12px'],
       px: '15px',
     },
     sm: {

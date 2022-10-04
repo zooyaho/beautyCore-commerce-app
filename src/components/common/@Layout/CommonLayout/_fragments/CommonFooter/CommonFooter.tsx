@@ -15,9 +15,7 @@ const CommonFooter = () => {
       p="2rem 1rem 2.5rem"
     >
       <Box as="header">
-        <Text textStyle="md" fontWeight="bold">
-          INCOURSE.RUN
-        </Text>
+        <Text textStyle="sm_wb_cw">INCOURSE.RUN</Text>
       </Box>
       <Box mt="1.5rem">
         <Text>팀명 | 쥬야호</Text>

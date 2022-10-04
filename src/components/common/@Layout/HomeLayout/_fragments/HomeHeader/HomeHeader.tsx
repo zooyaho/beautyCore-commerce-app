@@ -19,7 +19,7 @@ const HomeHeader = ({ variant = 'light' }: HomeHeaderProps) => {
 
   return (
     <>
-      <Flex //
+      <Flex
         as="header"
         px={{ base: '16px', md: '80px' }}
         alignItems="center"
@@ -31,14 +31,14 @@ const HomeHeader = ({ variant = 'light' }: HomeHeaderProps) => {
         h={LAYOUT.HEADER.HEIGHT}
         {...cssByVariant.header}
       >
-        <Image //
+        <Image
           src="/images/header/logo.png"
           w="74px"
           h="42px"
           cursor="pointer"
         />
         <Image src="/images/header/menu.png" w="24px" h="24px" />
-        <IconButton //
+        <IconButton
           color={cssByVariant.pointColor}
           icon={<MenuIcon w="24px" h="24px" />}
           onClick={onOpen}

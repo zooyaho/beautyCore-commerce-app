@@ -12,10 +12,10 @@ function HomeSection1() {
       top="0"
       right="0"
       left="0"
-      h="782px"
+      h="100vh"
     >
       <Box position="absolute" top="22vh">
-        <Text as="h2" textStyle="xl" fontWeight="bold">
+        <Text as="h2" textStyle="sxl_wb">
           지속 가능한
           <br />
           클린 &amp; 비건뷰티, 인코스런

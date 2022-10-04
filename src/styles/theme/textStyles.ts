@@ -15,7 +15,7 @@ const textStyles = {
     fontSize: '26px',
     lineHeight: '38px',
   },
-  /* size weight */
+  /* size weight color-black */
   ss_wb: {
     fontSize: '12px',
     lineHeight: '18px',
@@ -39,6 +39,31 @@ const textStyles = {
     lineHeight: '38px',
     fontWeight: '700',
     textColor: 'black',
+  },
+  /* size weight color-white */
+  ss_wb_cw: {
+    fontSize: '12px',
+    lineHeight: '18px',
+    fontWeight: '700',
+    textColor: 'white',
+  },
+  sm_wb_cw: {
+    fontSize: '16px',
+    lineHeight: '28px',
+    fontWeight: '700',
+    textColor: 'white',
+  },
+  sl_wb_cw: {
+    fontSize: '20px',
+    lineHeight: '29px',
+    fontWeight: '700',
+    textColor: 'white',
+  },
+  sxl_wb_cw: {
+    fontSize: '26px',
+    lineHeight: '38px',
+    fontWeight: '700',
+    textColor: 'white',
   },
   /* size weight-normal color-primary.500 */
   ss_wn_cp: {

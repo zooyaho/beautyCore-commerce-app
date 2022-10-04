@@ -15,17 +15,15 @@ function HomeSection4() {
       h="28rem"
       pos="relative"
     >
-      <Box position="absolute" left="5%" top="20%">
-        <Text textStyle="xl">
-          <Text as="span" fontWeight="700" color="primary.500">
+      <Box position="absolute" left="5%" top="20%" textStyle="xl">
+        <Text>
+          <Text as="span" textStyle="sxl_wb_cp">
             인코스런
           </Text>
           가입하고
         </Text>
-        <Text textStyle="xl" fontWeight="700">
-          전상품 1000원 혜택
-        </Text>
-        <Text textStyle="xl">받아보세요</Text>
+        <Text textStyle="sxl_wb">전상품 1000원 혜택</Text>
+        <Text>받아보세요</Text>
         <Flex mt="1.4rem" textStyle="md" alignItems="center">
           <Link href="/">이벤트 상세보기</Link>
           <ArrowRight />

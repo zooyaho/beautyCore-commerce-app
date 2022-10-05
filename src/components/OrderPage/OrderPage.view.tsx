@@ -34,6 +34,8 @@ const OrderPageView = ({
     register,
     control,
     formState: { errors },
+    setValue,
+    getValues,
   },
   onSubmit,
   ...basisProps
@@ -41,6 +43,13 @@ const OrderPageView = ({
   const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
+    const { username, phone, adress, adressDetail } = getValues();
+    if (!checkedOrderInfo) {
+      setValue('orderUsername', username);
+      setValue('orderPhone', phone);
+      setValue('orderAdress', adress);
+      setValue('orderAdressDetail', adressDetail);
+    }
   };
 
   return (

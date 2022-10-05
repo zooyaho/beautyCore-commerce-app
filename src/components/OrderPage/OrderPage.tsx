@@ -8,7 +8,7 @@ import useFormValidate from './_hooks/useFormValidate';
 const OrderPage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
-  console.log('formData: ', formData);
+  // console.log('formData: ', formData);
 
   const onSubmit = handleSubmit(
     ({

@@ -7,12 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 export type FormDataType = {
   username: string;
   phone: string;
-  adress: string;
-  adressDetail: string;
+  address: string;
+  addressDetail: string;
   orderUsername: string;
   orderPhone: string;
-  orderAdress: string;
-  orderAdressDetail: string;
+  orderAddress: string;
+  orderAddressDetail: string;
   orderRequest: string;
   paymentMethod: string;
   personalConsent: string;
@@ -31,11 +31,11 @@ export const orderFormSchema = yup.object().shape({
     })
     .min(10, '정확한 핸드폰 번호를 입력해주세요.')
     .max(13, '정확한 핸드폰 번호를 입력해주세요.'),
-  adress: yup
+  address: yup
     .string()
     .required('해당 항목은 필수값 입니다.')
     .min(2, '정확한 주소를 입력해주세요.'),
-  adressDetail: yup.string(),
+  addressDetail: yup.string(),
   orderUsername: yup
     .string()
     .required('해당 항목은 필수값 입니다.')
@@ -48,11 +48,11 @@ export const orderFormSchema = yup.object().shape({
     })
     .min(10, '정확한 핸드폰 번호를 입력해주세요.')
     .max(13, '정확한 핸드폰 번호를 입력해주세요.'),
-  orderAdress: yup
+  orderAddress: yup
     .string()
     .required('해당 항목은 필수값 입니다.')
     .min(2, '정확한 주소를 입력해주세요.'),
-  orderAdressDetail: yup.string(),
+  orderAddressDetail: yup.string(),
   orderRequest: yup.string(),
   paymentMethod: yup.string().required('결제수단을 선택해 주세요.'),
   personalConsent: yup

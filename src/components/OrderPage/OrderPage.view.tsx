@@ -45,12 +45,12 @@ const OrderPageView = ({
   const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
-    const { username, phone, adress, adressDetail } = getValues();
+    const { username, phone, address, addressDetail } = getValues();
     if (!checkedOrderInfo) {
       setValue('orderUsername', username);
       setValue('orderPhone', phone);
-      setValue('orderAdress', adress);
-      setValue('orderAdressDetail', adressDetail);
+      setValue('orderAddress', address);
+      setValue('orderAddressDetail', addressDetail);
     }
   };
 
@@ -69,7 +69,7 @@ const OrderPageView = ({
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-    setValue('adress', fullAddress);
+    setValue('address', fullAddress);
   };
 
   return (
@@ -140,14 +140,14 @@ const OrderPageView = ({
               <FormHelper
                 mb="3.125rem"
                 label="주소"
-                errorText={errors.adress?.message}
+                errorText={errors.address?.message}
               >
                 <Flex gap=".7rem" mb=".7rem">
                   <Input
                     borderRadius="100px"
                     size="md"
                     borderColor="black"
-                    {...register('adress')}
+                    {...register('address')}
                     autoComplete="off"
                     placeholder="주소"
                   />
@@ -159,7 +159,7 @@ const OrderPageView = ({
                   borderRadius="100px"
                   size="md"
                   borderColor="black"
-                  {...register('adressDetail')}
+                  {...register('addressDetail')}
                   autoComplete="off"
                   placeholder="주소 상세"
                 />
@@ -215,14 +215,14 @@ const OrderPageView = ({
               <FormHelper
                 mb="3.125rem"
                 label="주소"
-                errorText={errors.orderAdress?.message}
+                errorText={errors.orderAddress?.message}
               >
                 <Flex gap=".7rem" mb=".7rem">
                   <Input
                     borderRadius="100px"
                     size="md"
                     borderColor="black"
-                    {...register('orderAdress')}
+                    {...register('orderAddress')}
                     autoComplete="off"
                     placeholder="주소"
                   />
@@ -234,7 +234,7 @@ const OrderPageView = ({
                   borderRadius="100px"
                   size="md"
                   borderColor="black"
-                  {...register('orderAdressDetail')}
+                  {...register('orderAddressDetail')}
                   autoComplete="off"
                   placeholder="주소 상세"
                 />

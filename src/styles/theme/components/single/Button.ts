@@ -80,10 +80,6 @@ const variantSolid: StyleObjectOrFn = (props) => {
     borderRadius: '100px',
     _hover: {
       bg: hoverBg,
-      borderColor: hoverBg,
-      _disabled: {
-        bg: background,
-      },
     },
     _active: { bg: activeBg, borderColor: activeBg },
   };
@@ -94,11 +90,19 @@ export const Button: ComponentSingleStyleConfig = {
     w: 'fit-content',
     h: 'fit-content',
     _focus: { boxShadow: 'none' },
+    _disabled: {
+      borderRadius: '25px',
+      bg: 'gray.500',
+      color: 'gray.900',
+      borderColor: 'gray.500',
+      pointerEvents: 'none',
+    },
   },
   variants: {
     solid: variantSolid,
     whiteButton: {
       type: 'button',
+      h: '50px',
       colorScheme: 'primary.500',
       color: 'primary.500',
       bg: 'white',
@@ -111,6 +115,7 @@ export const Button: ComponentSingleStyleConfig = {
     },
     primaryButton: {
       type: 'button',
+      h: '50px',
       colorScheme: 'primary.500',
       color: 'white',
       bg: 'primary.500',
@@ -123,7 +128,11 @@ export const Button: ComponentSingleStyleConfig = {
         color: 'white',
         borderColor: 'primary.300',
       },
-      _hover: { bg: 'primary.300', color: 'white', borderColor: 'primary.300' },
+      _hover: {
+        bg: 'primary.300',
+        color: 'white',
+        borderColor: 'primary.300',
+      },
     },
     pageButton: {
       color: 'gray.400',
@@ -143,7 +152,11 @@ export const Button: ComponentSingleStyleConfig = {
       minW: '1rem',
       padding: '0px',
       _active: { borderColor: 'black', color: 'black' },
-      _hover: { borderColor: 'black', color: 'black' },
+      _hover: {
+        borderColor: 'black',
+        color: 'black',
+        background: 'transparent',
+      },
     },
   },
   sizes: {
@@ -155,16 +168,19 @@ export const Button: ComponentSingleStyleConfig = {
     },
     md: {
       h: '40px',
+      w: '100%',
       fontSize: ['16px', '14px', '12px'],
       px: '15px',
     },
     sm: {
       h: '30px',
+      w: '100%',
       fontSize: ['12px', '10px', '12px'],
       px: '15px',
     },
     xs: {
       h: '26px',
+      w: '100%',
       fontSize: ['12px', '10px', '12px'],
       px: '8px',
     },

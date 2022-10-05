@@ -98,18 +98,14 @@ function ReviewCarousel() {
           <Container borderRadius="20px" boxShadow="lg" py="1.5rem">
             <Box as="header" mb="1.5rem">
               <Flex justifyContent="space-between">
-                <Text textStyle="sm" fontWeight="bold">
-                  {review.user}
-                </Text>
+                <Text textStyle="ss_wb">{review.user}</Text>
                 <PrintRatingStars
                   rate={review.rate}
                   alignItems="center"
                   starBoxSize="12px"
                 />
               </Flex>
-              <Text textStyle="sm" textColor="gray.700">
-                {formatDate(review.created)}
-              </Text>
+              <Text textStyle="ss_wn_cg700">{formatDate(review.created)}</Text>
             </Box>
             <Text mb="1.3rem">{review.content}</Text>
             <Divider />

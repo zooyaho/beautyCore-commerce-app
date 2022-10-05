@@ -19,14 +19,12 @@ import {
 
 import { bytesToMB, fileToBase64, isBase64Img, isOverSize } from '@utils/file';
 
-interface StarterDocsExamplesFileInputPageProps extends ChakraProps {}
+// interface StarterDocsExamplesFileInputPageProps extends ChakraProps { }
 
-function StarterDocsExamplesFileInputPage({
-  ...basisProps
-}: StarterDocsExamplesFileInputPageProps) {
-  const FILE_MAX_SIZE_MB = 10;
+function StarterDocsExamplesFileInputPage() {
+  const FILE_MAX_SIZE_MB = 10; // max 파일 사이즈
 
-  const [files, setFiles] = React.useState<File[]>([]);
+  const [files, setFiles] = React.useState<File[]>([]); // 파일 상태
   const [currentFile, setCurrentFile] = React.useState<File | null>(null);
   const [currentFileBase64, setCurrentFileBase64] = React.useState<
     string | ArrayBuffer | null
@@ -38,14 +36,15 @@ function StarterDocsExamplesFileInputPage({
     data: uploadedFileData,
     mutateAsync: uploadFileMutate, //
     isLoading: isLoadingUploadFileMutate,
-  } = useUploadFileToS3Mutation();
+  } = useUploadFileToS3Mutation(); // File
   const {
     data: uploadedFilesData,
     mutateAsync: uploadFilesMutate,
     isLoading: isLoadingUploadFilesMutate,
-  } = useUploadFilesToS3Mutation();
+  } = useUploadFilesToS3Mutation(); // Files
 
   const onChangeFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    // 용량이 초과된 파일인지 확인
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -54,10 +53,10 @@ function StarterDocsExamplesFileInputPage({
         status: 'info',
         description:
           '용량이 초과된 파일입니다. 용량처리는 onSubmit 시점이 아닌 onChange 시점이 더욱 좋습니다. 지금은 onSubmit 에서 하도록 패쓰~',
-      });
+      }); // 초과된 파일일 경우 toast로 처리
     }
-    setCurrentFile(file);
-    setFiles((cur) => [...cur, file]);
+    setCurrentFile(file); // 최근 파일 저장
+    setFiles((cur) => [...cur, file]); // 파일 목록에 저장
   };
 
   const onSubmitCurrentFile = () => {
@@ -113,7 +112,7 @@ function StarterDocsExamplesFileInputPage({
     console.log({ formData });
     toast({
       status: 'success',
-      description: `mutateAsync 로 실행시점에 muate 의 결과 값을 가져올 수 있습니다. 콘솔 확인하기`,
+      description: `mutateAsync 로 실행시점에 mutate 의 결과 값을 가져올 수 있습니다. 콘솔 확인하기`,
     });
   };
 
@@ -135,7 +134,7 @@ function StarterDocsExamplesFileInputPage({
   }, [uploadedFileData, uploadedFilesData]);
 
   return (
-    <Box w="500px" {...basisProps}>
+    <Box w="500px">
       <Center w="100%" mb="20px" flexDirection="column">
         <Text mb="10px">용량제한 :{FILE_MAX_SIZE_MB}MB</Text>
         <Button as="label" colorScheme="cyan" w="100%" cursor="pointer">
@@ -147,7 +146,7 @@ function StarterDocsExamplesFileInputPage({
           />
         </Button>
       </Center>
-      <Center mb="20px">
+      {/* <Center mb="20px">
         <Button
           mr="10px"
           w="100%"
@@ -165,7 +164,7 @@ function StarterDocsExamplesFileInputPage({
         >
           파일 목록 업로드하기
         </Button>
-      </Center>
+      </Center> */}
       <Text textAlign="center" fontWeight={700} mb="10px">
         현재 파일
       </Text>
@@ -180,10 +179,10 @@ function StarterDocsExamplesFileInputPage({
         </List>
       </Center>
 
-      <Text textAlign="center" fontWeight={700} mb="10px">
+      {/* <Text textAlign="center" fontWeight={700} mb="10px">
         파일 목록
-      </Text>
-      <List bg="gray.200" p="10px" mb="40px">
+      </Text> */}
+      {/* <List bg="gray.200" p="10px" mb="40px">
         {files.map((f, idx) => {
           return (
             <ListItem key={idx}>
@@ -191,8 +190,9 @@ function StarterDocsExamplesFileInputPage({
             </ListItem>
           );
         })}
-      </List>
+      </List> */}
 
+      {/* 결제하기 클릭 시 실행! */}
       <Button
         w="100%"
         colorScheme="messenger"

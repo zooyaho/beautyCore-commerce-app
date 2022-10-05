@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Button } from '@chakra-ui/react';
-
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import HomeSection1 from './_fragments/HomeSection1';
@@ -15,15 +13,6 @@ import HomeSection7 from './_fragments/HomeSection7';
 // interface HomePageProps extends ChakraProps { }
 
 function HomePage() {
-  /* 
-  $(window).scroll(function(){
-if ($(this).scrollTop() > 100) {
-$('.scrollToTop').fadeIn();
-} else {
-$('.scrollToTop').fadeOut();
-}
-});
-  */
   return (
     <>
       <HomeSection1 />

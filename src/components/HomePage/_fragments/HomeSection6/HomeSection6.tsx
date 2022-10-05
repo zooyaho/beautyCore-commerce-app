@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Container, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
 import ReviewCarousel from '@components/HomePage/_fragments/HomeSection6/_fragments/Carousel/ReviewCarousel';
 import TabCarousel from '@components/HomePage/_fragments/HomeSection6/_fragments/Carousel/TabCarousel';

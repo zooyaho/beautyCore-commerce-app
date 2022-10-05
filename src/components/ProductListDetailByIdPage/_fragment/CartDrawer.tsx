@@ -62,15 +62,13 @@ function CartDrawer() {
                   </Button>
                 </Flex>
                 <Spacer />
-                <Text fontWeight="700" textColor="gray.600" textStyle="md">
-                  54,000원
-                </Text>
+                <Text textStyle="sm_wb_cg600">54,000원</Text>
               </Flex>
             </Box>
             <Flex>
               <Text>
                 총&nbsp;수량&nbsp;
-                <Text as="strong" fontWeight="700" textColor="primary.500">
+                <Text as="strong" textStyle="sm_wb_cp">
                   2
                 </Text>
                 &nbsp;개
@@ -78,7 +76,7 @@ function CartDrawer() {
               <Spacer />
               <Text>
                 합계&nbsp;
-                <Text as="strong" fontWeight="700">
+                <Text as="strong" textStyle="sm_wb">
                   54,000원
                 </Text>
               </Text>

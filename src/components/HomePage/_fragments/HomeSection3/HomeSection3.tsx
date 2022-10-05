@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import { PlusIcon } from '@chakra-ui/icon';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 import {
@@ -19,7 +18,7 @@ function HomeSection3() {
       alignItems="center"
       bgColor="gray.100"
     >
-      <Text textStyle="xl" color="primary.500" fontWeight="700" mt="5rem">
+      <Text textStyle="sxl_wb_cp" mt="5rem">
         부풀려지는 가격 이제 그만!
       </Text>
       <Text textAlign="center" mt="1.3rem" mb="3.6rem" textStyle="lg">
@@ -87,10 +86,10 @@ function HomeSection3() {
         </Flex>
       </Flex>
       <CurveIcon mt="1.5rem" />
-      <Text mt="1.3rem" textStyle="md" fontWeight="700" color="primary.500">
+      <Text mt="1.3rem" textStyle="sm_wb_cp">
         SAVE MONEY
       </Text>
-      <Text mt="1.9rem" textStyle="md" fontWeight="700" color="primary.500">
+      <Text mt="1.9rem" textStyle="sm_wb_cp">
         * 온라인 직접 판매
       </Text>
       <Text textStyle="md" textAlign="center">
@@ -127,7 +126,7 @@ function HomeSection3() {
               2~30,000원
             </Box>
           </Box>
-          <Text textStyle="lg" color="gray.700" mt=".8rem">
+          <Text textStyle="sl_wn_cg600" mt=".8rem">
             시중 주요브랜드
           </Text>
         </Flex>
@@ -159,7 +158,7 @@ function HomeSection3() {
               <Image src="/images/LOGO.png" alt="beauth core logo" />
             </Box>
           </Flex>
-          <Text color="primary.500" textStyle="lg" fontWeight="700" mt=".8rem">
+          <Text textStyle="sl_wb_cp" mt=".8rem">
             인코스런
           </Text>
         </Flex>

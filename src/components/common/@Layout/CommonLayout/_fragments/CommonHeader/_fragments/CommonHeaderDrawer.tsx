@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import {
   Box,
-  Button,
   ChakraProps,
   Container,
   Divider,
@@ -34,13 +33,8 @@ const CommonHeaderDrawer = ({
     <Drawer placement="left" {...basisProps}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerBody //
-          {...bodyProps}
-          py="0px"
-          px="0px"
-          position="relative"
-        >
-          <DrawerCloseButton //
+        <DrawerBody {...bodyProps} py="0px" px="0px" position="relative">
+          <DrawerCloseButton
             w="40px"
             h="40px"
             top="20px"
@@ -49,29 +43,23 @@ const CommonHeaderDrawer = ({
           />
           <Flex flexDirection="column">
             <Container as="header">
-              <Text
-                as="h3"
-                textStyle="lg"
-                fontWeight="bold"
-                mt="80px"
-                mb="30px"
-              >
+              <Text as="h3" textStyle="sl_wb" mt="80px" mb="30px">
                 카테고리
               </Text>
             </Container>
             <Divider />
             <Box as="nav">
-              <List textStyle="md" fontWeight="bold">
-                <ListItem p="1rem">
+              <List textStyle="sm_wb">
+                <ListItem p="1rem" onClick={basisProps.onClose}>
                   <Link href="/home">홈</Link>
                 </ListItem>
                 <Divider />
                 <ListItem p="1rem">
-                  <Link href="/">상품보기</Link>
+                  <Link href="product-list">상품보기</Link>
                 </ListItem>
                 <Divider />
                 <ListItem p="1rem">
-                  <Link href="/">마이페이지</Link>
+                  <Link href="mypage">마이페이지</Link>
                 </ListItem>
                 <Divider />
               </List>
@@ -83,16 +71,12 @@ const CommonHeaderDrawer = ({
               bottom="0"
               left="0"
             >
-              <Button
-                leftIcon={<LogoutIcon />}
-                colorScheme="transparent"
-                border="0"
-                px="0"
-              >
-                <Text as="span" color="black" textStyle="lg" fontWeight="bold">
+              <Link href="intro-login">
+                <Text as="span" textStyle="sl_wb">
+                  <LogoutIcon />
                   로그아웃
                 </Text>
-              </Button>
+              </Link>
             </Container>
           </Flex>
         </DrawerBody>

@@ -8,22 +8,22 @@ import useFormValidate from './_hooks/useFormValidate';
 const OrderPage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
-  console.log('formData: ', formData);
+  // console.log('formData: ', formData);
 
   const onSubmit = handleSubmit(
     ({
       username,
       phone,
-      adress,
-      adressDetail,
+      address,
+      addressDetail,
       orderUsername,
       orderPhone,
-      orderAdress,
-      orderAdressDetail,
+      orderAddress,
+      orderAddressDetail,
       orderRequest,
     }) => {
       console.log(
-        `submitted: ${username},  ${phone}, ${adress}, ${adressDetail}, ${orderUsername},  ${orderPhone}, ${orderAdress}, ${orderAdressDetail},${orderRequest}`,
+        `submitted: ${username},  ${phone}, ${address}, ${addressDetail}, ${orderUsername},  ${orderPhone}, ${orderAddress}, ${orderAddressDetail},${orderRequest}`,
       );
     },
   );

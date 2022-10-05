@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 import { Box, Button, Center, Flex, Image, Text } from '@chakra-ui/react';
@@ -12,14 +13,13 @@ function HomeSection5() {
         px="1rem"
         my="1.4rem"
         w="calc(100% - 2rem)"
-        // h="1314px"
         bg="white"
         alignItems="center"
       >
-        <Text textStyle="xl" fontWeight="700" mt="10vh">
+        <Text textStyle="sxl_wb" mt="10vh">
           소중한 우리 아이를 위해
         </Text>
-        <Text mt="1.4rem" textStyle="md">
+        <Text mt="1.4rem">
           순수 자연유래 / 자연유래 유화제 / 자연유래
           <br />
           계면활성제 99.9% 타가는 EWG 그린등급
@@ -30,15 +30,12 @@ function HomeSection5() {
           w="12rem"
           h="3.2rem"
           mt="2rem"
-          borderRadius="25px"
-          colorScheme="primary"
-          fontSize="1rem"
-          size="md"
-          fontWeight="700"
+          variant="primaryButton"
+          size="lg"
         >
-          상품전체보기
+          <Link href="product-list">상품전체보기</Link>
         </Button>
-        <Box textStyle="md" fontWeight="700" textAlign="center" mb="10vh">
+        <Box textStyle="sm_wb" textAlign="center" mb="10vh">
           <Image
             mt="80px"
             src="/images/home/Group_243.png"

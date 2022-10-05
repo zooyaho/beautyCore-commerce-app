@@ -22,7 +22,7 @@ import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
 
-import { FormDataType } from './_hooks/useFormValidate';
+import { FormDataType } from './_hooks/useSignupValidate';
 
 import {
   CheckLineIcon,
@@ -38,7 +38,7 @@ const FormPageView = ({
   formData: {
     register,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
   },
   onSubmit,
   ...basisProps
@@ -83,14 +83,14 @@ const FormPageView = ({
         </Flex>
       </Box>
       <Container as="main" mt={LAYOUT.HEADER.HEIGHT}>
-        <Text as="h2" textStyle="xl" fontWeight="bold" mt="1.6rem">
+        <Text as="h2" textStyle="sxl_wb" mt="1.6rem">
           회원가입
         </Text>
         {/* s: Form */}
         <Box as="form" onSubmit={onSubmit} {...basisProps}>
           {/* 회원정보입력 */}
           <Box mb="5rem">
-            <Text as="h3" textStyle="md" fontWeight="bold" mt="3.75rem">
+            <Text as="h3" textStyle="sm_wb" mt="3.75rem">
               회원정보입력
             </Text>
             <Flex justifyContent="center" my="2.5rem">
@@ -156,34 +156,37 @@ const FormPageView = ({
 
           {/* 추가정보입력 */}
           <Box mb="5rem">
-            <Text as="h3" textStyle="md" fontWeight="bold" mb="2.5rem">
+            <Text as="h3" textStyle="sm_wb" mb="2.5rem">
               추가정보입력
             </Text>
             <Controller
               control={control}
               name="gender"
-              render={({ field: { onChange } }) => (
-                <FormHelper
-                  mb="40px"
-                  label="성별"
-                  outline="none"
-                  errorText={errors.gender?.value?.message}
-                >
-                  <Select
-                    variant="flushed"
-                    // isSearchable={false}
-                    // color='gray.500'
-                    iconColor="black"
-                    iconSize="3rem"
-                    focusBorderColor="primary.500"
-                    onChange={onChange}
-                    placeholder="성별을 선택하세요"
+              render={({ field: { onChange } }) => {
+                return (
+                  <FormHelper
+                    mb="40px"
+                    label="성별"
+                    outline="none"
+                    errorText={errors.gender?.value?.message}
                   >
-                    <option value="men">남자</option>
-                    <option value="women">여자</option>
-                  </Select>
-                </FormHelper>
-              )}
+                    <Select
+                      variant="flushed"
+                      iconColor="black"
+                      iconSize="3rem"
+                      focusBorderColor="primary.500"
+                      onChange={onChange}
+                      defaultValue=""
+                    >
+                      <option value="" disabled hidden>
+                        성별을 선택하세요
+                      </option>
+                      <option value="men">남자</option>
+                      <option value="women">여자</option>
+                    </Select>
+                  </FormHelper>
+                );
+              }}
             />
             <Controller
               control={control}
@@ -193,17 +196,19 @@ const FormPageView = ({
                   mb="40px"
                   border="none"
                   label="연령대"
-                  errorText={errors.gender?.value?.message}
+                  errorText={errors.age?.value?.message}
                 >
                   <Select
                     variant="flushed"
-                    // isSearchable={false}
                     iconColor="black"
                     iconSize="3rem"
                     focusBorderColor="primary.500"
                     onChange={onChange}
-                    placeholder="연령대를 선택하세요"
+                    defaultValue=""
                   >
+                    <option value="" disabled hidden>
+                      연령대를 선택하세요
+                    </option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
@@ -216,8 +221,8 @@ const FormPageView = ({
           </Box>
 
           {/* s: 이용약관동의 */}
-          <Box mb="5rem">
-            <Text as="h3" textStyle="md" fontWeight="bold" mb="2.5rem">
+          <Box mb="5rem" textStyle="ss_wn_cg600">
+            <Text as="h3" textStyle="sm_wb" mb="2.5rem">
               이용약관동의
             </Text>
 
@@ -227,7 +232,7 @@ const FormPageView = ({
               borderBottom="2px solid"
               borderBottomColor="primary.500"
             >
-              <Text as="p" fontSize="md" color="primary.500" fontWeight="bold">
+              <Text as="p" textStyle="sm_wb_cp">
                 아래 약관에 모두 동의합니다.
               </Text>
               <Spacer />
@@ -248,8 +253,6 @@ const FormPageView = ({
 
             <Flex alignItems="center" mt="37px" mb="1rem">
               <Link
-                textStyle="sm"
-                color="gray.600"
                 textDecoration="underline"
                 _hover={{ textDecoration: 'underline' }}
                 href="https://toktokhan.notion.site/6e7a309e8d14464cad38fc86656d564a"
@@ -274,8 +277,6 @@ const FormPageView = ({
             </Flex>
             <Flex alignItems="center" my="1rem">
               <Link
-                textStyle="sm"
-                color="gray.600"
                 textDecoration="underline"
                 _hover={{ textDecoration: 'underline' }}
                 href="https://toktokhan.notion.site/3-2261ee2f25024c0a9b6a82a6f43fd0dc"
@@ -300,8 +301,6 @@ const FormPageView = ({
             </Flex>
             <Flex alignItems="center" my="1rem">
               <Link
-                textStyle="sm"
-                color="gray.600"
                 textDecoration="underline"
                 _hover={{ textDecoration: 'underline' }}
                 href="https://toktokhan.notion.site/24f69842ebec48df89a3656bac7cf4c9"
@@ -328,7 +327,16 @@ const FormPageView = ({
           {/* e: 이용약관동의 */}
 
           {/* Submit Button */}
-          <Button size="lg" mb="3.125rem" type="submit">
+          <Button
+            size="lg"
+            mb="3.125rem"
+            type="submit"
+            disabled={isValid && isAllAgreeFlag ? false : true}
+            variant="primaryButton"
+            onClick={() => {
+              setAllAgreeFlag.off();
+            }}
+          >
             회원가입 완료
           </Button>
         </Box>

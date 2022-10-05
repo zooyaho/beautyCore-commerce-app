@@ -15,7 +15,7 @@ function InputRatingStars({ rate, value, onChange }: IProps) {
 
   return (
     <RatingStarIcon
-      boxSize="24px"
+      boxSize="32px"
       m="6px"
       color={rate <= value ? 'primary.500' : 'gray.400'}
       cursor="pointer"

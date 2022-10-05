@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import {
@@ -28,7 +29,7 @@ interface IUserInfo {
   email: string;
   profile: string;
   gender: string;
-  age: number;
+  age: string;
 }
 
 const DUMMY_USER = {
@@ -38,7 +39,7 @@ const DUMMY_USER = {
   email: 'zooyaho@naver.com',
   profile: '/',
   gender: 'female',
-  age: 10,
+  age: '10',
 };
 
 interface FormPageProps extends BoxProps {
@@ -50,14 +51,24 @@ const FormPageView = ({
     register,
     control,
     formState: { errors },
+    setValue,
   },
   onSubmit,
   ...basisProps
 }: FormPageProps) => {
+  useEffect(() => {
+    setValue('username', DUMMY_USER.name);
+    setValue('nickname', DUMMY_USER.nickname);
+    setValue('phone', DUMMY_USER.phone);
+    setValue('email', DUMMY_USER.email);
+    setValue('gender', DUMMY_USER.gender);
+    setValue('age', DUMMY_USER.age);
+  }, []);
+
   return (
     <>
-      <Container as="main" pt={LAYOUT.HEADER.HEIGHT}>
-        <Text as="h2" textStyle="lg" fontWeight="bold" mt="1.6rem">
+      <Container pt={LAYOUT.HEADER.HEIGHT}>
+        <Text as="h2" textStyle="sl_wb" mt="1.6rem">
           회원정보수정
         </Text>
         {/* s: Form */}
@@ -79,7 +90,6 @@ const FormPageView = ({
                 {...register('username')}
                 autoComplete="off"
                 placeholder="홍길동"
-                value={DUMMY_USER.name}
               />
             </FormHelper>
             <FormHelper
@@ -94,7 +104,6 @@ const FormPageView = ({
                 {...register('nickname')}
                 autoComplete="off"
                 placeholder="길동이"
-                value={DUMMY_USER.nickname}
               />
             </FormHelper>
             <FormHelper
@@ -109,7 +118,6 @@ const FormPageView = ({
                 {...register('phone')}
                 autoComplete="off"
                 placeholder="010-1234-1234"
-                value={DUMMY_USER.phone}
               />
             </FormHelper>
             <FormHelper
@@ -124,14 +132,13 @@ const FormPageView = ({
                 {...register('email')}
                 autoComplete="off"
                 placeholder="gildong123@gmail.com"
-                value={DUMMY_USER.email}
               />
             </FormHelper>
           </Box>
 
           {/* 추가정보입력 */}
           <Box mb="5rem">
-            <Text as="h3" textStyle="md" fontWeight="bold" mb="2.5rem">
+            <Text as="h3" textStyle="sm_wb" mb="2.5rem">
               추가정보입력
             </Text>
             <Controller
@@ -142,7 +149,7 @@ const FormPageView = ({
                   mb="40px"
                   label="성별"
                   outline="none"
-                  errorText={errors.gender?.value?.message}
+                  errorText={errors.gender?.message}
                 >
                   <Select
                     variant="flushed"
@@ -150,7 +157,6 @@ const FormPageView = ({
                     iconSize="3rem"
                     focusBorderColor="primary.500"
                     onChange={onChange}
-                    placeholder="성별을 선택하세요"
                     defaultValue={DUMMY_USER.gender}
                   >
                     <option value="male">남자</option>
@@ -167,7 +173,7 @@ const FormPageView = ({
                   mb="40px"
                   border="none"
                   label="연령대"
-                  errorText={errors.gender?.value?.message}
+                  errorText={errors.gender?.message}
                 >
                   <Select
                     variant="flushed"
@@ -175,7 +181,6 @@ const FormPageView = ({
                     iconSize="3rem"
                     focusBorderColor="primary.500"
                     onChange={onChange}
-                    placeholder="연령대를 선택하세요"
                     defaultValue={DUMMY_USER.age}
                   >
                     <option value="10">10</option>
@@ -190,26 +195,10 @@ const FormPageView = ({
           </Box>
 
           <Flex pt="1rem" pb="2rem" gap=".7rem">
-            <Button
-              type="button"
-              size="lg"
-              fontSize="md"
-              borderRadius="25px"
-              textColor="primary.500"
-              flexGrow="1"
-              variant="whiteButton"
-            >
+            <Button size="lg" flexGrow="1" variant="whiteButton">
               <Link href="/">취소</Link>
             </Button>
-            <Button
-              type="button"
-              size="lg"
-              fontSize="md"
-              fontWeight="bold"
-              borderRadius="25px"
-              colorScheme="primary"
-              flexGrow="1"
-            >
+            <Button variant="primaryButton" size="lg" flexGrow="1">
               <Link href="/">저장</Link>
             </Button>
           </Flex>

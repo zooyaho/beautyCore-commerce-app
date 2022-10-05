@@ -38,14 +38,19 @@ const OrderPageView = ({
   onSubmit,
   ...basisProps
 }: FormPageProps) => {
+  const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
+  const sameOrderInfoHandler = () => {
+    setCheckedOrderInfo((checked) => !checked);
+  };
+
   return (
     <>
       <Box pt={LAYOUT.HEADER.HEIGHT}>
-        <Text as="h2" textStyle="lg" fontWeight="bold" mt="1.6rem" px="1rem">
+        <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
           주문결제
         </Text>
         <Box>
-          <Text as="h3" textStyle="md" fontWeight="bold" mt="3.75rem" px="1rem">
+          <Text as="h3" textStyle="sm_wb" mt="3.75rem" px="1rem">
             주문 상품
           </Text>
           <Divider />
@@ -56,12 +61,12 @@ const OrderPageView = ({
               h="3.75rem"
               src="/images/dummyImg/상품이미지.png"
             />
-            <Box textStyle="sm">
-              <Text fontWeight="bold">바스 &amp; 샴푸</Text>
-              <Text textColor="gray.600">바스 &amp; 샴푸 | 120ml</Text>
-              <Text textColor="primary.500" fontWeight="bold">
-                27,000원&nbsp;/&nbsp;1개
+            <Box>
+              <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
+              <Text textStyle="ss_wn_cg600" textColor="gray.600">
+                바스 &amp; 샴푸 | 120ml
               </Text>
+              <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
             </Box>
           </Flex>
           <Divider />
@@ -71,7 +76,7 @@ const OrderPageView = ({
           <Container>
             {/* s: 주문자 정보 */}
             <Box mb="3.125rem">
-              <Text as="h3" textStyle="md" fontWeight="bold" mt="3.75rem">
+              <Text as="h3" textStyle="sm_wb" mt="3.75rem">
                 주문자 정보
               </Text>
               <FormHelper
@@ -118,12 +123,11 @@ const OrderPageView = ({
                     placeholder="주소"
                   />
                   <Button
+                    variant="primaryButton"
+                    w="40%"
                     h="40px"
-                    size="sm"
-                    fontWeight="bold"
+                    textStyle="sm"
                     borderRadius="5px"
-                    colorScheme="primary"
-                    type="button"
                   >
                     우편번호 검색
                   </Button>
@@ -142,9 +146,20 @@ const OrderPageView = ({
             <Divider />
             {/* s: 베송지 정보 */}
             <Box mb="3.125rem">
-              <Text as="h3" textStyle="md" fontWeight="bold" mt="3.125rem">
-                배송지 정보
-              </Text>
+              <Flex justifyContent="space-between" mt="3.125rem">
+                <Text as="h3" textStyle="sm_wb">
+                  배송지 정보
+                </Text>
+                <Checkbox
+                  onChange={sameOrderInfoHandler}
+                  colorScheme="primary"
+                  size="lg"
+                  isChecked={checkedOrderInfo}
+                >
+                  <Text textStyle="sm_wn_cg600">주문자 정보와 동일</Text>
+                </Checkbox>
+              </Flex>
+
               <FormHelper
                 mt="2.5rem"
                 mb="3.125rem"
@@ -189,12 +204,11 @@ const OrderPageView = ({
                     placeholder="주소"
                   />
                   <Button
+                    variant="primaryButton"
+                    w="40%"
                     h="40px"
-                    size="sm"
-                    fontWeight="bold"
+                    textStyle="sm"
                     borderRadius="5px"
-                    colorScheme="primary"
-                    type="button"
                   >
                     우편번호 검색
                   </Button>
@@ -223,14 +237,7 @@ const OrderPageView = ({
           </Container>
 
           {/* s: 결제 수단 */}
-          <Text
-            as="h3"
-            textStyle="md"
-            fontWeight="bold"
-            mt="2.5rem"
-            mb=".7rem"
-            px="1rem"
-          >
+          <Text as="h3" textStyle="sm_wb" mt="2.5rem" mb=".7rem" px="1rem">
             결제수단
           </Text>
           <Divider />
@@ -259,14 +266,8 @@ const OrderPageView = ({
           {/* e: 결제 수단 */}
 
           {/* s: 최종 결제 금액 */}
-          <Container fontWeight="400">
-            <Text
-              as="h3"
-              textStyle="md"
-              fontWeight="bold"
-              mt="2.5rem"
-              mb=".7rem"
-            >
+          <Container>
+            <Text as="h3" textStyle="sm_wb" mt="2.5rem" mb=".7rem">
               최종 결제금액
             </Text>
             <Flex textColor="gray.600" mt="2.5rem">
@@ -283,9 +284,7 @@ const OrderPageView = ({
             <Flex my="1.3rem">
               <Text>결제금액</Text>
               <Spacer />
-              <Text textColor="primary.500" fontWeight="700">
-                108,000 원
-              </Text>
+              <Text textStyle="sm_wb_cp">108,000 원</Text>
             </Flex>
             <Divider />
             <Controller
@@ -299,13 +298,7 @@ const OrderPageView = ({
                     size="lg"
                     my="1.25rem"
                   >
-                    <Text
-                      as="span"
-                      textStyle="md"
-                      fontWeight="400"
-                      ml=".7rem"
-                      textColor="gray.600"
-                    >
+                    <Text as="span" textStyle="sm_wn_cg600" ml=".7rem">
                       개인정보 수집 이용 동의(필수)
                     </Text>
                   </Checkbox>
@@ -314,13 +307,10 @@ const OrderPageView = ({
             />
             {/* Submit Button */}
             <Button
-              w="100%"
+              variant="primaryButton"
               size="lg"
-              fontWeight="bold"
-              borderRadius="25px"
               mt="1.25rem"
               mb="5rem"
-              colorScheme="primary"
               type="submit"
             >
               결제하기

@@ -5,6 +5,9 @@ export const CONFIG = {
   APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   AUTH_TOKEN_KEY: process.env.NEXT_PUBLIC_AUTH_TOKEN_KEY,
 
+  KAKAO_REST_API_KEY: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
+  KAKAO_REDIRECT_URI: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
+
   /** For Script w:start */
   GITHUB_TOKEN: process.env._GITHUB_TOKEN,
   GITHUB_REPO: process.env._GITHUB_REPO,

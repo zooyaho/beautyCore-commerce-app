@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import IntroLoginPage from '@components/IntroLoginPage';
+import IntroLoginPage from '@components/LoginPage';
 import CardLayout from '@components/common/@Layout/CardLayout';
 
 function IntroLogin() {

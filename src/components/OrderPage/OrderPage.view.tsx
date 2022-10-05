@@ -1,4 +1,5 @@
 import React from 'react';
+import { Address } from 'react-daum-postcode';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import {
@@ -21,6 +22,7 @@ import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
 
+import SearchAddressModal from './_fragments/SearchAddressModal';
 import { FormDataType } from './_hooks/useFormValidate';
 
 import { CardPayIcon } from 'generated/icons/MyIcons';
@@ -50,6 +52,24 @@ const OrderPageView = ({
       setValue('orderAdress', adress);
       setValue('orderAdressDetail', adressDetail);
     }
+  };
+
+  const searchCompleteHandler = (data: Address) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+    console.log('data: ', data);
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress +=
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+    setValue('adress', fullAddress);
   };
 
   return (
@@ -131,15 +151,9 @@ const OrderPageView = ({
                     autoComplete="off"
                     placeholder="주소"
                   />
-                  <Button
-                    variant="primaryButton"
-                    w="40%"
-                    h="40px"
-                    textStyle="sm"
-                    borderRadius="5px"
-                  >
-                    우편번호 검색
-                  </Button>
+                  <SearchAddressModal
+                    searchCompleteHandler={searchCompleteHandler}
+                  />
                 </Flex>
                 <Input
                   borderRadius="100px"
@@ -212,15 +226,9 @@ const OrderPageView = ({
                     autoComplete="off"
                     placeholder="주소"
                   />
-                  <Button
-                    variant="primaryButton"
-                    w="40%"
-                    h="40px"
-                    textStyle="sm"
-                    borderRadius="5px"
-                  >
-                    우편번호 검색
-                  </Button>
+                  <SearchAddressModal
+                    searchCompleteHandler={searchCompleteHandler}
+                  />
                 </Flex>
                 <Input
                   borderRadius="100px"

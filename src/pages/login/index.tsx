@@ -1,17 +1,17 @@
 import Head from 'next/head';
 
-import IntroLoginPage from '@components/LoginPage';
+import LoginPage from '@components/LoginPage';
 import CardLayout from '@components/common/@Layout/CardLayout';
 
-function IntroLogin() {
+function Login() {
   return (
     <>
       <Head>
-        <title>Beauty Core | intro-login</title>
+        <title>Beauty Core | login</title>
       </Head>
-      <CardLayout content={<IntroLoginPage />} />
+      <CardLayout content={<LoginPage />} />
     </>
   );
 }
 
-export default IntroLogin;
+export default Login;

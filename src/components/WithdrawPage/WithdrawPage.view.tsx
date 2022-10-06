@@ -150,7 +150,7 @@ function WithdrawPageView({
             취소
           </Button>
           <Button type="submit" variant="primaryButton" flexGrow="1">
-            {/* <Link href="/intro-login">탈퇴하기</Link> */}
+            {/* <Link href="/login">탈퇴하기</Link> */}
             탈퇴하기
           </Button>
         </Flex>

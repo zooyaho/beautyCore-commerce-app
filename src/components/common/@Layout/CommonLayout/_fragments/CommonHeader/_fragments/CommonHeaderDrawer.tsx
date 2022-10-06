@@ -71,7 +71,7 @@ const CommonHeaderDrawer = ({
               bottom="0"
               left="0"
             >
-              <Link href="intro-login">
+              <Link href="login">
                 <Text as="span" textStyle="sl_wb">
                   <LogoutIcon />
                   로그아웃

@@ -10,7 +10,7 @@ function Home() {
   // For: Redirect To Starter Docs Page (나중에 꼭 지워주세요)
   // 자동 로그인 기능이 없으므로 바로 intro login page로 이동
   React.useEffect(() => {
-    router.push(ROUTES.Login.INTRO);
+    router.push(ROUTES.Login);
   }, [router]);
 
   return (

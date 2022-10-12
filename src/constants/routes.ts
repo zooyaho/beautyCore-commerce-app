@@ -1,9 +1,7 @@
 export const ROUTES = {
   HOME: '/',
   //@delete:line
-  Login: {
-    INTRO: '/intro-login',
-  },
+  Login: 'login',
   STARTER_DOCS: {
     //@delete:line
     MAIN: '/starter-docs',

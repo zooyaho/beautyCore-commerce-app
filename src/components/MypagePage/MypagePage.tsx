@@ -75,7 +75,7 @@ function MypagePage() {
         </Flex>
       </Link>
       <Divider />
-      <Link href="intro-login">
+      <Link href="login">
         <Flex
           justifyContent="space-between"
           alignItems="center"

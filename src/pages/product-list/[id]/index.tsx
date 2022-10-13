@@ -15,9 +15,7 @@ function ProductListDetailById() {
         <title>Beauty Core | 상세 페이지</title>
       </Head>
       <CardLayout
-        content={
-          <CommonLayout content={<ProductListDetailByIdPage id={id} />} />
-        }
+        content={<CommonLayout content={<ProductListDetailByIdPage />} />}
       />
     </>
   );

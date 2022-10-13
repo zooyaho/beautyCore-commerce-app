@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -48,6 +49,7 @@ async function getProductList(cursor: string): Promise<ProductList> {
 }
 
 function ProductListPage() {
+  const router = useRouter();
   const {
     data: productListData,
     isFetching,
@@ -86,6 +88,7 @@ function ProductListPage() {
                     borderRadius="20px"
                     my="2rem"
                     bg="white"
+                    onClick={() => router.push(`/product-list/${product.id}`)}
                   >
                     <Img
                       src="./images/dummyImg/DummyProductList.png"

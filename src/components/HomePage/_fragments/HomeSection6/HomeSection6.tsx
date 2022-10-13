@@ -18,14 +18,13 @@ function HomeSection6() {
           <br />
           고객님의 솔직한 리뷰
         </Text>
-        <Box maxW="100%" mt="5vh" pr="1.6rem">
-          <Box pl="1rem">
-            <TabCarousel />
-            <ReviewCarousel />
-          </Box>
+        <Box maxW="100%" pr="1.6rem" pl="1rem">
+          {/* <TabCarousel /> */}
+          <ReviewCarousel />
         </Box>
         <Button
           bg="transparent"
+          w="fit-content"
           _hover={{ background: 'transparent' }}
           my="3vh"
           alignSelf="flex-end"

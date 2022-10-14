@@ -22,3 +22,4 @@ function ProductListDetailById() {
 }
 
 export default ProductListDetailById;
+// getStaticProps, getStaticPaths

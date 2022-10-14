@@ -1,10 +1,25 @@
 import { Review } from '@apis/reveiw/ReviewListApi.type';
 
-export interface ITags {
+export interface Tags {
   id: number;
   name: string;
 }
 export interface Product {
+  avgRate: number;
+  capacity: number;
+  description: string;
+  id: number;
+  name: string;
+  price: number;
+  reviewCount: number;
+  tags: Tags[];
+  thumbnail: string;
+}
+export interface ProductList {
+  results: Product[];
+  cursor: string;
+}
+export interface ProductDetail {
   avgRate: number;
   capacity: number;
   description: string;
@@ -16,7 +31,7 @@ export interface Product {
   reviewCount: number;
   reviewList: Review[];
 }
-export interface ProductList {
+export interface ProductDetailList {
   next: string;
   previous: string;
   results: Product[];

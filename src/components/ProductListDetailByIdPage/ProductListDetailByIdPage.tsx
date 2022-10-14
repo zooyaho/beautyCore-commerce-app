@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import {
   Box,
@@ -29,14 +29,14 @@ import {
   UpArrowIcon,
 } from 'generated/icons/MyIcons';
 
-interface ProductListDetailByIdPageProps extends ChakraProps {
+/* interface ProductListDetailByIdPageProps extends ChakraProps {
   id?: string | string[];
-}
+} */
 
 function ProductListDetailByIdPage() {
-  const [isShowDetail, setIsShowDetail] = React.useState(false);
+  const [isShowDetail, setIsShowDetail] = useState(false);
   const detailShowToggleHandler = () => setIsShowDetail((isShow) => !isShow);
-  const focusTarget = React.useRef<Array<null | HTMLDivElement>>([]);
+  const focusTarget = useRef<Array<null | HTMLDivElement>>([]);
   const { onOpen } = useDisclosure();
   const {
     query: { id: productId },

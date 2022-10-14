@@ -1,9 +1,8 @@
 import Slider from 'react-slick';
 
-import { Box, Container, Divider, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, ChakraProps, Divider, Flex, Image, Text } from '@chakra-ui/react';
 
-import instance from '@apis/_axios/instance';
-import { useGetReviewList } from '@apis/reveiw/ReviewApi.query';
+import { ProductTagReview } from '@apis/product/ProductAPi.type';
 
 import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingStars';
 
@@ -12,20 +11,23 @@ import { formatDate } from '@utils/format';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-function ReviewCarousel() {
+interface ReviewCarouselProps extends ChakraProps {
+  selectedTagData: ProductTagReview[];
+}
+
+function ReviewCarousel({ selectedTagData: reviewList }: ReviewCarouselProps) {
   const settings = {
     infinite: false,
     swipeToSlide: true,
     centerMode: false,
     variableWidth: false,
   };
-  const reviewList = useGetReviewList();
 
   return (
     <Slider {...settings}>
       {reviewList &&
-        reviewList.map((review) => (
-          <Box p="4rem .5rem 1rem" key={review.id}>
+        reviewList.map((review, i) => (
+          <Box p="4rem .5rem 1rem" key={i}>
             <Flex
               flexDirection="column"
               justifyContent="space-between"
@@ -53,9 +55,9 @@ function ReviewCarousel() {
               <Box>
                 {!review.reviewimageSet && <Divider />}
                 <Flex mt="1.3rem" gap=".6rem">
-                  {review.reviewimageSet.map((img) => (
+                  {review.reviewimageSet.map((img, i) => (
                     <Image
-                      key={img.reviewId}
+                      key={img.reviewId + i}
                       src={img.url}
                       borderRadius="10px"
                       w="80px"

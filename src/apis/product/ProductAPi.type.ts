@@ -37,3 +37,27 @@ export interface ProductDetailList {
   results: Product[];
   cursor: string;
 }
+export interface ProductTagReview {
+  userId: number;
+  nickname: string;
+  rate: number;
+  content: string;
+  reviewimageSet: [
+    {
+      reviewId: number;
+      url: string;
+    },
+  ];
+  created: string;
+}
+export interface ProductTag {
+  id: number;
+  name: string;
+  reviewList: ProductTagReview[];
+}
+export interface ProductTagList {
+  count: number;
+  next: string;
+  previous: string;
+  results: ProductTag[];
+}

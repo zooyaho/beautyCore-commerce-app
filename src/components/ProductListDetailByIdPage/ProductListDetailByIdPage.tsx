@@ -42,12 +42,13 @@ function ProductListDetailByIdPage() {
     query: { id: productId },
   } = useRouter();
   const { data: productData, isLoading } = useGetProduct(Number(productId));
-  console.log(productData);
   const SCROLL_BUTTONS = [
     { title: '상세정보', target: 0 },
     { title: '구매정보', target: 1 },
     { title: `리뷰 (${productData?.reviewCount})`, target: 2 },
   ];
+
+  console.log('reviewList: ', productData?.reviewList);
 
   return (
     <>

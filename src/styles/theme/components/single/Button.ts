@@ -143,6 +143,13 @@ export const Button: ComponentSingleStyleConfig = {
       _active: { borderColor: 'black', color: 'black' },
       _hover: { borderColor: 'black', color: 'black' },
     },
+    activePageButton: {
+      color: 'black',
+      bg: 'transparent',
+      fontWeight: 'bold',
+      fontSize: '16px',
+      lineHeight: '24px',
+    },
     transparentButton: {
       type: 'button',
       fontWeight: 'normal',

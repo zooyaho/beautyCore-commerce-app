@@ -1,6 +1,8 @@
 import Slider from 'react-slick';
 
-import { Box, Container, Divider, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, ChakraProps, Divider, Flex, Image, Text } from '@chakra-ui/react';
+
+import { ProductTagReview } from '@apis/product/ProductAPi.type';
 
 import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingStars';
 
@@ -9,114 +11,65 @@ import { formatDate } from '@utils/format';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-interface ReviewProps {
-  id: number;
-  user: number;
-  product: number;
-  rate: number;
-  content: string;
-  reviewimageSet: [
-    {
-      reviewId: number;
-      url: string;
-    },
-  ];
-  created: Date;
+interface ReviewCarouselProps extends ChakraProps {
+  selectedTagData: ProductTagReview[];
 }
 
-const DUMMMY_REVIEW = [
-  {
-    id: 'u1',
-    user: 'zooyaho',
-    product: 2,
-    rate: 1.5,
-    content:
-      '순해서 아이피부에도 자극없이 사용할 수 있어요! 아이 뿐 만아니라 온가족이 사용할 수 있는 화장품이라고 추천받았어요.처음엔 반신반의하는 마음으로 사용하기 시작했는데 지금은 모든 단계에서 인코스런 제품을 사용하고있어요! 아토피로 고생했던 우리 아이 피부도 지금은 거의 완치단계입니다 .아이 엄마들에게 추천드려요!',
-    reviewimageSet: [
-      {
-        reviewId: 'r1',
-        url: '/images/home/Rectangle_9.png',
-      },
-    ],
-    created: '2022-03-26T12:22:25.934Z',
-  },
-  {
-    id: 'u2',
-    user: 'mark',
-    product: 2,
-    rate: 4,
-    content:
-      '순해서 아이피부에도 자극없이 사용할 수 있어요! 아이 뿐 만아니라 온가족이 사용할 수 있는 화장품이라고 추천받았어요.처음엔 반신반의하는 마음으로 사용하기 시작했는데 지금은 모든 단계에서 인코스런 제품을 사용하고있어요! 아토피로 고생했던 우리 아이 피부도 지금은 거의 완치단계입니다 .아이 엄마들에게 추천드려요!',
-    reviewimageSet: [
-      {
-        reviewId: 'r1',
-        url: '/images/home/Rectangle_9.png',
-      },
-      {
-        reviewId: 'r2',
-        url: '/images/home/Rectangle_10.png',
-      },
-    ],
-    created: '2022-09-22T12:22:25.934Z',
-  },
-  {
-    id: 'u3',
-    user: 'ganghoon',
-    product: 2,
-    rate: 3.5,
-    content:
-      '순해서 아이피부에도 자극없이 사용할 수 있어요! 아이 뿐 만아니라 온가족이 사용할 수 있는 화장품이라고 추천받았어요.처음엔 반신반의하는 마음으로 사용하기 시작했는데 지금은 모든 단계에서 인코스런 제품을 사용하고있어요! 아토피로 고생했던 우리 아이 피부도 지금은 거의 완치단계입니다 .아이 엄마들에게 추천드려요!',
-    reviewimageSet: [
-      {
-        reviewId: 'r1',
-        url: '/images/home/Rectangle_9.png',
-      },
-      {
-        reviewId: 'r2',
-        url: '/images/home/Rectangle_10.png',
-      },
-      {
-        reviewId: 'r3',
-        url: '/images/home/Rectangle_11.png',
-      },
-    ],
-    created: '2022-05-19T12:22:25.934Z',
-  },
-];
-
-function ReviewCarousel() {
+function ReviewCarousel({ selectedTagData: reviewList }: ReviewCarouselProps) {
   const settings = {
     infinite: false,
     swipeToSlide: true,
     centerMode: false,
     variableWidth: false,
   };
+
   return (
     <Slider {...settings}>
-      {DUMMMY_REVIEW.map((review) => (
-        <Box p="5rem .5rem 1rem" key={review.id}>
-          <Container borderRadius="20px" boxShadow="lg" py="1.5rem">
-            <Box as="header" mb="1.5rem">
-              <Flex justifyContent="space-between">
-                <Text textStyle="ss_wb">{review.user}</Text>
-                <PrintRatingStars
-                  rate={review.rate}
-                  alignItems="center"
-                  starBoxSize="12px"
-                />
-              </Flex>
-              <Text textStyle="ss_wn_cg700">{formatDate(review.created)}</Text>
-            </Box>
-            <Text mb="1.3rem">{review.content}</Text>
-            <Divider />
-            <Flex mt="1.3rem" gap=".6rem">
-              {review.reviewimageSet.map((img) => (
-                <Image key={img.reviewId} src={img.url} alt="화장품 이미지" />
-              ))}
+      {reviewList &&
+        reviewList.map((review, i) => (
+          <Box p="4rem .5rem 1rem" key={i}>
+            <Flex
+              flexDirection="column"
+              justifyContent="space-between"
+              p="1.3rem"
+              borderRadius="20px"
+              minH="350px"
+              boxShadow="lg"
+              py="1.5rem"
+            >
+              <Box as="header" mb="1.5rem">
+                <Flex justifyContent="space-between">
+                  <Text textStyle="ss_wb">{review.nickname}</Text>
+                  <PrintRatingStars
+                    rate={review.rate}
+                    alignItems="center"
+                    starBoxSize="12px"
+                  />
+                </Flex>
+                <Text textStyle="ss_wn_cg700" mb="1rem">
+                  {formatDate(review.created)}
+                </Text>
+                <Divider />
+              </Box>
+              <Text mb="1.3rem">{review.content}</Text>
+              <Box>
+                {!review.reviewimageSet && <Divider />}
+                <Flex mt="1.3rem" gap=".6rem">
+                  {review.reviewimageSet.map((img, i) => (
+                    <Image
+                      key={img.reviewId + i}
+                      src={img.url}
+                      borderRadius="10px"
+                      w="80px"
+                      h="80px"
+                      alt="화장품 이미지"
+                    />
+                  ))}
+                </Flex>
+              </Box>
             </Flex>
-          </Container>
-        </Box>
-      ))}
+          </Box>
+        ))}
     </Slider>
   );
 }

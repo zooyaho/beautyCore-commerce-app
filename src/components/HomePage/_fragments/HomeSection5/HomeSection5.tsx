@@ -33,7 +33,7 @@ function HomeSection5() {
           variant="primaryButton"
           size="lg"
         >
-          <Link href="product-list">상품전체보기</Link>
+          <Link href="/product-list">상품전체보기</Link>
         </Button>
         <Box textStyle="sm_wb" textAlign="center" mb="10vh">
           <Image

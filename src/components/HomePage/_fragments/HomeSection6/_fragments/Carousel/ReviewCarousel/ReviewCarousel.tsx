@@ -21,6 +21,9 @@ function ReviewCarousel({ selectedTagData: reviewList }: ReviewCarouselProps) {
     swipeToSlide: true,
     centerMode: false,
     variableWidth: false,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
   };
 
   return (

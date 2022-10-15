@@ -18,7 +18,7 @@ function TabCarousel({ seletedHandler }: TabCarouselProps) {
     variableWidth: true,
   };
   const tab = ['전체', '크림', '오일', '파우더 로션', '바스&샴푸'];
-  const [selectedTab, setSelectedTab] = useState<string>();
+  const [selectedTab, setSelectedTab] = useState<string>('전체');
 
   return (
     <Slider {...settings}>

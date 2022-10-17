@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
@@ -49,6 +50,9 @@ const FormPageView = ({
   const [isMarketingAgreeFlag, setMarketingAgreeFlag] = useBoolean();
 
   useEffect(() => {
+    setServiceAgreeFlag.off();
+    setPersonalInfoAgreeFlag.off();
+    setMarketingAgreeFlag.off();
     if (isAllAgreeFlag) {
       setServiceAgreeFlag.on();
       setPersonalInfoAgreeFlag.on();
@@ -60,9 +64,9 @@ const FormPageView = ({
     }
   }, [
     isAllAgreeFlag,
-    setMarketingAgreeFlag,
-    setPersonalInfoAgreeFlag,
     setServiceAgreeFlag,
+    setPersonalInfoAgreeFlag,
+    setMarketingAgreeFlag,
   ]);
 
   return (
@@ -231,22 +235,20 @@ const FormPageView = ({
               alignItems="center"
               borderBottom="2px solid"
               borderBottomColor="primary.500"
+              pb=".5rem"
             >
               <Text as="p" textStyle="sm_wb_cp">
                 아래 약관에 모두 동의합니다.
               </Text>
               <Spacer />
               <Button
+                variant="transparentButton"
                 rightIcon={
                   <CircleCheckIcon
                     boxSize="24px"
                     color={isAllAgreeFlag ? 'primary.500' : 'gray.400'}
                   />
                 }
-                colorScheme="transparent"
-                border="none"
-                px="0"
-                _hover={{ background: 'transparent' }}
                 onClick={setAllAgreeFlag.toggle}
               />
             </Flex>
@@ -262,16 +264,13 @@ const FormPageView = ({
               </Link>
               <Spacer />
               <Button
+                variant="transparentButton"
                 rightIcon={
                   <CheckLineIcon
                     boxSize="24px"
                     color={isServiceAgreeFlag ? 'primary.500' : 'gray.400'}
                   />
                 }
-                colorScheme="transparent"
-                border="none"
-                px="0"
-                _hover={{ background: 'transparent' }}
                 onClick={setServiceAgreeFlag.toggle}
               />
             </Flex>
@@ -286,16 +285,13 @@ const FormPageView = ({
               </Link>
               <Spacer />
               <Button
+                variant="transparentButton"
                 rightIcon={
                   <CheckLineIcon
                     boxSize="24px"
                     color={isPersonalInfoAgreeFlag ? 'primary.500' : 'gray.400'}
                   />
                 }
-                colorScheme="transparent"
-                border="none"
-                px="0"
-                _hover={{ background: 'transparent' }}
                 onClick={setPersonalInfoAgreeFlag.toggle}
               />
             </Flex>
@@ -310,16 +306,13 @@ const FormPageView = ({
               </Link>
               <Spacer />
               <Button
+                variant="transparentButton"
                 rightIcon={
                   <CheckLineIcon
                     boxSize="24px"
                     color={isMarketingAgreeFlag ? 'primary.500' : 'gray.400'}
                   />
                 }
-                colorScheme="transparent"
-                border="none"
-                px="0"
-                _hover={{ background: 'transparent' }}
                 onClick={setMarketingAgreeFlag.toggle}
               />
             </Flex>
@@ -331,11 +324,16 @@ const FormPageView = ({
             size="lg"
             mb="3.125rem"
             type="submit"
-            disabled={isValid && isAllAgreeFlag ? false : true}
+            disabled={
+              isValid &&
+                ((isServiceAgreeFlag &&
+                  isPersonalInfoAgreeFlag &&
+                  isMarketingAgreeFlag) ||
+                  isAllAgreeFlag)
+                ? true
+                : false
+            }
             variant="primaryButton"
-            onClick={() => {
-              setAllAgreeFlag.off();
-            }}
           >
             회원가입 완료
           </Button>

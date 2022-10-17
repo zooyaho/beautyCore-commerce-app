@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { Button, Center, Flex, Spacer, Text } from '@chakra-ui/react';
+import { Button, Center, Flex, Link, Spacer, Text } from '@chakra-ui/react';
 
 import { HandsClappingIcon } from 'generated/icons/MyIcons';
-
-// interface SignUpDonePageProps extends ChakraProps { }
 
 function SignUpDonePage() {
   return (
@@ -22,8 +20,18 @@ function SignUpDonePage() {
         <HandsClappingIcon />
       </Center>
       <Spacer />
-      <Button size="lg" variant="primaryButton" mb="1.875rem">
-        시작하기
+      <Button variant="primaryButton" mb="1.875rem">
+        <Link href="/home" w="100%" h="100%">
+          <Flex
+            as="span"
+            w="100%"
+            h="100%"
+            alignItems="center"
+            justifyContent="center"
+          >
+            시작하기
+          </Flex>
+        </Link>
       </Button>
     </Flex>
   );

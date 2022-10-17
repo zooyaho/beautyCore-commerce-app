@@ -9,3 +9,13 @@ export interface UserRegisterBody {
   profilePath: string;
   marketingAdAgree: boolean;
 }
+export interface UserMe {
+  age: string;
+  email: string;
+  gender: string;
+  id: number;
+  name: string;
+  nickname: string;
+  phone: string;
+  profile: string;
+}

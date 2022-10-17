@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
@@ -11,6 +11,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import { getUserMe } from '@apis/user/userApi';
+import { UserMe } from '@apis/user/userApi.type';
+
 import { LAYOUT } from '@constants/layout';
 
 import {
@@ -21,14 +24,19 @@ import {
 } from 'generated/icons/MyIcons';
 
 function MypagePage() {
+  const [userData, setUserData] = useState<UserMe>();
+  useEffect(() => {
+    getUserMe().then((data) => setUserData(data));
+  }, []);
+
   return (
     <>
       <Container pt={LAYOUT.HEADER.HEIGHT} pb="1.5rem">
         <Text as="h2" mt="1.6rem" textStyle="sl_wb">
-          박지우
+          {userData && userData.name}
         </Text>
         <Text textStyle="sm_wn" textColor="gray.400">
-          incourse.run@gmail.com
+          {userData && userData.email}
         </Text>
       </Container>
       <Flex
@@ -37,8 +45,8 @@ function MypagePage() {
         borderTop="10px solid #F9F9F9"
         borderBottom="10px solid #F9F9F9"
       >
-        <Box flexGrow="1">
-          <Link href="edit-user-info">
+        <Box flexGrow="1" cursor="pointer">
+          <Link href="/edit-user-info">
             <VStack>
               <Center w="50px" h="50px">
                 <EditUserInfoIcon w="41px" h="21px" color="primary.500" />
@@ -47,8 +55,8 @@ function MypagePage() {
             </VStack>
           </Link>
         </Box>
-        <Box flexGrow="1">
-          <Link href="order-history">
+        <Box flexGrow="1" cursor="pointer">
+          <Link href="/order-history">
             <VStack>
               <Center w="50px" h="50px">
                 <OrderHistoryIcon w="36px" h="33px" color="primary.500" />
@@ -57,8 +65,8 @@ function MypagePage() {
             </VStack>
           </Link>
         </Box>
-        <Box flexGrow="1">
-          <Link href="my-product-review">
+        <Box flexGrow="1" cursor="pointer">
+          <Link href="/my-product-review">
             <VStack>
               <Center w="50px" h="50px">
                 <MyProductReviewIcon w="28px" h="25px" color="primary.500" />

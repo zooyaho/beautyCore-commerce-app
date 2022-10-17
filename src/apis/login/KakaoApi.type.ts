@@ -1,10 +1,4 @@
-export type ExampleDTOType = {};
-export type ExampleParamGetType = {};
-export type ExampleParamPutType = {
-  id: string;
-  data: ExampleDTOType;
-};
-export type ExampleParamPatchType = {
-  id: string;
-  data: Partial<ExampleDTOType>;
-};
+export interface PostKakaoBody {
+  code: string | string[] | undefined;
+  state: string | string[] | undefined;
+}

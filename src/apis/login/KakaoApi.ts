@@ -1,25 +1,22 @@
-import { AxiosInstance } from 'axios';
-
 import instance from '@apis/_axios/instance';
 
-import { ExampleDTOType, ExampleParamGetType } from './KakaoApi.type';
+import { TokenType } from '@utils/localStorage/token';
 
-export class KakaoApi {
-  axios: AxiosInstance = instance;
-  constructor(axios?: AxiosInstance) {
-    if (axios) this.axios = axios;
-  }
+import { PostKakaoBody } from './KakaoApi.type';
 
-  postKakao = async (body: any): Promise<any> => {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/v1/user/social_login/`,
-      data: body,
-    });
-    return data;
-  };
+interface PostKakaoReturnType extends Partial<TokenType> {
+  socialToken?: string;
 }
 
-const kakaoApi = new KakaoApi();
-
-export default kakaoApi;
+export async function postKakao(
+  body: PostKakaoBody,
+): Promise<PostKakaoReturnType> {
+  const { data } = await instance({
+    method: 'POST',
+    url: `/v1/user/social_login/`,
+    data: body,
+  });
+  console.log(body); // {code:'WfII7mMalYaW_E_vjk---', state: 'kakao'}
+  console.log(data); // isRegister: false, socialToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1----"}
+  return data;
+}

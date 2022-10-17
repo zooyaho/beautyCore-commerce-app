@@ -5,17 +5,33 @@ import { Box } from '@chakra-ui/react';
 
 import { usePostKakaoMutation } from '@apis/login/KakaoApi.mutation';
 
+import { TokenType, setToken } from '@utils/localStorage/token';
+
 const Callback = () => {
   const {
+    push,
     query: { code, state },
   } = useRouter();
 
-  const { mutate, data } = usePostKakaoMutation();
+  const { mutate } = usePostKakaoMutation({
+    options: {
+      onSuccess: (data) => {
+        if (!data.isRegister && data.socialToken) {
+          push({ pathname: '/sign-up', query: { token: data.socialToken } });
+        } else if (data.access && data.refresh) {
+          setToken(data as TokenType);
+          push('/home');
+        }
+      },
+    },
+  });
   useEffect(() => {
-    mutate({ code, state });
+    if (code && state) {
+      mutate({ code, state });
+    }
   }, [mutate, code, state]);
 
-  return <Box>Callback</Box>;
+  return <Box></Box>;
 };
 
 export default Callback;

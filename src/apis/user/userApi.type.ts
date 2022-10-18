@@ -19,3 +19,7 @@ export interface UserMe {
   phone: string;
   profile: string;
 }
+export interface WithdrawalReason {
+  reason: string;
+  additionalReason: string | undefined;
+}

@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { Box } from '@chakra-ui/react';
 
 import { usePostKakaoMutation } from '@apis/login/KakaoApi.mutation';
-import { useGetUserMe } from '@apis/user/userApi.query';
 import { userSliceActions } from '@features/user/userSlice';
 
 import { TokenType, setToken } from '@utils/localStorage/token';
@@ -16,11 +15,7 @@ const Callback = () => {
     push,
     query: { code, state },
   } = useRouter();
-  const { data: userData } = useGetUserMe();
   const dispatch = useDispatch();
-
-  if (userData) dispatch(userSliceActions.setUserId(userData.id));
-  dispatch(userSliceActions.setIsLogged(true));
 
   const { mutate } = usePostKakaoMutation({
     options: {
@@ -29,6 +24,7 @@ const Callback = () => {
           push({ pathname: '/sign-up', query: { token: data.socialToken } });
         } else if (data.access && data.refresh) {
           setToken(data as TokenType);
+          dispatch(userSliceActions.setIsLogged(true));
           push('/home');
         }
       },

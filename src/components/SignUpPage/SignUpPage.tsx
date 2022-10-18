@@ -8,17 +8,15 @@ import { setToken } from '@utils/localStorage/token';
 import SignupPageView from './SignUpPage.view';
 import useFormValidate from './_hooks/useSignupValidate';
 
-// interface SignUpPageProps extends ChakraProps { }
-
 const SignUpPage = () => {
   const { query, push } = useRouter();
   const formData = useFormValidate();
   const { handleSubmit, reset } = formData;
 
   const onSubmit = handleSubmit(
-    ({ username, nickname, email, phone, gender, age: { value: age } }) => {
+    ({ username, nickname, email, phone, gender, age }) => {
       console.log(
-        `submitted: ${username}, ${nickname}, ${email}, ${phone}, ${gender}, ${age}`,
+        `submitted: ${username}, ${nickname}, ${email}, ${phone},${typeof gender}, ${gender},${typeof age}, ${age}`,
       );
       postUserRegister({
         socialToken: query.token,
@@ -26,7 +24,7 @@ const SignUpPage = () => {
         nickname,
         email,
         phone,
-        gender: gender.value,
+        gender,
         age,
         profilePath: 'www.naver.com',
         marketingAdAgree: true,

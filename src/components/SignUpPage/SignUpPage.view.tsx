@@ -172,7 +172,7 @@ const FormPageView = ({
                     mb="40px"
                     label="성별"
                     outline="none"
-                    errorText={errors.gender?.value?.message}
+                    errorText={errors.gender?.message}
                   >
                     <Select
                       variant="flushed"
@@ -185,8 +185,8 @@ const FormPageView = ({
                       <option value="" disabled hidden>
                         성별을 선택하세요
                       </option>
-                      <option value="men">남자</option>
-                      <option value="women">여자</option>
+                      <option value="male">남자</option>
+                      <option value="female">여자</option>
                     </Select>
                   </FormHelper>
                 );
@@ -200,7 +200,7 @@ const FormPageView = ({
                   mb="40px"
                   border="none"
                   label="연령대"
-                  errorText={errors.age?.value?.message}
+                  errorText={errors.age?.message}
                 >
                   <Select
                     variant="flushed"
@@ -213,11 +213,11 @@ const FormPageView = ({
                     <option value="" disabled hidden>
                       연령대를 선택하세요
                     </option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="40">40</option>
-                    <option value="50">50대 이상</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={30}>30</option>
+                    <option value={40}>40</option>
+                    <option value={50}>50대 이상</option>
                   </Select>
                 </FormHelper>
               )}
@@ -330,8 +330,8 @@ const FormPageView = ({
                   isPersonalInfoAgreeFlag &&
                   isMarketingAgreeFlag) ||
                   isAllAgreeFlag)
-                ? true
-                : false
+                ? false
+                : true
             }
             variant="primaryButton"
           >

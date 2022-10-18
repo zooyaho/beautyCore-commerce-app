@@ -86,7 +86,7 @@ function MypagePage() {
           <Link href="withdraw">
             <Flex justifyContent="space-between" alignItems="center" p="1rem">
               <Text>회원탈퇴</Text>
-              <RightArrowIcon viewBox="24px" />
+              <RightArrowIcon />
             </Flex>
           </Link>
           <Divider />
@@ -98,7 +98,7 @@ function MypagePage() {
               borderBottom="30px solid #F9F9F9"
             >
               <Text>로그아웃</Text>
-              <RightArrowIcon viewBox="24px" />
+              <RightArrowIcon />
             </Flex>
           </Link>
           <Divider />

@@ -5,12 +5,12 @@ export interface UserRegisterBody {
   email: string;
   phone: string;
   gender: string;
-  age: string;
+  age: number;
   profilePath: string;
   marketingAdAgree: boolean;
 }
 export interface UserMe {
-  age: string;
+  age: number;
   email: string;
   gender: string;
   id: number;

@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
+  Button,
   ChakraProps,
   Container,
   Divider,
@@ -10,6 +12,7 @@ import {
   List,
   ListItem,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   Drawer,
@@ -18,6 +21,12 @@ import {
   DrawerContent,
   DrawerOverlay,
 } from '@chakra-ui/react';
+
+import { userSliceActions } from '@features/user/userSlice';
+
+import LogoutModal from '@components/MypagePage/_fragments/LogoutModal';
+
+import { deleteToken } from '@utils/localStorage/token';
 
 import { LogoutIcon } from 'generated/icons/MyIcons';
 
@@ -29,6 +38,14 @@ const CommonHeaderDrawer = ({
   bodyProps,
   ...basisProps
 }: CommonHeaderDrawerProps) => {
+  const { onOpen, isOpen, onClose } = useDisclosure();
+
+  const dispatch = useDispatch();
+  const userStoreClearHandler = () => {
+    dispatch(userSliceActions.setIsLogged(false));
+    deleteToken();
+  };
+
   return (
     <Drawer placement="left" {...basisProps}>
       <DrawerOverlay />
@@ -71,12 +88,23 @@ const CommonHeaderDrawer = ({
               bottom="0"
               left="0"
             >
-              <Link href="login">
-                <Text as="span" textStyle="sl_wb">
+              <Button variant="transparentButton" onClick={onOpen}>
+                <Text
+                  as="span"
+                  textStyle="sl_wb"
+                  w="100%"
+                  h="100%"
+                  cursor="pointer"
+                >
                   <LogoutIcon />
                   로그아웃
                 </Text>
-              </Link>
+              </Button>
+              <LogoutModal
+                isOpen={isOpen}
+                onClose={onClose}
+                userStoreClear={userStoreClearHandler}
+              />
             </Container>
           </Flex>
         </DrawerBody>

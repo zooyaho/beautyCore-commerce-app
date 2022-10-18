@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -10,11 +11,16 @@ import {
   Flex,
   Text,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { useGetUserMe } from '@apis/user/userApi.query';
+import { userSliceActions } from '@features/user/userSlice';
 
 import { LAYOUT } from '@constants/layout';
+import { deleteToken } from '@utils/localStorage/token';
+
+import LogoutModal from './_fragments/LogoutModal';
 
 import {
   EditUserInfoIcon,
@@ -25,6 +31,13 @@ import {
 
 function MypagePage() {
   const { data: userData, isLoading } = useGetUserMe();
+  const { onOpen, isOpen, onClose } = useDisclosure();
+
+  const dispatch = useDispatch();
+  const userStoreClearHandler = () => {
+    dispatch(userSliceActions.setIsLogged(false));
+    deleteToken();
+  };
 
   return (
     <>
@@ -95,18 +108,23 @@ function MypagePage() {
             </Flex>
           </Link>
           <Divider />
-          <Link href="/login">
-            <Flex
-              justifyContent="space-between"
-              alignItems="center"
-              p="1rem"
-              borderBottom="30px solid #F9F9F9"
-              cursor="pointer"
-            >
-              <Text>로그아웃</Text>
-              <RightArrowIcon />
-            </Flex>
-          </Link>
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            p="1rem"
+            borderBottom="30px solid #F9F9F9"
+            cursor="pointer"
+            w="100%"
+            onClick={onOpen}
+          >
+            <Text>로그아웃</Text>
+            <RightArrowIcon />
+          </Flex>
+          <LogoutModal
+            isOpen={isOpen}
+            onClose={onClose}
+            userStoreClear={userStoreClearHandler}
+          />
           <Divider />
         </>
       )}

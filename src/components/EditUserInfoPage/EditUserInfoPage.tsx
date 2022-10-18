@@ -3,25 +3,21 @@ import React, { useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 
 import { usePutUserMeMutation } from '@apis/user/userApi.mutation';
-import useAppStore from '@features/useAppStore';
+import { useGetUserMe } from '@apis/user/userApi.query';
 
 import EditUserInfoPageView from './EditUserInfoPage.view';
 import useFormValidate from './_hooks/useFormValidate';
 
 const EditUserInfoPage = () => {
-  const { onOpen, onClose } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const formData = useFormValidate();
   const { handleSubmit } = formData;
-  const { id } = useAppStore((store) => store.USER);
+  const { data: userData } = useGetUserMe();
 
   const { mutate } = usePutUserMeMutation({
     options: {
       onSuccess: () => {
-        setIsOpen(true);
-      },
-      onError: () => {
-        setIsOpen(false);
+        onOpen();
       },
     },
   });
@@ -31,7 +27,7 @@ const EditUserInfoPage = () => {
       console.log(
         `submitted: ${username}, ${nickname}, ${email}, ${phone}, ${gender}, ${age}`,
       );
-      if (id) {
+      if (userData) {
         mutate({
           name: username,
           nickname,
@@ -39,7 +35,7 @@ const EditUserInfoPage = () => {
           phone,
           gender,
           age,
-          id,
+          id: userData.id,
           profile: 'www.naver.com',
         });
       }
@@ -50,7 +46,6 @@ const EditUserInfoPage = () => {
     <EditUserInfoPageView
       formData={formData}
       onSubmit={onSubmit}
-      onOpen={onOpen}
       isOpen={isOpen}
       onClose={onClose}
     />

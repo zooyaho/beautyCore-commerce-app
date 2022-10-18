@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useDisclosure } from '@chakra-ui/react';
@@ -7,66 +7,40 @@ import {
   useDeleteWithdrawalMutation,
   usePostWithdrawalReasonMutation,
 } from '@apis/user/userApi.mutation';
-import useAppStore from '@features/useAppStore';
+import { useGetUserMe } from '@apis/user/userApi.query';
 import { userSliceActions } from '@features/user/userSlice';
+
+import { deleteToken } from '@utils/localStorage/token';
 
 import WithdrawPageView from './WithdrawPage.view';
 import useFormValidate from './_hooks/useFormValidate';
 
 const ReviewWritePage = () => {
-  const { onOpen, onClose } = useDisclosure();
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const formData = useFormValidate();
   const { handleSubmit } = formData;
-
-  const [isDelMutate, setIsDelMutate] = useState(false);
-  const [isReasonMutate, setIsReasonMutate] = useState(false);
-  const { id } = useAppStore((store) => store.USER);
+  const { data: userData } = useGetUserMe();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isDelMutate && isReasonMutate) {
-      dispatch(userSliceActions.deleteUserId);
-      dispatch(userSliceActions.setIsLogged(false));
+  const { mutateAsync: deleteMutate } = useDeleteWithdrawalMutation({
+    options: {
+      onSuccess: () => {
+        onOpen();
+        deleteToken();
+        dispatch(userSliceActions.setIsLogged(false));
+      },
+    },
+  });
+  console.log(userData?.id);
+  const { mutateAsync: ReasonMutate } = usePostWithdrawalReasonMutation();
+
+  const onSubmit = handleSubmit(async ({ reason, additionalReason }) => {
+    try {
+      await ReasonMutate({ reason, additionalReason });
+      if (userData) await deleteMutate(userData.id);
+    } catch (e) {
+      console.error(e);
     }
-  }, [isDelMutate, isReasonMutate, dispatch]);
-
-  const { mutate: deleteMutate } = useDeleteWithdrawalMutation({
-    options: {
-      onSuccess: () => {
-        setIsOpen(true);
-        setIsDelMutate(true);
-        setIsReasonMutate(true);
-        console.log('회원 삭제 완료');
-      },
-      onError: () => {
-        setIsOpen(false);
-        setIsDelMutate(false);
-        setIsReasonMutate(false);
-      },
-    },
-  });
-
-  const { mutate: ReasonMutate } = usePostWithdrawalReasonMutation({
-    options: {
-      onSuccess: () => {
-        setIsOpen(true);
-        setIsDelMutate(true);
-        setIsReasonMutate(true);
-        console.log('탈퇴사유 전송 완료');
-      },
-      onError: () => {
-        setIsOpen(false);
-        setIsDelMutate(false);
-        setIsReasonMutate(false);
-      },
-    },
-  });
-
-  const onSubmit = handleSubmit(({ reason, requireText, additionalReason }) => {
-    console.log(`submitted: ${reason},  ${requireText}, ${additionalReason} `);
-    if (id) deleteMutate(id);
-    ReasonMutate({ reason, additionalReason });
   });
   return (
     <WithdrawPageView
@@ -74,7 +48,6 @@ const ReviewWritePage = () => {
       onSubmit={onSubmit}
       isOpen={isOpen}
       onClose={onClose}
-      onOpen={onOpen}
     />
   );
 };

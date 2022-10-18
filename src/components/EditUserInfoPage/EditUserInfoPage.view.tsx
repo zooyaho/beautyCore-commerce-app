@@ -29,7 +29,6 @@ import { UserProfileIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
-  onOpen: () => void;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -42,7 +41,6 @@ const FormPageView = ({
     setValue,
   },
   onSubmit,
-  onOpen,
   isOpen,
   onClose,
   ...basisProps
@@ -213,7 +211,6 @@ const FormPageView = ({
                   variant="primaryButton"
                   size="lg"
                   flexGrow="1"
-                  onClick={onOpen}
                 >
                   저장
                 </Button>

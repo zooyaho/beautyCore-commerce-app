@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { useEffect } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
@@ -11,7 +12,6 @@ import {
   Container,
   Flex,
   Input,
-  Link,
   Select,
   Text,
 } from '@chakra-ui/react';
@@ -22,12 +22,16 @@ import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
 
+import ModifyInfoModal from './_fragments/ModifyInfoDoneModal';
 import { FormDataType } from './_hooks/useFormValidate';
 
 import { UserProfileIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
+  onOpen: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 const FormPageView = ({
@@ -38,6 +42,9 @@ const FormPageView = ({
     setValue,
   },
   onSubmit,
+  onOpen,
+  isOpen,
+  onClose,
   ...basisProps
 }: FormPageProps) => {
   const { data: userData, isLoading } = useGetUserMe();
@@ -48,6 +55,8 @@ const FormPageView = ({
       setValue('nickname', userData.nickname);
       setValue('phone', userData.phone);
       setValue('email', userData.email);
+      setValue('gender', userData.gender);
+      setValue('age', userData.age);
     }
   }, [setValue, userData]);
 
@@ -185,14 +194,30 @@ const FormPageView = ({
                   )}
                 />
               </Box>
-
+              {/* 버튼 */}
               <Flex pt="1rem" pb="2rem" gap=".7rem">
-                <Button size="lg" flexGrow="1" variant="whiteButton">
-                  <Link href="/">취소</Link>
+                <Button
+                  type="button"
+                  size="lg"
+                  flexGrow="1"
+                  variant="whiteButton"
+                >
+                  <Link href="/mypage">
+                    <Center as="a" w="100%" h="100%">
+                      취소
+                    </Center>
+                  </Link>
                 </Button>
-                <Button variant="primaryButton" size="lg" flexGrow="1">
-                  <Link href="/">저장</Link>
+                <Button
+                  type="submit"
+                  variant="primaryButton"
+                  size="lg"
+                  flexGrow="1"
+                  onClick={onOpen}
+                >
+                  저장
                 </Button>
+                <ModifyInfoModal onClose={onClose} isOpen={isOpen} />
               </Flex>
             </Box>
             {/* e: Form */}

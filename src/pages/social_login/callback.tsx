@@ -1,17 +1,26 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Box } from '@chakra-ui/react';
 
 import { usePostKakaoMutation } from '@apis/login/KakaoApi.mutation';
+import { useGetUserMe } from '@apis/user/userApi.query';
+import { userSliceActions } from '@features/user/userSlice';
 
 import { TokenType, setToken } from '@utils/localStorage/token';
 
 const Callback = () => {
+  console.log('callbkck page');
   const {
     push,
     query: { code, state },
   } = useRouter();
+  const { data: userData } = useGetUserMe();
+  const dispatch = useDispatch();
+
+  if (userData) dispatch(userSliceActions.setUserId(userData.id));
+  dispatch(userSliceActions.setIsLogged(true));
 
   const { mutate } = usePostKakaoMutation({
     options: {

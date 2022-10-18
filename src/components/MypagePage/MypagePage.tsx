@@ -83,19 +83,25 @@ function MypagePage() {
               </Link>
             </Box>
           </Flex>
-          <Link href="withdraw">
-            <Flex justifyContent="space-between" alignItems="center" p="1rem">
+          <Link href="/withdraw">
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              p="1rem"
+              cursor="pointer"
+            >
               <Text>회원탈퇴</Text>
               <RightArrowIcon />
             </Flex>
           </Link>
           <Divider />
-          <Link href="login">
+          <Link href="/login">
             <Flex
               justifyContent="space-between"
               alignItems="center"
               p="1rem"
               borderBottom="30px solid #F9F9F9"
+              cursor="pointer"
             >
               <Text>로그아웃</Text>
               <RightArrowIcon />

@@ -20,6 +20,9 @@ export const userSlice = createSlice({
     setUserId: (state, action: PayloadAction<number>) => {
       state.id = action.payload;
     },
+    deleteUserId: (state) => {
+      state.id = undefined;
+    },
   },
 });
 

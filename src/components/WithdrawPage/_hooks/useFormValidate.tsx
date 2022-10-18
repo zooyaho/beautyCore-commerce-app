@@ -4,11 +4,11 @@ import * as yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-export type FormDataType = {
-  reason: number;
+export interface FormDataType {
+  reason: string;
   additionalReason: string;
   requireText: string;
-};
+}
 
 export const reasonFormSchema = yup.object().shape({
   reason: yup.string().required('탈퇴 사유를 선택해주세요.'),

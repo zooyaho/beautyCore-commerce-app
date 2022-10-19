@@ -9,6 +9,7 @@ import {
   Flex,
   Img,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { ProductDetail } from '@apis/product/ProductAPi.type';
@@ -42,6 +43,7 @@ function ProductListDetailByIdPage({
     { title: '구매정보', target: 1 },
     { title: `리뷰 (${productData?.reviewCount})`, target: 2 },
   ];
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -92,7 +94,15 @@ function ProductListDetailByIdPage({
               (리뷰 {productData.reviewCount}개)
             </Text>
           </Flex>
-          <CartDrawer />
+          <Flex flexDirection="column" gap=".7rem">
+            <Button variant="whiteButton" size="lg" onClick={onOpen}>
+              장바구니
+            </Button>
+            <Button variant="primaryButton" size="lg" onClick={onOpen}>
+              바로구매
+            </Button>
+          </Flex>
+          <CartDrawer isOpen={isOpen} onClose={onClose} />
         </Box>
         {/* s: 이동 버튼 */}
         <Flex

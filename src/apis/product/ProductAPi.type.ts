@@ -1,5 +1,3 @@
-import { Review } from '@apis/reveiw/ReviewListApi.type';
-
 export interface Tags {
   id: number;
   name: string;
@@ -29,7 +27,7 @@ export interface ProductDetail {
   photo: string;
   price: number;
   reviewCount: number;
-  reviewList: Review[];
+  reviewList: ProductReview[];
 }
 export interface ProductDetailList {
   next: string;
@@ -60,4 +58,19 @@ export interface ProductTagList {
   next: string;
   previous: string;
   results: ProductTag[];
+}
+export interface ProductReview {
+  userId: number;
+  id: number;
+  nickname: string;
+  rate: number;
+  content: string;
+  reviewimageSet: [
+    {
+      id: string;
+      reviewId: number;
+      url: string;
+    },
+  ];
+  created: string;
 }

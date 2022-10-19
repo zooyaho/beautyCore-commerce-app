@@ -11,10 +11,12 @@ import {
   Flex,
   Img,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { getProductList } from '@apis/product/ProductApi';
 
+import CartDrawer from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
@@ -44,6 +46,7 @@ function ProductListPage({ productListData }: ProductListPageProps) {
       getNextPageParam: (lastPage) => lastPage.cursor || undefined,
     },
   );
+  const { onOpen, isOpen, onClose } = useDisclosure();
   return (
     <>
       <InfiniteScroll
@@ -61,10 +64,14 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                 borderRadius="20px"
                 my="2rem"
                 bg="white"
-                onClick={() => router.push(`/product-list/${product.id}`)}
               >
                 <Img src={product.thumbnail} alt="상품이미지" />
-                <Flex flexDirection="column" px="1.5rem" pt="1.5rem">
+                <Box
+                  px="1.5rem"
+                  pt="1.5rem"
+                  cursor="pointer"
+                  onClick={() => router.push(`/product-list/${product.id}`)}
+                >
                   <Flex gap="5px">
                     <Text textStyle="sm_wb">{product.name}</Text>
                     <Text textStyle="sm_wn_cg600">{product.capacity}ml</Text>
@@ -87,14 +94,25 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                       <Text key={tag.id}>#{tag.name}</Text>
                     ))}
                   </Flex>
-                  <Flex pt="1rem" pb="2rem" gap=".7rem">
-                    <Button variant="primaryButton" fontSize="md" flexGrow="1">
-                      <Link href="/">바로구매</Link>
-                    </Button>
-                    <Button variant="whiteButton" fontSize="md" flexGrow="1">
-                      <Link href="/">장바구니</Link>
-                    </Button>
-                  </Flex>
+                </Box>
+                {/* </Box> */}
+                <Flex pt="1rem" pb="2rem" gap=".7rem" px="1.5rem">
+                  <Button
+                    variant="primaryButton"
+                    fontSize="md"
+                    flexGrow="1"
+                    onClick={onOpen}
+                  >
+                    바로구매
+                  </Button>
+                  <Button
+                    variant="whiteButton"
+                    fontSize="md"
+                    flexGrow="1"
+                    onClick={onOpen}
+                  >
+                    장바구니
+                  </Button>
                 </Flex>
               </Box>
             );
@@ -152,6 +170,7 @@ function ProductListPage({ productListData }: ProductListPageProps) {
             )}
           <ScrollToTop />
         </Container>
+        <CartDrawer isOpen={isOpen} onClose={onClose} />
       </InfiniteScroll>
     </>
   );

@@ -12,19 +12,18 @@ import {
   Select,
   Text,
   VStack,
-  VisuallyHidden,
 } from '@chakra-ui/react';
+
+import { ProductReview } from '@apis/product/ProductAPi.type';
 
 import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingStars';
 
 import { countProgress, formatDate } from '@utils/format';
 
-import { Review } from '../../../apis/reveiw/ReviewListApi.type';
-
 import { RightArrowIcon } from 'generated/icons/MyIcons';
 
 interface IReviewSectionProps {
-  reviewList: Review[];
+  reviewList: ProductReview[];
   avgRate: number;
   focusTarget: React.MutableRefObject<(HTMLDivElement | null)[]>;
 }
@@ -34,71 +33,95 @@ function ReviewSection({
   avgRate,
   focusTarget,
 }: IReviewSectionProps) {
+  const [printReviewList, setPrintReviewList] = useState<ProductReview[]>(); // 5개 페이지
+  const [ratingfilter, setRatingfilter] = useState('최신순');
+  const [photofilter, setPhotofilter] = useState('전체보기');
+
   const ratings = reviewList.map((review) => review.rate);
   const countNums = countProgress(ratings);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPage, setTotalPage] = useState<number>();
-  // const [pageGroup, setPageGroup] = useState<Review[][]>([]);
-  // const [pageButton, setPageButton] = useState<JSX.Element[]>([]);
-  const [printReview, setPrintReview] = useState<Review[]>([]);
+  const [totalPageNum, setTotalPageNum] = useState(
+    Math.ceil(reviewList.length / 5),
+  );
 
-  // const addData = useCallback((pageArray: Array<Review[]>, index: number) => {
-  const addData = useCallback(() => {
-    // setPageGroup((cur) => [...cur, pageArray[index]]);
-    const pageArray = Array(Math.ceil(reviewList.length / 5)).fill(0);
-    pageArray.forEach((_, pIndex) => {
-      pageArray[pIndex] = reviewList.filter((_, rIndex) => {
-        return rIndex < (pIndex + 1) * 5 && rIndex >= pIndex * 5;
-      });
-      // setPageGroup((cur) => [...cur, pageArray[pIndex]]);
-    });
-    return pageArray[currentPage - 1];
-  }, [reviewList, currentPage]);
+  const ratingFillteredReview = useCallback(
+    (filteredReview: ProductReview[]) => {
+      if (ratingfilter === '최신순') {
+        return filteredReview.sort(
+          (a, b) => +new Date(b.created) - +new Date(a.created),
+        );
+      } else if (ratingfilter === '평점높은순') {
+        return filteredReview.sort((a, b) => b.rate - a.rate);
+      } else if (ratingfilter === '평점낮은순') {
+        return filteredReview.sort((a, b) => a.rate - b.rate);
+      }
+      return filteredReview;
+    },
+    [ratingfilter],
+  );
 
-  /* const addPageBtn = useCallback(() => {
-    if (totalPage)
-      Array(totalPage)
-        .fill(0)
-        .map((_, i) => {
-          setPageButton((cur) => {
-            return [
-              ...cur,
-              <Button
-                variant="pageButton"
-                key={i}
-                p="0"
-                onClick={() => {
-                  setCurrentPage(i + 1);
-                }}
-              >
-                {i + 1}
-              </Button>,
-            ];
-          });
-        });
-  }, [totalPage]); */
+  const photoFillteredReview = useCallback(
+    (filteredReview: ProductReview[]) => {
+      if (photofilter === '포토리뷰') {
+        if (currentPage > 1) setCurrentPage(1);
+        return ratingFillteredReview(
+          filteredReview.filter((review) => review.reviewimageSet.length > 0),
+        );
+      } else if (photofilter === '전체보기') {
+        return ratingFillteredReview(reviewList);
+      }
+      return filteredReview;
+    },
+    [photofilter, ratingFillteredReview, reviewList, currentPage],
+  );
 
   useEffect(() => {
-    setTotalPage(Math.ceil(reviewList.length / 5));
-    // addPageBtn();
-    // setPrintReview(() => addData());
-  }, [reviewList.length]);
-  // console.log('printReview: ', printReview);
-  console.log('렌더링');
+    // 초기값
+    let filteredReview: ProductReview[] = [];
+    if (ratingfilter === '최신순' && photofilter === '전체보기') {
+      filteredReview = reviewList.sort(
+        (a, b) => +new Date(b.created) - +new Date(a.created),
+      );
+    } else if (photofilter === '포토리뷰') {
+      console.log('포토리뷰');
+      filteredReview = reviewList;
+    }
+    filteredReview = photoFillteredReview(filteredReview);
 
-  /*  useMemo(() => {
-     const pageArray = Array(Math.ceil(reviewList.length / 5)).fill(0);
-     pageArray.forEach((_, pIndex) => {
-       pageArray[pIndex] = reviewList.filter((_, rIndex) => {
-         return rIndex < (pIndex + 1) * 5 && rIndex >= pIndex * 5;
-       });
-       // addData(pageArray, pIndex);
-     });
-     setPrintReview(pageArray[currentPage - 1]);
-   }, [addData, reviewList, currentPage]); */
+    setTotalPageNum(Math.ceil(filteredReview.length / 5));
+    const pageArray = Array(Math.ceil(filteredReview.length / 5)).fill(0);
+    pageArray.forEach((_, pIndex) => {
+      pageArray[pIndex] = filteredReview.filter((_, rIndex) => {
+        return rIndex < (pIndex + 1) * 5 && rIndex >= pIndex * 5;
+      });
+    });
+    setPrintReviewList(pageArray[currentPage - 1]);
+  }, [
+    currentPage,
+    photoFillteredReview,
+    photofilter,
+    ratingfilter,
+    reviewList,
+  ]);
 
-  // console.log(currentPage - 1, pageGroup[currentPage - 1]);
+  const printPageGroup: Array<number[]> = useMemo(() => {
+    const pageGroup = Array(totalPageNum)
+      .fill(0)
+      .map((_, i) => i + 1);
+    const temp = [];
+    for (let i = 0; i < totalPageNum / 5; i++) {
+      temp.push(pageGroup.splice(0, 5));
+    }
+    return temp;
+  }, [totalPageNum]);
+
+  const [selectedAllPage, setSelectedAllPage] = useState<number>(0);
+
+  useEffect(() => {
+    if (currentPage === 1 && reviewList.length !== 0)
+      setCurrentPage(printPageGroup[selectedAllPage][0]);
+  }, [currentPage, printPageGroup, reviewList.length, selectedAllPage]);
 
   return (
     <Flex
@@ -131,23 +154,25 @@ function ReviewSection({
               </Text>
               <HStack w="193px">
                 <Select
-                  placeholder="최신순"
                   size="xs"
                   bg="gray.200"
                   rounded="5px"
                   fontWeight="bold"
+                  onChange={(e) => setRatingfilter(e.target.value)}
                 >
-                  <option value="option2">평점 높은순</option>
-                  <option value="option3">평점 높은순</option>
+                  <option value="최신순">최신순</option>
+                  <option value="평점높은순">평점 높은순</option>
+                  <option value="평점낮은순">평점 낮은순</option>
                 </Select>
                 <Select
-                  placeholder="전체보기"
                   size="xs"
                   bg="gray.200"
                   rounded="5px"
                   fontWeight="bold"
+                  onChange={(e) => setPhotofilter(e.target.value)}
                 >
-                  <option value="option2">포토리뷰</option>
+                  <option value="전체보기">전체보기</option>
+                  <option value="포토리뷰">포토리뷰</option>
                 </Select>
               </HStack>
             </HStack>
@@ -202,55 +227,62 @@ function ReviewSection({
           </Flex>
           {/* s: 리뷰 리스트 */}
           <Box pt="1.5rem">
-            {
-              // pageGroup.indexOf(pageGroup[currentPage]) === currentPage &&
-              addData().map((review: Review, i: number) => (
-                <Box key={review.id + i} mb="1.5rem">
-                  <Flex justifyContent="space-between">
-                    <Text textStyle="ss_wb">{review.nickname}</Text>
-                    <PrintRatingStars
-                      rate={review.rate}
-                      starBoxSize="12px"
-                      alignItems="center"
-                    />
-                  </Flex>
-                  <Text textStyle="ss_wn_cg700">
-                    {formatDate(review.created)}
-                  </Text>
-                  <Flex flexDirection="column" mt="1rem" mb="1.5rem">
-                    <Text
-                      textOverflow="ellipsis"
-                      overflow="hidden"
-                      whiteSpace="nowrap"
-                      textStyle="md"
-                    >
-                      {review.content}
-                    </Text>
-                    <Flex mt="1.3rem" gap=".6rem">
-                      {review.reviewimageSet.map((img, i) => {
-                        return (
-                          <Img
-                            key={i}
-                            src={`${img.url}`}
-                            alt="리뷰 이미지"
-                            w="80px"
-                            h="80px"
-                            borderRadius="5px"
-                          />
-                        );
-                      })}
+            {printReviewList &&
+              printReviewList.map((review) => {
+                return (
+                  <Box key={review.id} mb="1.5rem">
+                    <Flex justifyContent="space-between">
+                      <Text textStyle="ss_wb">{review.nickname}</Text>
+                      <PrintRatingStars
+                        rate={review.rate}
+                        starBoxSize="12px"
+                        alignItems="center"
+                      />
                     </Flex>
-                  </Flex>
-                  <Divider />
-                </Box>
-              ))
-            }
+                    <Text textStyle="ss_wn_cg700">
+                      {formatDate(review.created)}
+                    </Text>
+                    <Flex flexDirection="column" mt="1rem" mb="1.5rem">
+                      <Text
+                        textOverflow="ellipsis"
+                        overflow="hidden"
+                        whiteSpace="nowrap"
+                        textStyle="md"
+                      >
+                        {review.content}
+                      </Text>
+                      <Flex mt="1.3rem" gap=".6rem">
+                        {review.reviewimageSet.map((img, i) => {
+                          return (
+                            <Img
+                              key={i}
+                              src={`${img.url}`}
+                              alt="리뷰 이미지"
+                              w="80px"
+                              h="80px"
+                              borderRadius="5px"
+                            />
+                          );
+                        })}
+                      </Flex>
+                    </Flex>
+                    <Divider />
+                  </Box>
+                );
+              })}
           </Box>
           {/* e: 리뷰 리스트 */}
           {/* s: 페이지 버튼 */}
           <Flex justifyContent="center" h="5vh" mb="1rem">
-            {!(currentPage <= 1) && (
-              <Button colorScheme="transparent" border="none" w="fit-content">
+            {selectedAllPage !== 0 && (
+              <Button
+                colorScheme="transparent"
+                border="none"
+                w="fit-content"
+                onClick={() => {
+                  setSelectedAllPage((cur) => cur - 1);
+                }}
+              >
                 <RightArrowIcon boxSize="10px" transform="scaleX(-1)" />
               </Button>
             )}
@@ -262,29 +294,34 @@ function ReviewSection({
               w="60%"
             >
               {/* pageButton */}
-              {totalPage &&
-                Array(totalPage)
-                  .fill(0)
-                  .map((_, i) => (
-                    <Button
-                      variant={
-                        currentPage === i + 1
-                          ? 'activePageButton'
-                          : 'pageButton'
-                      }
-                      key={i}
-                      p="0"
-                      onClick={() => {
-                        console.log('rederring');
-                        setCurrentPage(i + 1);
-                      }}
-                    >
-                      {i + 1}
-                    </Button>
-                  ))}
+              {printPageGroup[selectedAllPage].map((pageNum, i) => {
+                return (
+                  <Button
+                    variant={
+                      currentPage === pageNum
+                        ? 'activePageButton'
+                        : 'pageButton'
+                    }
+                    key={i}
+                    p="0"
+                    onClick={() => {
+                      setCurrentPage(pageNum);
+                    }}
+                  >
+                    {pageNum}
+                  </Button>
+                );
+              })}
             </Flex>
-            {!(currentPage === totalPage) && (
-              <Button colorScheme="transparent" border="none" w="fit-content">
+            {selectedAllPage !== printPageGroup.length - 1 && (
+              <Button
+                colorScheme="transparent"
+                border="none"
+                w="fit-content"
+                onClick={() => {
+                  setSelectedAllPage((cur) => cur + 1);
+                }}
+              >
                 <RightArrowIcon boxSize="10px" />
               </Button>
             )}

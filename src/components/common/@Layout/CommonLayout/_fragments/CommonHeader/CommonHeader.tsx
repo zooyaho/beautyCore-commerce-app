@@ -1,4 +1,6 @@
-import { Box, Button, Flex, IconButton, Image } from '@chakra-ui/react';
+import Link from 'next/link';
+
+import { Button, Flex, IconButton, Image, Text } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 
 import MenuIcon from '@components/common/@Icons/System/Menu';
@@ -53,7 +55,11 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
         <Button // 장바구니 버튼
           variant="transparentButton"
         >
-          <HeaderCartIcon />
+          <Link href="/cart">
+            <Text as="a">
+              <HeaderCartIcon />
+            </Text>
+          </Link>
         </Button>
       </Flex>
       <CommonHeaderDrawer

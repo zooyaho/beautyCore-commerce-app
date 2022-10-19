@@ -15,13 +15,18 @@ const SocialButton = ({ data, size }: SocialButtonProps) => {
   const width = size !== 'sm' ? '100%' : '45px';
   const maxWidth = size !== 'sm' ? '310px' : '45px';
   const left = size !== 'sm' ? '27px' : '9px';
+
+  const callbackHandler = () => {
+    window.location.href = data.link;
+  };
+
   return (
     <Button
       colorScheme={data.social}
       w={width}
       h="45px"
       maxW={maxWidth}
-      onClick={() => window.open(data.link)}
+      onClick={callbackHandler}
       borderRadius="4px"
     >
       <Flex alignItems="center" justifyContent="center">

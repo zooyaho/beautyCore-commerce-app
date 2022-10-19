@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 import { CONFIG } from '@config';
+
 import { apiLogger } from '@utils/apiLogger';
 import { getToken } from '@utils/localStorage/token';
 import styledConsole from '@utils/styledConsole';

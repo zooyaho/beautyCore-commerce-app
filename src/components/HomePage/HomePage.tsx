@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { ChakraProps } from '@chakra-ui/react';
+
+import { ProductTag } from '@apis/product/ProductAPi.type';
+
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import HomeSection1 from './_fragments/HomeSection1';
@@ -10,9 +14,11 @@ import HomeSection5 from './_fragments/HomeSection5';
 import HomeSection6 from './_fragments/HomeSection6';
 import HomeSection7 from './_fragments/HomeSection7';
 
-// interface HomePageProps extends ChakraProps { }
+interface HomePageProps extends ChakraProps {
+  productTagData: ProductTag[];
+}
 
-function HomePage() {
+function HomePage({ productTagData }: HomePageProps) {
   return (
     <>
       <HomeSection1 />
@@ -20,7 +26,7 @@ function HomePage() {
       <HomeSection3 />
       <HomeSection4 />
       <HomeSection5 />
-      <HomeSection6 />
+      <HomeSection6 productTagData={productTagData} />
       <HomeSection7 />
       <ScrollToTop />
     </>

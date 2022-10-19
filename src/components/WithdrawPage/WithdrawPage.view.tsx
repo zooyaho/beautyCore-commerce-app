@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
@@ -6,6 +5,7 @@ import {
   Box,
   BoxProps,
   Button,
+  ChakraProps,
   Container,
   Divider,
   Flex,
@@ -20,13 +20,14 @@ import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
 
+import WithdrawDoneModal from './_fragments/WithdrawDoneModal';
 import { FormDataType } from './_hooks/useFormValidate';
 import { WITHDRAWAL_REASON } from './withdrawPage.data';
 
-// interface WithdrawPageViewProps extends ChakraProps { }
-
-interface FormPageProps extends BoxProps {
+interface WithdrawPageViewProps extends ChakraProps, BoxProps {
   formData: UseFormReturn<FormDataType>;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 function WithdrawPageView({
@@ -36,8 +37,10 @@ function WithdrawPageView({
     formState: { errors },
   },
   onSubmit,
+  isOpen,
+  onClose,
   ...basisProps
-}: FormPageProps) {
+}: WithdrawPageViewProps) {
   const { REJOIN, LOW_PURCHASE_FREQ, DISSATISFACTION, USE_OTHER_BRANDS, ETC } =
     WITHDRAWAL_REASON;
 
@@ -138,7 +141,7 @@ function WithdrawPageView({
             />
           </FormHelper>
         </Container>
-        {/* Submit Button */}
+        {/* Button */}
         <Flex mt="5rem" pb="2rem" mx="1rem" gap=".7rem">
           <Button
             type="button"
@@ -146,13 +149,12 @@ function WithdrawPageView({
             flexGrow="1"
             variant="whiteButton"
           >
-            {/* 클릭 시 리셋이 아니라 홈으로 가야하나? 확인해봐야 할덧 */}
             취소
           </Button>
           <Button type="submit" variant="primaryButton" flexGrow="1">
-            {/* <Link href="/intro-login">탈퇴하기</Link> */}
             탈퇴하기
           </Button>
+          <WithdrawDoneModal isOpen={isOpen} onClose={onClose} />
         </Flex>
       </Box>
     </Box>

@@ -4,12 +4,10 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerHeader,
   DrawerOverlay,
   Flex,
   Spacer,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
 
 import {
@@ -17,18 +15,14 @@ import {
   PlusCartButtonIcon,
 } from 'generated/icons/MyIcons';
 
-function CartDrawer() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface CartDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   return (
     <>
-      <Flex flexDirection="column" gap=".7rem">
-        <Button variant="whiteButton" size="lg">
-          장바구니
-        </Button>
-        <Button variant="primaryButton" size="lg" onClick={onOpen}>
-          바로구매
-        </Button>
-      </Flex>
       <Drawer placement={'bottom'} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent borderRadius="20px 20px 0px 0px">

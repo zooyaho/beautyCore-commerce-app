@@ -15,6 +15,6 @@ export async function getProductList(cursor: string): Promise<ProductList> {
   return data;
 }
 export async function getProductTag(): Promise<ProductTag> {
-  const { data } = await instance.get(`/v1/product/tag/`);
+  const { data } = await instance.get(`/v1/product/tag/?tag_id=1`);
   return data;
 }

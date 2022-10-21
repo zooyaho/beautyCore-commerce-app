@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -15,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 import { getProductList } from '@apis/product/ProductApi';
+import { cartSliceAction } from '@features/cart/cartSlice';
 
 import CartDrawer from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
 import ScrollToTop from '@components/common/ScrollToTop';
@@ -65,15 +67,11 @@ function ProductListPage({ productListData }: ProductListPageProps) {
   }, [productListDataQuery, productListData.results]);
 
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const [cartAddProduct, setCartAddProduct] = useState<Product>();
+  const dispatch = useDispatch();
+
   return (
     <>
-      <InfiniteScroll
-        loadMore={() => {
-          fetchNextPage();
-        }}
-        hasMore={hasNextPage}
-      >
+      <InfiniteScroll loadMore={() => fetchNextPage()} hasMore={hasNextPage}>
         <Container pt={LAYOUT.HEADER.HEIGHT} pb="1.5rem" bg="gray.100">
           {uniqueProductList.map((product) => {
             return (
@@ -115,22 +113,26 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                   </Flex>
                 </Box>
                 <Flex pt="1rem" pb="2rem" gap=".7rem" px="1.5rem">
-                  <Button
-                    variant="primaryButton"
-                    fontSize="md"
-                    flexGrow="1"
-                    onClick={() => {
-                      setCartAddProduct(product);
-                      onOpen();
-                    }}
-                  >
-                    바로구매
+                  <Button variant="primaryButton" fontSize="md" flexGrow="1">
+                    <Link href="/cart">
+                      <Text as="a">바로구매</Text>
+                    </Link>
                   </Button>
                   <Button
                     variant="whiteButton"
                     fontSize="md"
                     flexGrow="1"
-                    onClick={onOpen}
+                    onClick={() => {
+                      dispatch(
+                        cartSliceAction.addProductList({
+                          productId: product.id,
+                          name: product.name,
+                          price: product.price,
+                          productQuantity: 1,
+                        }),
+                      );
+                      onOpen();
+                    }}
                   >
                     장바구니
                   </Button>
@@ -140,11 +142,7 @@ function ProductListPage({ productListData }: ProductListPageProps) {
           })}
           <ScrollToTop />
         </Container>
-        <CartDrawer
-          isOpen={isOpen}
-          onClose={onClose}
-          cartAddProduct={cartAddProduct}
-        />
+        <CartDrawer isOpen={isOpen} onClose={onClose} />
       </InfiniteScroll>
     </>
   );

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import {
   Box,
   Button,
+  Center,
   ChakraProps,
   Container,
   Flex,
@@ -114,8 +115,10 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                 </Box>
                 <Flex pt="1rem" pb="2rem" gap=".7rem" px="1.5rem">
                   <Button variant="primaryButton" fontSize="md" flexGrow="1">
-                    <Link href="/cart">
-                      <Text as="a">바로구매</Text>
+                    <Link href="/order">
+                      <Center as="a" w="100%" h="100%">
+                        바로구매
+                      </Center>
                     </Link>
                   </Button>
                   <Button

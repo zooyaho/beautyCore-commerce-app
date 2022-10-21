@@ -31,7 +31,6 @@ const ReviewWritePage = () => {
       },
     },
   });
-  console.log(userData?.id);
   const { mutateAsync: ReasonMutate } = usePostWithdrawalReasonMutation();
 
   const onSubmit = handleSubmit(async ({ reason, additionalReason }) => {

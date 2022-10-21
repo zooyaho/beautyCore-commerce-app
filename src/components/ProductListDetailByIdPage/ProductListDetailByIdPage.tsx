@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 
 import {
@@ -98,8 +99,10 @@ function ProductListDetailByIdPage({
             <Button variant="whiteButton" size="lg" onClick={onOpen}>
               장바구니
             </Button>
-            <Button variant="primaryButton" size="lg" onClick={onOpen}>
-              바로구매
+            <Button variant="primaryButton" size="lg">
+              <Link href="/cart">
+                <Text as="a">바로구매</Text>
+              </Link>
             </Button>
           </Flex>
           <CartDrawer isOpen={isOpen} onClose={onClose} />

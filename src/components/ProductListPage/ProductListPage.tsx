@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -15,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 import { getProductList } from '@apis/product/ProductApi';
+import { cartSliceAction } from '@features/cart/cartSlice';
 
 import CartDrawer from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
 import ScrollToTop from '@components/common/ScrollToTop';
@@ -22,7 +24,7 @@ import ScrollToTop from '@components/common/ScrollToTop';
 import { LAYOUT } from '@constants/layout';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { ProductList } from '../../apis/product/ProductAPi.type';
+import { Product, ProductList } from '../../apis/product/ProductAPi.type';
 
 import { RatingStarIcon } from 'generated/icons/MyIcons';
 
@@ -31,8 +33,11 @@ interface ProductListPageProps extends ChakraProps {
 }
 
 function ProductListPage({ productListData }: ProductListPageProps) {
-  const { cursor } = productListData;
   const router = useRouter();
+  const { cursor } = productListData;
+  const [uniqueProductList, setUniqueProductList] = useState<Product[]>(
+    productListData.results,
+  );
   const {
     data: productListDataQuery,
     hasNextPage,
@@ -46,17 +51,29 @@ function ProductListPage({ productListData }: ProductListPageProps) {
       getNextPageParam: (lastPage) => lastPage.cursor || undefined,
     },
   );
+
+  useEffect(() => {
+    const addProductList = productListData.results;
+    if (productListDataQuery) {
+      productListDataQuery.pages.forEach((page) => {
+        addProductList.push(...page.results);
+      });
+      setUniqueProductList(
+        addProductList.filter((product, index) => {
+          return addProductList.indexOf(product) === index;
+        }),
+      );
+    }
+  }, [productListDataQuery, productListData.results]);
+
   const { onOpen, isOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
+
   return (
     <>
-      <InfiniteScroll
-        loadMore={() => {
-          fetchNextPage();
-        }}
-        hasMore={hasNextPage}
-      >
+      <InfiniteScroll loadMore={() => fetchNextPage()} hasMore={hasNextPage}>
         <Container pt={LAYOUT.HEADER.HEIGHT} pb="1.5rem" bg="gray.100">
-          {productListData.results.map((product) => {
+          {uniqueProductList.map((product) => {
             return (
               <Box
                 key={product.id}
@@ -95,21 +112,27 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                     ))}
                   </Flex>
                 </Box>
-                {/* </Box> */}
                 <Flex pt="1rem" pb="2rem" gap=".7rem" px="1.5rem">
-                  <Button
-                    variant="primaryButton"
-                    fontSize="md"
-                    flexGrow="1"
-                    onClick={onOpen}
-                  >
-                    바로구매
+                  <Button variant="primaryButton" fontSize="md" flexGrow="1">
+                    <Link href="/cart">
+                      <Text as="a">바로구매</Text>
+                    </Link>
                   </Button>
                   <Button
                     variant="whiteButton"
                     fontSize="md"
                     flexGrow="1"
-                    onClick={onOpen}
+                    onClick={() => {
+                      dispatch(
+                        cartSliceAction.addProductList({
+                          productId: product.id,
+                          name: product.name,
+                          price: product.price,
+                          productQuantity: 1,
+                        }),
+                      );
+                      onOpen();
+                    }}
                   >
                     장바구니
                   </Button>
@@ -117,57 +140,6 @@ function ProductListPage({ productListData }: ProductListPageProps) {
               </Box>
             );
           })}
-          {productListDataQuery &&
-            productListDataQuery.pages.map((productList) =>
-              productList.results.map((product) => (
-                <Box
-                  key={product.id}
-                  boxShadow="0 0 10px #1A1A1A1A"
-                  borderRadius="20px"
-                  my="2rem"
-                  bg="white"
-                  onClick={() => router.push(`/product-list/${product.id}`)}
-                >
-                  <Img src={product.thumbnail} alt="상품이미지" />
-                  <Flex flexDirection="column" px="1.5rem" pt="1.5rem">
-                    <Flex gap="5px">
-                      <Text textStyle="sm_wb">{product.name}</Text>
-                      <Text textStyle="sm_wn_cg600">{product.capacity}ml</Text>
-                    </Flex>
-                    <Flex mt=".7rem">
-                      <Text textStyle="sl_wb_cp">{product.price}</Text>
-                      <Text as="span" textStyle="md">
-                        원
-                      </Text>
-                    </Flex>
-                    <Flex alignItems="center" gap="3px">
-                      <RatingStarIcon color="primary.500" />
-                      <Text textStyle="sm_wb">{product.avgRate}</Text>
-                      <Text textStyle="sm_wn_cg700">
-                        (리뷰 {product.reviewCount}개)
-                      </Text>
-                    </Flex>
-                    <Flex textStyle="sm_wn_cg700" gap="5px" mt="1rem">
-                      {product.tags.map((tag) => (
-                        <Text key={tag.id}>#{tag.name}</Text>
-                      ))}
-                    </Flex>
-                    <Flex pt="1rem" pb="2rem" gap=".7rem">
-                      <Button
-                        variant="primaryButton"
-                        fontSize="md"
-                        flexGrow="1"
-                      >
-                        <Link href="/">바로구매</Link>
-                      </Button>
-                      <Button variant="whiteButton" fontSize="md" flexGrow="1">
-                        <Link href="/">장바구니</Link>
-                      </Button>
-                    </Flex>
-                  </Flex>
-                </Box>
-              )),
-            )}
           <ScrollToTop />
         </Container>
         <CartDrawer isOpen={isOpen} onClose={onClose} />

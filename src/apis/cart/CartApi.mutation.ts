@@ -2,7 +2,7 @@ import { MutationHookParams } from '@apis/type';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { postCart } from './CartApi';
+import { postCart, postCartItem } from './CartApi';
 
 export const usePostCartMutation = (
   params?: MutationHookParams<typeof postCart>,
@@ -12,9 +12,9 @@ export const usePostCartMutation = (
   });
 };
 export const usePostCartItemMutation = (
-  params?: MutationHookParams<typeof postCart>,
+  params?: MutationHookParams<typeof postCartItem>,
 ) => {
-  return useMutation(postCart, {
+  return useMutation(postCartItem, {
     ...params?.options,
   });
 };

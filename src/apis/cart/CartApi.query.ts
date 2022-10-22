@@ -9,19 +9,19 @@ export const useGetCart = (userId: number) => {
   });
   return data?.results;
 };
-export const usePostCart = (userId: number) => {
-  const { data } = useQuery(['cart'], () => postCart(userId), {
-    enabled: !!userId,
-  });
-  return data?.results;
-};
-export const usePostCartItem = (body: CartItem) => {
-  const { data } = useQuery(
-    ['cart-item', body.productId],
-    () => postCartItem(body),
-    {
-      enabled: !!body.cartId,
-    },
-  );
-  return data?.results;
-};
+// export const usePostCart = (userId: number) => {
+//   const { data } = useQuery(['cart'], () => postCart(userId), {
+//     enabled: !!userId,
+//   });
+//   return data?.results;
+// };
+// export const usePostCartItem = (body: CartItem) => {
+//   const { data } = useQuery(
+//     ['cart-item', body.productId],
+//     () => postCartItem(body),
+//     {
+//       enabled: !!body.cartId,
+//     },
+//   );
+//   return data?.results;
+// };

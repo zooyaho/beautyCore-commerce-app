@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
@@ -13,7 +13,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import {
+  usePostCartItemMutation,
+  usePostCartMutation,
+} from '@apis/cart/CartApi.mutation';
+import { useGetCart } from '@apis/cart/CartApi.query';
+import { Cart } from '@apis/cart/CartApi.type';
+import useAppStore from '@features/useAppStore';
+
 import { LAYOUT } from '@constants/layout';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
   CloseButtonIcon,
@@ -21,10 +30,48 @@ import {
   PlusCartButtonIcon,
 } from 'generated/icons/MyIcons';
 
-// interface CartPageProps extends ChakraProps { }
+interface CartPageProps {
+  userId?: number;
+}
 
-function CartPage() {
-  // let content;
+function CartPage({ userId }: CartPageProps) {
+  const cartData = useGetCart(userId as number);
+  const { mutate: postCartMutate } = usePostCartMutation();
+  const { mutate: postCartItemMutate } = usePostCartItemMutation();
+
+  const queryClient = useQueryClient();
+  const [cartId, setCartId] = useState<number>();
+  const cartProductList = useAppStore((store) => store.CART.productList);
+
+  useEffect(() => {
+    try {
+      if (!cartData && userId) {
+        postCartMutate(userId);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    const cartQueryData = queryClient.getQueryData(['cart']) as Cart[];
+    if (cartQueryData) setCartId(cartQueryData[0].id);
+  }, [cartData, postCartMutate, queryClient, userId]);
+
+  useEffect(() => {
+    if (cartId)
+      cartProductList.forEach((product) => {
+        postCartItemMutate({
+          productId: product.productId,
+          cartId: cartId,
+          count: product.productQuantity,
+        });
+      });
+  }, [cartId, cartProductList, postCartItemMutate]);
+
+  // const postCartId = useMemo(() => {
+  // if (!cartData && userId) {
+  //   console.log('cart post api 호출!!');
+  //   return postCartMutate(userId);
+  // }
+  // }, [cartData, postCartMutate, userId, queryClient]);
 
   /* 
   <Center minH="65vh">

@@ -1,6 +1,6 @@
 export interface Cart {
   id: number;
-  cartitem: string;
+  cartitem: CartItem[];
   userId: number;
 }
 export interface CartList {
@@ -10,7 +10,12 @@ export interface CartList {
   results: Cart[];
 }
 export interface CartItem {
+  id: number;
   productId: number;
   cartId: number;
+  count: number;
+}
+export interface CartItemId {
+  id: number;
   count: number;
 }

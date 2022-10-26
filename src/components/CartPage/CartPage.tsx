@@ -14,6 +14,8 @@ import {
 } from '@chakra-ui/react';
 
 import {
+  useGetCartMutation,
+  usePatchCartItemMutation,
   usePostCartItemMutation,
   usePostCartMutation,
 } from '@apis/cart/CartApi.mutation';
@@ -36,43 +38,106 @@ interface CartPageProps {
 
 function CartPage({ userId }: CartPageProps) {
   const cartData = useGetCart(userId as number);
+  // const { mutate: getCartMutate } = useGetCartMutation();
   const { mutate: postCartMutate } = usePostCartMutation();
-  const { mutate: postCartItemMutate } = usePostCartItemMutation();
+  const { mutateAsync: postCartItemMutate } = usePostCartItemMutation();
+  const { mutateAsync: patchCartItemMutate } = usePatchCartItemMutation();
 
   const queryClient = useQueryClient();
   const [cartId, setCartId] = useState<number>();
   const cartProductList = useAppStore((store) => store.CART.productList);
+  const cartQueryData = queryClient.getQueryData(['cart']) as Cart[];
+  console.log('store cart list: ', cartProductList);
 
   useEffect(() => {
     try {
-      if (!cartData && userId) {
-        postCartMutate(userId);
+      // console.log(
+      //   'cartData, userId, cartQueryData[0].cartitem: ',
+      //   cartData,
+      //   userId,
+      //   cartQueryData[0].cartitem,
+      // );
+      if (!cartData && !cartQueryData[0].cartitem.length) {
+        console.log('post cart 실행!!!!!!!!!!!');
+        if (userId) postCartMutate(userId);
+        cartProductList.forEach((product) => {
+          console.log(product);
+          postCartItemMutate({
+            productId: product.productId,
+            cartId: cartId,
+            count: product.productQuantity,
+          });
+        });
       }
     } catch (e) {
       console.error(e);
     }
-    const cartQueryData = queryClient.getQueryData(['cart']) as Cart[];
     if (cartQueryData) setCartId(cartQueryData[0].id);
-  }, [cartData, postCartMutate, queryClient, userId]);
+  }, [
+    cartData,
+    cartId,
+    cartProductList,
+    cartQueryData,
+    postCartItemMutate,
+    postCartMutate,
+    userId,
+  ]);
 
   useEffect(() => {
-    if (cartId)
-      cartProductList.forEach((product) => {
+    // 새로운 제품 장바구니에 추가(post)
+    const addPostCartRes = cartProductList.filter((storeP) => {
+      let flag = true;
+      cartQueryData[0].cartitem.forEach((queryP) => {
+        if (queryP.productId === storeP.productId) flag = false;
+      });
+      return flag;
+    });
+    console.log('🔥addPostCartRes: ', addPostCartRes);
+    if (addPostCartRes.length) {
+      console.log('post cart item 실행(추가)');
+      addPostCartRes.forEach((product) => {
         postCartItemMutate({
           productId: product.productId,
           cartId: cartId,
           count: product.productQuantity,
         });
       });
-  }, [cartId, cartProductList, postCartItemMutate]);
-
-  // const postCartId = useMemo(() => {
-  // if (!cartData && userId) {
-  //   console.log('cart post api 호출!!');
-  //   return postCartMutate(userId);
-  // }
-  // }, [cartData, postCartMutate, userId, queryClient]);
-
+    }
+    // cart에 담겨있는 제품은 수량 비교해서 업데이트(patch)
+    const updatePatchCartRes = cartProductList.filter((storeP) => {
+      let flag = false;
+      cartQueryData[0].cartitem.forEach((queryP) => {
+        if (
+          queryP.productId === storeP.productId &&
+          storeP.productQuantity !== queryP.count
+        )
+          flag = true;
+      });
+      return flag;
+    });
+    const addCartProductId = updatePatchCartRes.map((updateP) => {
+      const queryP = cartQueryData[0].cartitem.find((queryP) => {
+        return queryP.productId === updateP.productId;
+      });
+      return { ...updateP, id: queryP?.id };
+    });
+    console.log('🤮updatePatchCartRes: ', addCartProductId);
+    if (addCartProductId.length) {
+      console.log('patch cart item 실행(업데이트)');
+      addCartProductId.forEach((product) => {
+        patchCartItemMutate({
+          id: product.id,
+          count: product.productQuantity,
+        });
+      });
+    }
+  }, [
+    cartId,
+    cartProductList,
+    cartQueryData,
+    patchCartItemMutate,
+    postCartItemMutate,
+  ]);
   /* 
   <Center minH="65vh">
       <Flex pt={LAYOUT.HEADER.HEIGHT} flexDirection="column" w="50%">

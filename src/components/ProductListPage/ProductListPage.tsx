@@ -108,9 +108,10 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                     </Text>
                   </Flex>
                   <Flex textStyle="sm_wn_cg700" gap="5px" mt="1rem">
-                    {product.tags.map((tag) => (
-                      <Text key={tag.id}>#{tag.name}</Text>
-                    ))}
+                    {product.tag &&
+                      product.tag.map((tag) => (
+                        <Text key={tag.id}>#{tag.name}</Text>
+                      ))}
                   </Flex>
                 </Box>
                 <Flex pt="1rem" pb="2rem" gap=".7rem" px="1.5rem">

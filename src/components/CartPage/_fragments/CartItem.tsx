@@ -33,7 +33,7 @@ function CartItem({ productId }: CartItemProps) {
   const productQuantity = useMemo(() => {
     if (cartQueryData) {
       return cartQueryData?.[0].cartitem.find(
-        (queryP) => queryP.productId === productId,
+        (product) => product.productId === productId,
       )?.count;
     }
   }, [cartQueryData, productId]);

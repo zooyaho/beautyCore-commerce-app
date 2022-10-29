@@ -1,6 +1,6 @@
 import instance from '@apis/_axios/instance';
 
-import { CartItem, CartItemId, CartList } from './CartApi.type';
+import { CartCount, CartItem, CartItemId, CartList } from './CartApi.type';
 
 export async function getCart(userId: number): Promise<CartList> {
   const { data } = await instance(`/v1/cart/?user_id=${userId}`);
@@ -15,6 +15,10 @@ export async function postCart(
     url: `/v1/cart/`,
     data: { userId },
   });
+  return data;
+}
+export async function getCartItem(id: number): Promise<CartCount> {
+  const { data } = await instance(`/v1/cart/item/${id}/`);
   return data;
 }
 export async function postCartItem(body: Partial<CartItem>) {

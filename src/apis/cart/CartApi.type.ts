@@ -15,7 +15,9 @@ export interface CartItem {
   cartId: number;
   count: number;
 }
-export interface CartItemId {
-  id: number;
+export interface CartCount {
   count: number;
+}
+export interface CartItemId extends CartCount {
+  id: number;
 }

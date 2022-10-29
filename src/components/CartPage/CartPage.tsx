@@ -6,6 +6,7 @@ import {
   Button,
   Center,
   Checkbox,
+  CircularProgress,
   Container,
   Flex,
   Text,
@@ -41,6 +42,7 @@ function CartPage({ userId }: CartPageProps) {
   const [cartId, setCartId] = useState<number>();
   const cartProductList = useAppStore((store) => store.CART.productList);
   const cartQueryData = queryClient.getQueryData(['cart']) as Cart[];
+  console.log('cartQueryData: ', cartQueryData);
   console.log('store cart list: ', cartProductList);
 
   useEffect(() => {
@@ -153,11 +155,11 @@ function CartPage({ userId }: CartPageProps) {
       </Flex>
       <Box bg="gray.200" pt=".7rem" pb="1.4rem">
         {/* item */}
-        {cartQueryData ? (
-          cartQueryData[0].cartitem.map((product) => {
-            return <CartItem key={product.id} productId={product.productId} />;
-          })
-        ) : (
+        {cartQueryData === undefined ? (
+          <Center h="100vh">
+            <CircularProgress isIndeterminate color="primary.500" />
+          </Center>
+        ) : cartQueryData.length === 0 ? (
           <Center minH="65vh">
             <Flex pt={LAYOUT.HEADER.HEIGHT} flexDirection="column" w="50%">
               <Text textAlign="center" textStyle="sm_wb">
@@ -169,6 +171,10 @@ function CartPage({ userId }: CartPageProps) {
               </Button>
             </Flex>
           </Center>
+        ) : (
+          cartQueryData[0].cartitem.map((product) => {
+            return <CartItem key={product.id} productQueryData={product} />;
+          })
         )}
         {/* item */}
       </Box>

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
@@ -11,7 +11,10 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { Cart } from '@apis/cart/CartApi.type';
+import { usePatchCartItemMutation } from '@apis/cart/CartApi.mutation';
+import { useGetCartItem } from '@apis/cart/CartApi.query';
+import { Cart, CartItem as CartItemType } from '@apis/cart/CartApi.type';
+import { ProductDetail } from '@apis/product/ProductAPi.type';
 import { useGetProduct } from '@apis/product/ProductApi.query';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -23,20 +26,46 @@ import {
 } from 'generated/icons/MyIcons';
 
 interface CartItemProps {
-  productId: number;
+  productQueryData: CartItemType;
 }
 
-function CartItem({ productId }: CartItemProps) {
-  const { data: productData } = useGetProduct(productId);
+function CartItem({ productQueryData }: CartItemProps) {
+  const { data: productData } = useGetProduct(productQueryData.productId);
+  const { data: printCount } = useGetCartItem(productQueryData.id);
   const queryClient = useQueryClient();
-  const cartQueryData: Cart[] | undefined = queryClient.getQueryData(['cart']);
-  const productQuantity = useMemo(() => {
-    if (cartQueryData) {
-      return cartQueryData?.[0].cartitem.find(
-        (product) => product.productId === productId,
-      )?.count;
+  const { mutate: patchCartItemMutate } = usePatchCartItemMutation({
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['cart', productQueryData.id]);
+        queryClient.invalidateQueries(['cart']);
+      },
+    },
+  });
+
+  const incrementeQuantityHandler = () => {
+    if (productQueryData) {
+      console.log('👾 count: ', printCount?.count, productQueryData.count);
+      patchCartItemMutate({
+        id: productQueryData.id,
+        count: productQueryData.count + 1,
+      });
+      queryClient.setQueryData(['cart', productQueryData.id], {
+        count: productQueryData.count + 1,
+      });
     }
-  }, [cartQueryData, productId]);
+  };
+
+  const decrementQuantityHandler = () => {
+    if (productQueryData && productQueryData.count > 1) {
+      patchCartItemMutate({
+        id: productQueryData.id,
+        count: productQueryData.count - 1,
+      });
+      queryClient.setQueryData(['cart', productQueryData.id], {
+        count: productQueryData.count - 1,
+      });
+    }
+  };
 
   return (
     <>
@@ -77,7 +106,12 @@ function CartItem({ productId }: CartItemProps) {
                     borderRadius="5px"
                     h="25px"
                   >
-                    <Button variant="transparentButton" w="1.5rem" h="1.5rem">
+                    <Button
+                      variant="transparentButton"
+                      w="1.5rem"
+                      h="1.5rem"
+                      onClick={decrementQuantityHandler}
+                    >
                       <MinusCartButtonIcon boxSize="25px" />
                     </Button>
                     <Text
@@ -88,15 +122,22 @@ function CartItem({ productId }: CartItemProps) {
                       borderLeft="1px solid #EAECF0"
                       borderRight="1px solid #EAECF0"
                     >
-                      {productQuantity}
+                      {printCount && printCount.count}
                     </Text>
-                    <Button variant="transparentButton" w="1.5rem" h="1.5rem">
+                    <Button
+                      variant="transparentButton"
+                      w="1.5rem"
+                      h="1.5rem"
+                      onClick={incrementeQuantityHandler}
+                    >
                       <PlusCartButtonIcon boxSize="25px" />
                     </Button>
                   </Flex>
                   <Spacer />
                   <Text textStyle="sm_wb_cg600">
-                    {productQuantity && productQuantity * productData.price}원
+                    {productQueryData &&
+                      productQueryData.count * productData.price}
+                    원
                   </Text>
                 </Flex>
               </Box>

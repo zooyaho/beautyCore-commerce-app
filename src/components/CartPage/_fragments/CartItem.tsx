@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -12,10 +12,10 @@ import {
 
 import { usePatchCartItemMutation } from '@apis/cart/CartApi.mutation';
 import { useGetCartItem } from '@apis/cart/CartApi.query';
-import { Cart, CartItem as CartItemType } from '@apis/cart/CartApi.type';
-import { ProductDetail } from '@apis/product/ProductAPi.type';
+import { CartItem as CartItemType } from '@apis/cart/CartApi.type';
 import { useGetProduct } from '@apis/product/ProductApi.query';
-import { CheckedCartItem } from '@features/cart/cartSlice';
+import { cartSliceAction } from '@features/cart/cartSlice';
+import useAppStore from '@features/useAppStore';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -44,10 +44,11 @@ function CartItem({ productQueryData, index }: CartItemProps) {
       },
     },
   });
+  const dispatch = useDispatch();
+  const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
 
   const incrementeQuantityHandler = () => {
     if (productQueryData) {
-      console.log('👾 count: ', printCount?.count, productQueryData.count);
       patchCartItemMutate({
         id: productQueryData.id,
         count: productQueryData.count + 1,
@@ -55,6 +56,20 @@ function CartItem({ productQueryData, index }: CartItemProps) {
       queryClient.setQueryData(['cart', productQueryData.id], {
         count: productQueryData.count + 1,
       });
+      if (productData) {
+        if (
+          checkedCartList.find(
+            (product) => product.productId === productData.id,
+          )
+        ) {
+          dispatch(
+            cartSliceAction.updateCheckedCartList({
+              productId: productData.id,
+              count: productQueryData.count + 1,
+            }),
+          );
+        }
+      }
     }
   };
 
@@ -67,6 +82,20 @@ function CartItem({ productQueryData, index }: CartItemProps) {
       queryClient.setQueryData(['cart', productQueryData.id], {
         count: productQueryData.count - 1,
       });
+      if (productData) {
+        if (
+          checkedCartList.find(
+            (product) => product.productId === productData.id,
+          )
+        ) {
+          dispatch(
+            cartSliceAction.updateCheckedCartList({
+              productId: productData.id,
+              count: productQueryData.count - 1,
+            }),
+          );
+        }
+      }
     }
   };
 

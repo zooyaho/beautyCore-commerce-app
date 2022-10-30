@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -10,6 +11,7 @@ import {
   Container,
   Flex,
   Text,
+  useCheckboxGroup,
 } from '@chakra-ui/react';
 
 import {
@@ -19,6 +21,7 @@ import {
 } from '@apis/cart/CartApi.mutation';
 import { useGetCart } from '@apis/cart/CartApi.query';
 import { Cart } from '@apis/cart/CartApi.type';
+import { CheckedCartItem, cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
 import { LAYOUT } from '@constants/layout';
@@ -38,17 +41,17 @@ function CartPage({ userId }: CartPageProps) {
   const { mutateAsync: postCartItemMutate } = usePostCartItemMutation();
   const { mutateAsync: patchCartItemMutate } = usePatchCartItemMutation();
 
-  const queryClient = useQueryClient();
   const [cartId, setCartId] = useState<number>();
   const cartProductList = useAppStore((store) => store.CART.productList);
+  const queryClient = useQueryClient();
   const cartQueryData = queryClient.getQueryData(['cart']) as Cart[];
-  console.log('cartQueryData: ', cartQueryData);
-  console.log('store cart list: ', cartProductList);
+  // console.log('cartQueryData: ', cartQueryData);
+  // console.log('store cart list: ', cartProductList);
 
   useEffect(() => {
     try {
       if (cartQueryData && !cartData && !cartQueryData[0].cartitem.length) {
-        console.log('post cart 실행!!!!!!!!!!!');
+        // console.log('post cart 실행!!!!!!!!!!!');
         if (userId) postCartMutate(userId);
         cartProductList.forEach((product) => {
           postCartItemMutate({
@@ -84,7 +87,7 @@ function CartPage({ userId }: CartPageProps) {
         });
         return flag;
       });
-      console.log('🔥addPostCartRes: ', addPostCartRes);
+      // console.log('🔥addPostCartRes: ', addPostCartRes);
       if (addPostCartRes.length) {
         console.log('post cart item 실행(추가)');
         addPostCartRes.forEach((product) => {
@@ -113,7 +116,7 @@ function CartPage({ userId }: CartPageProps) {
         });
         return { ...updateP, id: queryP?.id };
       });
-      console.log('🤮updatePatchCartRes: ', addCartProductId);
+      // console.log('🤮updatePatchCartRes: ', addCartProductId);
       if (addCartProductId.length) {
         console.log('patch cart item 실행(업데이트)');
         addCartProductId.forEach((product) => {
@@ -131,6 +134,10 @@ function CartPage({ userId }: CartPageProps) {
     patchCartItemMutate,
     postCartItemMutate,
   ]);
+
+  /* checked cart list */
+  // const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
+  // const [checkedList, setCheckedList] = useState<Boolean[]>([]);
 
   return (
     <>
@@ -172,8 +179,14 @@ function CartPage({ userId }: CartPageProps) {
             </Flex>
           </Center>
         ) : (
-          cartQueryData[0].cartitem.map((product) => {
-            return <CartItem key={product.id} productQueryData={product} />;
+          cartQueryData[0].cartitem.map((product, index) => {
+            return (
+              <CartItem
+                key={product.id}
+                productQueryData={product}
+                index={index}
+              />
+            );
           })
         )}
         {/* item */}

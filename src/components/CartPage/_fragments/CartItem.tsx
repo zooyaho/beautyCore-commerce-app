@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Container,
   Flex,
   Img,
@@ -16,8 +15,11 @@ import { useGetCartItem } from '@apis/cart/CartApi.query';
 import { Cart, CartItem as CartItemType } from '@apis/cart/CartApi.type';
 import { ProductDetail } from '@apis/product/ProductAPi.type';
 import { useGetProduct } from '@apis/product/ProductApi.query';
+import { CheckedCartItem } from '@features/cart/cartSlice';
 
 import { useQueryClient } from '@tanstack/react-query';
+
+import CheckBox from './CheckBox';
 
 import {
   CloseButtonIcon,
@@ -27,9 +29,10 @@ import {
 
 interface CartItemProps {
   productQueryData: CartItemType;
+  index: number;
 }
 
-function CartItem({ productQueryData }: CartItemProps) {
+function CartItem({ productQueryData, index }: CartItemProps) {
   const { data: productData } = useGetProduct(productQueryData.productId);
   const { data: printCount } = useGetCartItem(productQueryData.id);
   const queryClient = useQueryClient();
@@ -72,12 +75,7 @@ function CartItem({ productQueryData }: CartItemProps) {
       {productData && (
         <Container bg="white" mt=".7rem" py="1rem">
           <Flex>
-            <Checkbox
-              alignSelf="flex-start"
-              colorScheme="primary"
-              size="lg"
-              mr=".7rem"
-            />
+            <CheckBox value={index} productId={productQueryData.productId} />
             <Box w="100%">
               <Flex w="100%">
                 <Flex>

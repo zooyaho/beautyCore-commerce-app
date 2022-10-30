@@ -7,14 +7,21 @@ interface Product {
   productQuantity: number;
 }
 
+export interface CheckedCartItem {
+  productId: number;
+  count: number;
+}
+
 export interface CartStateType {
   seletedProduct: Product | null;
   productList: Product[];
+  checkedCartList: CheckedCartItem[];
 }
 
 const initialState: CartStateType = {
   seletedProduct: null,
   productList: [],
+  checkedCartList: [],
 };
 
 export const cartSlice = createSlice({
@@ -36,16 +43,35 @@ export const cartSlice = createSlice({
       );
     },
     updateProductList: (state, action: PayloadAction<Product>) => {
-      console.log(state.productList);
       state.productList.forEach((stateProduct, index) => {
         if (stateProduct.productId === action.payload.productId) {
           state.productList[index] = action.payload;
         }
       });
     },
-    updateSelectedProduct: (state, action: PayloadAction<Product>) => {
-      console.log('1');
-      state.seletedProduct = action.payload;
+    updateCheckedCartList: (state, action: PayloadAction<CheckedCartItem>) => {
+      if (!state.checkedCartList.length) {
+        // initial 추가
+        state.checkedCartList.push(action.payload);
+      } else {
+        state.checkedCartList.forEach((product, index) => {
+          if (product.productId === action.payload.productId) {
+            // 업데이트
+            state.checkedCartList[index] = action.payload;
+          } else {
+            // new 추가
+            state.checkedCartList.push(action.payload);
+          }
+        });
+      }
+    },
+    deleteCheckedCartList: (
+      state,
+      action: PayloadAction<{ productId: number }>,
+    ) => {
+      state.checkedCartList = state.checkedCartList.filter(
+        (product) => product.productId !== action.payload.productId,
+      );
     },
   },
 });

@@ -31,7 +31,10 @@ function SelectSection({ cartQueryData }: SelectSectionProps) {
   const { mutate: deleteCartItemMutate } = useDeleteCartItemMutation();
 
   useEffect(() => {
-    if (checkedCartList.length !== cartQueryData?.length) {
+    if (
+      checkedCartList.length !== cartQueryData?.length ||
+      checkedCartList.length === 0
+    ) {
       setAllChecked.off();
     } else {
       setAllChecked.on();

@@ -154,8 +154,8 @@ function CartPage({ userId }: CartPageProps) {
           <Center h="100vh">
             <CircularProgress isIndeterminate color="primary.500" />
           </Center>
-        ) : cartQueryData.length === 0 ? (
-          <Center minH="65vh">
+        ) : cartItemList?.length === 0 ? (
+          <Center minH="65vh" bgColor="white">
             <Flex pt={LAYOUT.HEADER.HEIGHT} flexDirection="column" w="50%">
               <Text textAlign="center" textStyle="sm_wb">
                 장바구니가 비어있습니다. <br />

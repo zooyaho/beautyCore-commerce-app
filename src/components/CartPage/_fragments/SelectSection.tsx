@@ -1,38 +1,71 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Button, Checkbox, Flex, Text, useBoolean } from '@chakra-ui/react';
+import {
+  Button,
+  Checkbox,
+  Flex,
+  Text,
+  useBoolean,
+  useDisclosure,
+} from '@chakra-ui/react';
 
+import { useDeleteCartItemMutation } from '@apis/cart/CartApi.mutation';
+import { CartItem } from '@apis/cart/CartApi.type';
 import { cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
+import { useQueryClient } from '@tanstack/react-query';
+
+import SelectDeleteModal from './SelectDeleteModal';
+
 interface SelectSectionProps {
-  cartQueryDataLength: number;
+  cartQueryData: CartItem[] | undefined;
 }
 
-function SelectSection({ cartQueryDataLength }: SelectSectionProps) {
+function SelectSection({ cartQueryData }: SelectSectionProps) {
   const [allChecked, setAllChecked] = useBoolean();
   const dispatch = useDispatch();
-  const storeIsAllSelecte = useAppStore((store) => store.CART.allChecked);
+  const queryClient = useQueryClient();
   const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
+  const { mutate: deleteCartItemMutate } = useDeleteCartItemMutation();
 
   useEffect(() => {
-    if (checkedCartList.length !== cartQueryDataLength) {
+    if (checkedCartList.length !== cartQueryData?.length) {
       setAllChecked.off();
     } else {
       setAllChecked.on();
     }
-  }, [
-    cartQueryDataLength,
-    checkedCartList.length,
-    setAllChecked,
-    storeIsAllSelecte,
-  ]);
+  }, [cartQueryData?.length, checkedCartList.length, setAllChecked]);
 
-  const toggleAllSelectedHandler = useCallback(() => {
+  const toggleAllSelectedHandler = () => {
     setAllChecked.toggle();
     dispatch(cartSliceAction.toggleAllChecked(!allChecked));
-  }, [allChecked, dispatch, setAllChecked]);
+  };
+
+  const deleteSelectedListHandler = () => {
+    console.log('checkedCartList: ', checkedCartList); // {"productId": 5,"count": 3}
+    const deleteList = cartQueryData?.filter((product) => {
+      return checkedCartList.find((checkedProduct) => {
+        return product.productId === checkedProduct.productId;
+      });
+    });
+    deleteList?.forEach((product) => {
+      deleteCartItemMutate(product.id, {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['cart', product.id]);
+          queryClient.invalidateQueries(['cart']);
+        },
+      });
+    });
+    checkedCartList.forEach((product) => {
+      dispatch(
+        cartSliceAction.deleteCheckedCartList({ productId: product.productId }),
+      );
+    });
+  };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -49,11 +82,18 @@ function SelectSection({ cartQueryDataLength }: SelectSectionProps) {
           </Text>
         </Checkbox>
       </Flex>
-      <Button variant="transparentButton">
+      <Button
+        variant="transparentButton"
+        onClick={() => {
+          onOpen();
+          deleteSelectedListHandler();
+        }}
+      >
         <Text as="span" textStyle="md">
           선택삭제
         </Text>
       </Button>
+      <SelectDeleteModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 }

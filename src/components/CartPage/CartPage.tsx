@@ -34,8 +34,8 @@ interface CartPageProps {
 function CartPage({ userId }: CartPageProps) {
   const cartData = useGetCart(userId as number);
   const { mutate: postCartMutate } = usePostCartMutation();
-  const { mutateAsync: postCartItemMutate } = usePostCartItemMutation();
-  const { mutateAsync: patchCartItemMutate } = usePatchCartItemMutation();
+  const { mutate: postCartItemMutate } = usePostCartItemMutation();
+  const { mutate: patchCartItemMutate } = usePatchCartItemMutation();
 
   const [cartId, setCartId] = useState<number>();
   const cartProductList = useAppStore((store) => store.CART.productList);
@@ -146,9 +146,7 @@ function CartPage({ userId }: CartPageProps) {
         px="1rem"
         textColor="gray.600"
       >
-        <SelectSection
-          cartQueryDataLength={cartItemList ? cartItemList.length : 0}
-        />
+        <SelectSection cartQueryData={cartItemList} />
       </Flex>
       <Box bg="gray.200" pt=".7rem" pb="1.4rem">
         {/* item */}

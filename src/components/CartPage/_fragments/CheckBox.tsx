@@ -32,8 +32,6 @@ function CheckBox({ value, productId }: CheckBoxProps) {
     if (cartQueryData && allChecked) {
       setIsChecked.on();
       if (count && !isChecked) {
-        // !isChecked => true
-        // dispatch(cartSliceAction.toggleAllChecked(!isChecked));
         dispatch(cartSliceAction.updateCheckedCartList({ productId, count }));
       }
     }

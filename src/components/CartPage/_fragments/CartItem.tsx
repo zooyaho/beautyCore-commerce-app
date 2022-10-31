@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -46,6 +47,7 @@ function CartItem({ productQueryData, index }: CartItemProps) {
   });
   const dispatch = useDispatch();
   const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
+  console.log(checkedCartList);
 
   const incrementeQuantityHandler = () => {
     if (productQueryData) {

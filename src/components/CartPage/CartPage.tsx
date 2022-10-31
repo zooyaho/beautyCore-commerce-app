@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -11,7 +11,7 @@ import {
   Container,
   Flex,
   Text,
-  useCheckboxGroup,
+  useBoolean,
 } from '@chakra-ui/react';
 
 import {
@@ -28,6 +28,7 @@ import { LAYOUT } from '@constants/layout';
 import { useQueryClient } from '@tanstack/react-query';
 
 import CartItem from './_fragments/CartItem';
+import SelectSection from './_fragments/SelectSection';
 import TotalPrice from './_fragments/TotalPrice';
 
 interface CartPageProps {
@@ -136,8 +137,6 @@ function CartPage({ userId }: CartPageProps) {
   ]);
 
   /* checked cart list */
-  // const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
-  // const [checkedList, setCheckedList] = useState<Boolean[]>([]);
 
   return (
     <>
@@ -147,18 +146,7 @@ function CartPage({ userId }: CartPageProps) {
         px="1rem"
         textColor="gray.600"
       >
-        <Flex pb=".7rem">
-          <Checkbox alignSelf="center" colorScheme="primary" size="lg">
-            <Text as="span" textStyle="md">
-              모두선택
-            </Text>
-          </Checkbox>
-        </Flex>
-        <Button variant="transparentButton">
-          <Text as="span" textStyle="md">
-            선택삭제
-          </Text>
-        </Button>
+        <SelectSection />
       </Flex>
       <Box bg="gray.200" pt=".7rem" pb="1.4rem">
         {/* item */}

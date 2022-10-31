@@ -15,12 +15,14 @@ export interface CheckedCartItem {
 export interface CartStateType {
   seletedProduct: Product | null;
   productList: Product[];
+  allChecked: boolean;
   checkedCartList: CheckedCartItem[];
 }
 
 const initialState: CartStateType = {
   seletedProduct: null,
   productList: [],
+  allChecked: false,
   checkedCartList: [],
 };
 
@@ -54,15 +56,16 @@ export const cartSlice = createSlice({
         // initial 추가
         state.checkedCartList.push(action.payload);
       } else {
-        state.checkedCartList.forEach((product, index) => {
-          if (product.productId === action.payload.productId) {
-            // 업데이트
-            state.checkedCartList[index] = action.payload;
-          } else {
-            // new 추가
-            state.checkedCartList.push(action.payload);
-          }
-        });
+        const findIndex = state.checkedCartList.findIndex(
+          (product) => product.productId === action.payload.productId,
+        );
+        if (findIndex !== -1) {
+          // 업데이트
+          state.checkedCartList[findIndex] = action.payload;
+        } else {
+          // new 추가
+          state.checkedCartList.push(action.payload);
+        }
       }
     },
     deleteCheckedCartList: (
@@ -72,6 +75,9 @@ export const cartSlice = createSlice({
       state.checkedCartList = state.checkedCartList.filter(
         (product) => product.productId !== action.payload.productId,
       );
+    },
+    toggleAllChecked: (state, action: PayloadAction<boolean>) => {
+      state.allChecked = action.payload;
     },
   },
 });

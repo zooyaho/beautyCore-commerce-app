@@ -1,10 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Checkbox, useBoolean } from '@chakra-ui/react';
 
 import { Cart } from '@apis/cart/CartApi.type';
 import { cartSliceAction } from '@features/cart/cartSlice';
+import useAppStore from '@features/useAppStore';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -18,7 +19,19 @@ function CheckBox({ value, productId }: CheckBoxProps) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const cartQueryData: Cart[] | undefined = queryClient.getQueryData(['cart']);
-  // const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
+  const allChecked = useAppStore((store) => store.CART.allChecked);
+
+  useEffect(() => {
+    if (cartQueryData && allChecked) {
+      setIsChecked.on();
+      const count = cartQueryData[0].cartitem.find(
+        (product) => product.productId === productId,
+      )?.count;
+      if (count && !isChecked) {
+        dispatch(cartSliceAction.updateCheckedCartList({ productId, count }));
+      }
+    }
+  }, [allChecked, cartQueryData, dispatch, isChecked, productId, setIsChecked]);
 
   const changeCheckedCartHandler = useCallback(() => {
     if (cartQueryData) {
@@ -40,6 +53,7 @@ function CheckBox({ value, productId }: CheckBoxProps) {
       size="lg"
       mr=".7rem"
       value={value}
+      isChecked={isChecked}
       onChange={() => {
         setIsChecked.toggle();
         changeCheckedCartHandler();

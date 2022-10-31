@@ -1,17 +1,14 @@
 import Link from 'next/link';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
   Button,
   Center,
-  Checkbox,
   CircularProgress,
   Container,
   Flex,
   Text,
-  useBoolean,
 } from '@chakra-ui/react';
 
 import {
@@ -21,7 +18,6 @@ import {
 } from '@apis/cart/CartApi.mutation';
 import { useGetCart } from '@apis/cart/CartApi.query';
 import { Cart } from '@apis/cart/CartApi.type';
-import { CheckedCartItem, cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
 import { LAYOUT } from '@constants/layout';
@@ -37,7 +33,6 @@ interface CartPageProps {
 
 function CartPage({ userId }: CartPageProps) {
   const cartData = useGetCart(userId as number);
-  // const { mutate: getCartMutate } = useGetCartMutation();
   const { mutate: postCartMutate } = usePostCartMutation();
   const { mutateAsync: postCartItemMutate } = usePostCartItemMutation();
   const { mutateAsync: patchCartItemMutate } = usePatchCartItemMutation();
@@ -49,10 +44,13 @@ function CartPage({ userId }: CartPageProps) {
   // console.log('cartQueryData: ', cartQueryData);
   // console.log('store cart list: ', cartProductList);
 
+  const cartItemList = useMemo(() => {
+    if (cartQueryData) return cartQueryData[0].cartitem;
+  }, [cartQueryData]);
+
   useEffect(() => {
     try {
-      if (cartQueryData && !cartData && !cartQueryData[0].cartitem.length) {
-        // console.log('post cart 실행!!!!!!!!!!!');
+      if (cartItemList && !cartData && !cartItemList.length) {
         if (userId) postCartMutate(userId);
         cartProductList.forEach((product) => {
           postCartItemMutate({
@@ -73,6 +71,7 @@ function CartPage({ userId }: CartPageProps) {
     cartId,
     cartProductList,
     cartQueryData,
+    cartItemList,
     postCartItemMutate,
     postCartMutate,
     userId,
@@ -83,7 +82,7 @@ function CartPage({ userId }: CartPageProps) {
       // 새로운 제품 장바구니에 추가(post)
       const addPostCartRes = cartProductList.filter((storeP) => {
         let flag = true;
-        cartQueryData[0].cartitem.forEach((queryP) => {
+        cartItemList?.forEach((queryP) => {
           if (queryP.productId === storeP.productId) flag = false;
         });
         return flag;
@@ -102,7 +101,7 @@ function CartPage({ userId }: CartPageProps) {
       // cart에 담겨있는 제품은 수량 비교해서 업데이트(patch)
       const updatePatchCartRes = cartProductList.filter((storeP) => {
         let flag = false;
-        cartQueryData[0].cartitem.forEach((queryP) => {
+        cartItemList?.forEach((queryP) => {
           if (
             queryP.productId === storeP.productId &&
             storeP.productQuantity !== queryP.count
@@ -112,7 +111,7 @@ function CartPage({ userId }: CartPageProps) {
         return flag;
       });
       const addCartProductId = updatePatchCartRes.map((updateP) => {
-        const queryP = cartQueryData[0].cartitem.find((queryP) => {
+        const queryP = cartItemList?.find((queryP) => {
           return queryP.productId === updateP.productId;
         });
         return { ...updateP, id: queryP?.id };
@@ -130,6 +129,7 @@ function CartPage({ userId }: CartPageProps) {
     }
   }, [
     cartId,
+    cartItemList,
     cartProductList,
     cartQueryData,
     patchCartItemMutate,
@@ -146,7 +146,9 @@ function CartPage({ userId }: CartPageProps) {
         px="1rem"
         textColor="gray.600"
       >
-        <SelectSection />
+        <SelectSection
+          cartQueryDataLength={cartItemList ? cartItemList.length : 0}
+        />
       </Flex>
       <Box bg="gray.200" pt=".7rem" pb="1.4rem">
         {/* item */}
@@ -167,7 +169,7 @@ function CartPage({ userId }: CartPageProps) {
             </Flex>
           </Center>
         ) : (
-          cartQueryData[0].cartitem.map((product, index) => {
+          cartItemList?.map((product, index) => {
             return (
               <CartItem
                 key={product.id}

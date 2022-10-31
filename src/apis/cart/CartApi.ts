@@ -37,3 +37,10 @@ export async function patchCartItem(body: Partial<CartItemId>) {
   });
   return data;
 }
+export async function deleteCartItem(id: number) {
+  const { data } = await instance({
+    method: 'DELETE',
+    url: `/v1/cart/item/${id}/`,
+  });
+  return data;
+}

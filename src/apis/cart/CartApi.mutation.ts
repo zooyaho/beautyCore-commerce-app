@@ -2,7 +2,13 @@ import { MutationHookParams } from '@apis/type';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { getCart, patchCartItem, postCart, postCartItem } from './CartApi';
+import {
+  deleteCartItem,
+  getCart,
+  patchCartItem,
+  postCart,
+  postCartItem,
+} from './CartApi';
 
 export const useGetCartMutation = (
   params?: MutationHookParams<typeof getCart>,
@@ -29,6 +35,13 @@ export const usePatchCartItemMutation = (
   params?: MutationHookParams<typeof patchCartItem>,
 ) => {
   return useMutation(patchCartItem, {
+    ...params?.options,
+  });
+};
+export const useDeleteCartItemMutation = (
+  params?: MutationHookParams<typeof deleteCartItem>,
+) => {
+  return useMutation(deleteCartItem, {
     ...params?.options,
   });
 };

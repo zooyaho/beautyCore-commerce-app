@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -9,9 +8,13 @@ import {
   Img,
   Spacer,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
-import { usePatchCartItemMutation } from '@apis/cart/CartApi.mutation';
+import {
+  useDeleteCartItemMutation,
+  usePatchCartItemMutation,
+} from '@apis/cart/CartApi.mutation';
 import { useGetCartItem } from '@apis/cart/CartApi.query';
 import { CartItem as CartItemType } from '@apis/cart/CartApi.type';
 import { useGetProduct } from '@apis/product/ProductApi.query';
@@ -21,6 +24,7 @@ import useAppStore from '@features/useAppStore';
 import { useQueryClient } from '@tanstack/react-query';
 
 import CheckBox from './CheckBox';
+import SelectDeleteModal from './SelectDeleteModal';
 
 import {
   CloseButtonIcon,
@@ -45,9 +49,11 @@ function CartItem({ productQueryData, index }: CartItemProps) {
       },
     },
   });
+  const { mutate: deleteCartItemMutate } = useDeleteCartItemMutation();
   const dispatch = useDispatch();
   const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
-  console.log(checkedCartList);
+  console.log('checkedCartList: ', checkedCartList);
+  // const { onOpen, isOpen, onClose } = useDisclosure();
 
   const incrementeQuantityHandler = () => {
     if (productQueryData) {
@@ -100,6 +106,20 @@ function CartItem({ productQueryData, index }: CartItemProps) {
       }
     }
   };
+  const deleteCartHandler = () => {
+    console.log(productQueryData.id);
+    deleteCartItemMutate(productQueryData.id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['cart', productQueryData.id]);
+        queryClient.invalidateQueries(['cart']);
+      },
+    });
+    dispatch(
+      cartSliceAction.deleteCheckedCartList({
+        productId: productQueryData.productId,
+      }),
+    );
+  };
 
   return (
     <>
@@ -122,7 +142,15 @@ function CartItem({ productQueryData, index }: CartItemProps) {
                   </Box>
                 </Flex>
                 <Spacer />
-                <Button variant="transparentButton" pr="0" h="1rem">
+                <Button
+                  variant="transparentButton"
+                  pr="0"
+                  h="1rem"
+                  onClick={() => {
+                    deleteCartHandler();
+                    // onOpen();
+                  }}
+                >
                   <CloseButtonIcon boxSize="12px" />
                 </Button>
               </Flex>
@@ -172,6 +200,7 @@ function CartItem({ productQueryData, index }: CartItemProps) {
               </Box>
             </Box>
           </Flex>
+          {/* <SelectDeleteModal onClose={onClose} isOpen={isOpen} /> */}
         </Container>
       )}
     </>

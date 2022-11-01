@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { getCart, getCartItem } from './CartApi';
 
 export const useGetCart = (userId: number) => {
-  const { data } = useQuery(['cart'], () => getCart(userId), {
+  const { data, isLoading } = useQuery(['cart'], () => getCart(userId), {
     enabled: !!userId,
   });
-  return data?.results;
+  return { data, isLoading };
 };
 export const useGetCartItem = (id: number) => {
   const { data } = useQuery(['cart', id], () => getCartItem(id), {

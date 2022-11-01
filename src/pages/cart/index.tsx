@@ -8,6 +8,7 @@ import CommonLayout from '@components/common/@Layout/CommonLayout';
 
 function Cart() {
   const { data: userData } = useGetUserMe();
+  console.log(userData);
   return (
     <>
       <Head>

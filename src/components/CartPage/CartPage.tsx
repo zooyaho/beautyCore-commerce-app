@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import {
   Box,
@@ -17,7 +17,6 @@ import {
   usePostCartMutation,
 } from '@apis/cart/CartApi.mutation';
 import { useGetCart } from '@apis/cart/CartApi.query';
-import { Cart } from '@apis/cart/CartApi.type';
 import useAppStore from '@features/useAppStore';
 
 import { LAYOUT } from '@constants/layout';
@@ -32,57 +31,61 @@ interface CartPageProps {
 }
 
 function CartPage({ userId }: CartPageProps) {
-  const cartData = useGetCart(userId as number);
+  const { data: cartData, isLoading } = useGetCart(userId as number);
   const { mutate: postCartMutate } = usePostCartMutation();
   const { mutate: postCartItemMutate } = usePostCartItemMutation();
   const { mutate: patchCartItemMutate } = usePatchCartItemMutation();
 
-  const [cartId, setCartId] = useState<number>();
-  const cartProductList = useAppStore((store) => store.CART.productList);
+  const storeCartList = useAppStore((store) => store.CART.productList);
   const queryClient = useQueryClient();
-  const cartQueryData = queryClient.getQueryData(['cart']) as Cart[];
-  // console.log('cartQueryData: ', cartQueryData);
-  // console.log('store cart list: ', cartProductList);
+  console.log('store cart list: ', storeCartList);
+  console.log('cartData: ', cartData);
 
-  const cartItemList = useMemo(() => {
-    if (cartQueryData) return cartQueryData[0].cartitem;
-  }, [cartQueryData]);
+  const cartList = useMemo(() => {
+    if (cartData) return cartData[0].cartitem;
+  }, [cartData]);
 
   useEffect(() => {
     try {
-      if (cartItemList && !cartData && !cartItemList.length) {
-        if (userId) postCartMutate(userId);
-        cartProductList.forEach((product) => {
-          postCartItemMutate({
-            productId: product.productId,
-            cartId: cartId,
-            count: product.productQuantity,
-          });
+      /* 1️⃣ 카트 이동 버튼, 카트 아이콘 버튼 클릭 시 실행 */
+      console.log('⭐️cartList: ', cartList);
+      if (!cartData && userId) postCartMutate(userId); // user initial cart id post요청
+      if (cartList && cartData && !cartList.length) {
+        // store의 cart list 서버 post요청
+        storeCartList.forEach((product) => {
+          postCartItemMutate(
+            {
+              productId: product.productId,
+              cartId: cartData[0].id,
+              count: product.productQuantity,
+            },
+            {
+              onSuccess: () => {
+                queryClient.invalidateQueries(['cart']);
+              },
+            },
+          );
         });
       }
     } catch (e) {
       console.error(e);
     }
-    if (cartQueryData) {
-      setCartId(cartQueryData[0].id);
-    }
   }, [
     cartData,
-    cartId,
-    cartProductList,
-    cartQueryData,
-    cartItemList,
+    cartList,
+    storeCartList,
     postCartItemMutate,
     postCartMutate,
+    queryClient,
     userId,
   ]);
 
   useEffect(() => {
-    if (cartQueryData) {
+    if (cartData) {
       // 새로운 제품 장바구니에 추가(post)
-      const addPostCartRes = cartProductList.filter((storeP) => {
+      const addPostCartRes = storeCartList.filter((storeP) => {
         let flag = true;
-        cartItemList?.forEach((queryP) => {
+        cartList?.forEach((queryP) => {
           if (queryP.productId === storeP.productId) flag = false;
         });
         return flag;
@@ -93,15 +96,15 @@ function CartPage({ userId }: CartPageProps) {
         addPostCartRes.forEach((product) => {
           postCartItemMutate({
             productId: product.productId,
-            cartId: cartId,
+            cartId: cartData[0].id,
             count: product.productQuantity,
           });
         });
       }
       // cart에 담겨있는 제품은 수량 비교해서 업데이트(patch)
-      const updatePatchCartRes = cartProductList.filter((storeP) => {
+      const updatePatchCartRes = storeCartList.filter((storeP) => {
         let flag = false;
-        cartItemList?.forEach((queryP) => {
+        cartList?.forEach((queryP) => {
           if (
             queryP.productId === storeP.productId &&
             storeP.productQuantity !== queryP.count
@@ -111,7 +114,7 @@ function CartPage({ userId }: CartPageProps) {
         return flag;
       });
       const addCartProductId = updatePatchCartRes.map((updateP) => {
-        const queryP = cartItemList?.find((queryP) => {
+        const queryP = cartList?.find((queryP) => {
           return queryP.productId === updateP.productId;
         });
         return { ...updateP, id: queryP?.id };
@@ -128,15 +131,12 @@ function CartPage({ userId }: CartPageProps) {
       }
     }
   }, [
-    cartId,
-    cartItemList,
-    cartProductList,
-    cartQueryData,
+    cartData,
+    cartList,
+    storeCartList,
     patchCartItemMutate,
     postCartItemMutate,
   ]);
-
-  /* checked cart list */
 
   return (
     <>
@@ -146,17 +146,18 @@ function CartPage({ userId }: CartPageProps) {
         px="1rem"
         textColor="gray.600"
       >
-        <SelectSection cartQueryData={cartItemList} />
+        <SelectSection cartQueryData={cartList} />
       </Flex>
       <Box bg="gray.200" pt=".7rem" pb="1.4rem">
         {/* item */}
-        {cartQueryData === undefined ? (
+        {/* {cartQueryData === undefined ? ( */}
+        {isLoading ? (
           <Center h="100vh">
             <CircularProgress isIndeterminate color="primary.500" />
           </Center>
-        ) : cartItemList?.length === 0 ? (
-          <Center minH="65vh" bgColor="white">
-            <Flex pt={LAYOUT.HEADER.HEIGHT} flexDirection="column" w="50%">
+        ) : cartList?.length === 0 ? (
+          <Center minH="60vh" bgColor="white">
+            <Flex flexDirection="column" w="50%">
               <Text textAlign="center" textStyle="sm_wb">
                 장바구니가 비어있습니다. <br />
                 상품을 추가해 보세요!
@@ -167,7 +168,7 @@ function CartPage({ userId }: CartPageProps) {
             </Flex>
           </Center>
         ) : (
-          cartItemList?.map((product, index) => {
+          cartList?.map((product, index) => {
             return (
               <CartItem
                 key={product.id}
@@ -180,12 +181,14 @@ function CartPage({ userId }: CartPageProps) {
         {/* item */}
       </Box>
       {/* 총 금액 */}
-      <Container>
-        <TotalPrice />
-        <Button variant="primaryButton" size="lg" mb="3.125rem" type="submit">
-          결제하기
-        </Button>
-      </Container>
+      {cartList?.length !== 0 && (
+        <Container>
+          <TotalPrice />
+          <Button variant="primaryButton" size="lg" mb="3.125rem" type="submit">
+            결제하기
+          </Button>
+        </Container>
+      )}
     </>
   );
 }

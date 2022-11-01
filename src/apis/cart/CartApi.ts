@@ -1,10 +1,15 @@
 import instance from '@apis/_axios/instance';
 
-import { CartCount, CartItem, CartItemId, CartList } from './CartApi.type';
+import {
+  Cart,
+  CartCount,
+  CartItem,
+  CartItemId,
+  CartList,
+} from './CartApi.type';
 
-export async function getCart(userId: number): Promise<CartList> {
+export async function getCart(userId: number): Promise<Cart[]> {
   const { data } = await instance(`/v1/cart/?user_id=${userId}`);
-  console.log(data);
   return data;
 }
 export async function postCart(

@@ -11,10 +11,15 @@ import {
   Flex,
   Spacer,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
+
+import CartButton from '@components/common/CartButton';
+
+import AddCartModal from './AddCartModal';
 
 import {
   MinusCartButtonIcon,
@@ -36,6 +41,11 @@ interface SelectedProductType {
 function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const dispatch = useDispatch();
   const cartProductList = useAppStore((store) => store.CART.productList);
+  const {
+    onOpen,
+    isOpen: addCartModalIsOpen,
+    onClose: addCartModalOnClose,
+  } = useDisclosure();
 
   const updateDataStore = useCallback(
     (selectedProduct, productQuantity) => {
@@ -147,9 +157,9 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </Text>
             </Flex>
             <Flex mt="1rem" mb="1.5rem" gap=".7rem">
-              <Button variant="whiteButton" size="lg">
-                장바구니
-              </Button>
+              <CartButton variant="whiteButton" size="lg" drawerOpen={onOpen}>
+                <Text as="span">장바구니</Text>
+              </CartButton>
               <Button variant="primaryButton" size="lg">
                 바로구매
               </Button>
@@ -157,6 +167,7 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
+      <AddCartModal isOpen={addCartModalIsOpen} onClose={addCartModalOnClose} />
     </>
   );
 }

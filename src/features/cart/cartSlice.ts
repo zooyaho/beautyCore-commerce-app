@@ -7,14 +7,23 @@ interface Product {
   productQuantity: number;
 }
 
+export interface CheckedCartItem {
+  productId: number;
+  count: number;
+}
+
 export interface CartStateType {
   seletedProduct: Product | null;
   productList: Product[];
+  allChecked: boolean;
+  checkedCartList: CheckedCartItem[];
 }
 
 const initialState: CartStateType = {
   seletedProduct: null,
   productList: [],
+  allChecked: false,
+  checkedCartList: [],
 };
 
 export const cartSlice = createSlice({
@@ -30,22 +39,45 @@ export const cartSlice = createSlice({
         return;
       state.productList.push(action.payload);
     },
-    deleteProductList: (state, action: PayloadAction<Product>) => {
+    deleteProductList: (state, action: PayloadAction<Partial<Product>>) => {
       state.productList = state.productList.filter(
         (stateProduct) => stateProduct.productId !== action.payload.productId,
       );
     },
     updateProductList: (state, action: PayloadAction<Product>) => {
-      console.log(state.productList);
       state.productList.forEach((stateProduct, index) => {
         if (stateProduct.productId === action.payload.productId) {
           state.productList[index] = action.payload;
         }
       });
     },
-    updateSelectedProduct: (state, action: PayloadAction<Product>) => {
-      console.log('1');
-      state.seletedProduct = action.payload;
+    updateCheckedCartList: (state, action: PayloadAction<CheckedCartItem>) => {
+      if (!state.checkedCartList.length) {
+        // initial 추가
+        state.checkedCartList.push(action.payload);
+      } else {
+        const findIndex = state.checkedCartList.findIndex(
+          (product) => product.productId === action.payload.productId,
+        );
+        if (findIndex !== -1) {
+          // 업데이트
+          state.checkedCartList[findIndex] = action.payload;
+        } else {
+          // new 추가
+          state.checkedCartList.push(action.payload);
+        }
+      }
+    },
+    deleteCheckedCartList: (
+      state,
+      action: PayloadAction<{ productId: number }>,
+    ) => {
+      state.checkedCartList = state.checkedCartList.filter(
+        (product) => product.productId !== action.payload.productId,
+      );
+    },
+    toggleAllChecked: (state, action: PayloadAction<boolean>) => {
+      state.allChecked = action.payload;
     },
   },
 });

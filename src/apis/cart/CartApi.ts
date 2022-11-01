@@ -1,10 +1,15 @@
 import instance from '@apis/_axios/instance';
 
-import { CartCount, CartItem, CartItemId, CartList } from './CartApi.type';
+import {
+  Cart,
+  CartCount,
+  CartItem,
+  CartItemId,
+  CartList,
+} from './CartApi.type';
 
-export async function getCart(userId: number): Promise<CartList> {
+export async function getCart(userId: number): Promise<Cart[]> {
   const { data } = await instance(`/v1/cart/?user_id=${userId}`);
-  console.log(data);
   return data;
 }
 export async function postCart(
@@ -34,6 +39,13 @@ export async function patchCartItem(body: Partial<CartItemId>) {
     method: 'PATCH',
     url: `/v1/cart/item/${body.id}/`,
     data: { count: body.count },
+  });
+  return data;
+}
+export async function deleteCartItem(id: number) {
+  const { data } = await instance({
+    method: 'DELETE',
+    url: `/v1/cart/item/${id}/`,
   });
   return data;
 }

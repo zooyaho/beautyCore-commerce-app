@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
   Button,
-  Checkbox,
   Container,
   Flex,
   Img,
@@ -11,13 +10,19 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { usePatchCartItemMutation } from '@apis/cart/CartApi.mutation';
+import {
+  useDeleteCartItemMutation,
+  usePatchCartItemMutation,
+} from '@apis/cart/CartApi.mutation';
 import { useGetCartItem } from '@apis/cart/CartApi.query';
-import { Cart, CartItem as CartItemType } from '@apis/cart/CartApi.type';
-import { ProductDetail } from '@apis/product/ProductAPi.type';
+import { CartItem as CartItemType } from '@apis/cart/CartApi.type';
 import { useGetProduct } from '@apis/product/ProductApi.query';
+import { cartSliceAction } from '@features/cart/cartSlice';
+import useAppStore from '@features/useAppStore';
 
 import { useQueryClient } from '@tanstack/react-query';
+
+import CheckBox from './CheckBox';
 
 import {
   CloseButtonIcon,
@@ -27,9 +32,10 @@ import {
 
 interface CartItemProps {
   productQueryData: CartItemType;
+  index: number;
 }
 
-function CartItem({ productQueryData }: CartItemProps) {
+function CartItem({ productQueryData, index }: CartItemProps) {
   const { data: productData } = useGetProduct(productQueryData.productId);
   const { data: printCount } = useGetCartItem(productQueryData.id);
   const queryClient = useQueryClient();
@@ -41,10 +47,13 @@ function CartItem({ productQueryData }: CartItemProps) {
       },
     },
   });
+  const { mutate: deleteCartItemMutate } = useDeleteCartItemMutation();
+  const dispatch = useDispatch();
+  const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
+  console.log('checkedCartList: ', checkedCartList);
 
   const incrementeQuantityHandler = () => {
     if (productQueryData) {
-      console.log('👾 count: ', printCount?.count, productQueryData.count);
       patchCartItemMutate({
         id: productQueryData.id,
         count: productQueryData.count + 1,
@@ -52,6 +61,20 @@ function CartItem({ productQueryData }: CartItemProps) {
       queryClient.setQueryData(['cart', productQueryData.id], {
         count: productQueryData.count + 1,
       });
+      if (productData) {
+        if (
+          checkedCartList.find(
+            (product) => product.productId === productData.id,
+          )
+        ) {
+          dispatch(
+            cartSliceAction.updateCheckedCartList({
+              productId: productData.id,
+              count: productQueryData.count + 1,
+            }),
+          );
+        }
+      }
     }
   };
 
@@ -64,7 +87,39 @@ function CartItem({ productQueryData }: CartItemProps) {
       queryClient.setQueryData(['cart', productQueryData.id], {
         count: productQueryData.count - 1,
       });
+      if (productData) {
+        if (
+          checkedCartList.find(
+            (product) => product.productId === productData.id,
+          )
+        ) {
+          dispatch(
+            cartSliceAction.updateCheckedCartList({
+              productId: productData.id,
+              count: productQueryData.count - 1,
+            }),
+          );
+        }
+      }
     }
+  };
+  const deleteCartHandler = () => {
+    dispatch(
+      cartSliceAction.deleteProductList({
+        productId: productQueryData.productId,
+      }),
+    );
+    dispatch(
+      cartSliceAction.deleteCheckedCartList({
+        productId: productQueryData.productId,
+      }),
+    );
+    deleteCartItemMutate(productQueryData.id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['cart', productQueryData.id]);
+        queryClient.invalidateQueries(['cart']);
+      },
+    });
   };
 
   return (
@@ -72,12 +127,7 @@ function CartItem({ productQueryData }: CartItemProps) {
       {productData && (
         <Container bg="white" mt=".7rem" py="1rem">
           <Flex>
-            <Checkbox
-              alignSelf="flex-start"
-              colorScheme="primary"
-              size="lg"
-              mr=".7rem"
-            />
+            <CheckBox value={index} productId={productQueryData.productId} />
             <Box w="100%">
               <Flex w="100%">
                 <Flex>
@@ -93,7 +143,12 @@ function CartItem({ productQueryData }: CartItemProps) {
                   </Box>
                 </Flex>
                 <Spacer />
-                <Button variant="transparentButton" pr="0" h="1rem">
+                <Button
+                  variant="transparentButton"
+                  pr="0"
+                  h="1rem"
+                  onClick={deleteCartHandler}
+                >
                   <CloseButtonIcon boxSize="12px" />
                 </Button>
               </Flex>

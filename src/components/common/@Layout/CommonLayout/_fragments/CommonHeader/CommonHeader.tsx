@@ -1,9 +1,10 @@
 import Link from 'next/link';
 
-import { Button, Flex, IconButton, Image, Text } from '@chakra-ui/react';
+import { Flex, IconButton, Image, Text } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 
 import MenuIcon from '@components/common/@Icons/System/Menu';
+import CartButton from '@components/common/CartButton';
 
 import { LAYOUT } from '@constants/layout';
 
@@ -52,15 +53,13 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
           h="25%"
           cursor="pointer"
         />
-        <Button // 장바구니 버튼
-          variant="transparentButton"
-        >
+        <CartButton variant="transparentButton">
           <Link href="/cart">
             <Text as="a">
               <HeaderCartIcon />
             </Text>
           </Link>
-        </Button>
+        </CartButton>
       </Flex>
       <CommonHeaderDrawer
         isOpen={isOpen}

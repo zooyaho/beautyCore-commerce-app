@@ -29,9 +29,8 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
 
   const storeCartList = useAppStore((store) => store.CART.productList);
   const queryClient = useQueryClient();
-  const qeuryCartList = queryClient.getQueryData(['cart']);
-  console.log('store cart list: ', storeCartList);
-  console.log('cartData: ', cartData);
+  // console.log('store cart list: ', storeCartList);
+  // console.log('cartData: ', cartData);
 
   const cartList = useMemo(() => {
     if (cartData) return cartData[0].cartitem;
@@ -39,12 +38,11 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
 
   const cartClickHandler = useCallback(() => {
     try {
-      console.log('⭐️cartList: ', cartList);
+      // console.log('⭐️cartList: ', cartList);
       if (!cartData && userData?.id) postCartMutate(userData?.id); // user initial cart id post요청
       if (cartList && cartData && !cartList.length) {
         // store의 cart list 서버 post요청
-        storeCartList.forEach((product, index) => {
-          console.log('🚨store의 cart list 서버 post요청의 횟수: ', index);
+        storeCartList.forEach((product) => {
           postCartItemMutate(
             {
               productId: product.productId,
@@ -64,16 +62,16 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
         // 새로운 제품 장바구니에 추가(post)
         const addPostCartRes = storeCartList.filter((storeP) => {
           let flag = true;
-          console.log('🔪cartList: ', cartList);
-          console.log('💥qeuryCartList: ', qeuryCartList);
+          // console.log('🔪cartList: ', cartList);
+          // console.log('💥qeuryCartList: ', qeuryCartList);
           cartList.forEach((queryP) => {
             if (queryP.productId === storeP.productId) flag = false;
           });
           return flag;
         });
-        console.log('🔥addPostCartRes: ', addPostCartRes);
+        // console.log('🔥addPostCartRes: ', addPostCartRes);
         if (addPostCartRes.length) {
-          console.log('post cart item 실행(추가)');
+          // console.log('post cart item 실행(추가)');
           addPostCartRes.forEach((product) => {
             postCartItemMutate({
               productId: product.productId,
@@ -102,7 +100,7 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
         });
         // console.log('🤮updatePatchCartRes: ', addCartProductId);
         if (addCartProductId.length) {
-          console.log('patch cart item 실행(업데이트)');
+          // console.log('patch cart item 실행(업데이트)');
           addCartProductId.forEach((product) => {
             patchCartItemMutate({
               id: product.id,

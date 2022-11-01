@@ -31,9 +31,9 @@ function CartPage({ userId }: CartPageProps) {
 
   return (
     <>
-      {isLoading || !cartData ? (
+      {isLoading || !cartList ? (
         <>
-          <Center>
+          <Center pt={LAYOUT.HEADER.HEIGHT} minH="80vh">
             <CircularProgress isIndeterminate color="primary.500" />
           </Center>
         </>
@@ -49,12 +49,7 @@ function CartPage({ userId }: CartPageProps) {
           </Flex>
           <Box bg="gray.200" pt=".7rem" pb="1.4rem">
             {/* item */}
-            {/* {cartQueryData === undefined ? ( */}
-            {isLoading ? (
-              <Center h="100vh">
-                <CircularProgress isIndeterminate color="primary.500" />
-              </Center>
-            ) : cartList?.length === 0 ? (
+            {cartList.length === 0 ? (
               <Center minH="60vh" bgColor="white">
                 <Flex flexDirection="column" w="50%">
                   <Text textAlign="center" textStyle="sm_wb">
@@ -67,7 +62,7 @@ function CartPage({ userId }: CartPageProps) {
                 </Flex>
               </Center>
             ) : (
-              cartList?.map((product, index) => {
+              cartList.map((product, index) => {
                 return (
                   <CartItem
                     key={product.id}
@@ -80,7 +75,7 @@ function CartPage({ userId }: CartPageProps) {
             {/* item */}
           </Box>
           {/* 총 금액 */}
-          {cartList?.length !== 0 && (
+          {cartList.length !== 0 && (
             <Container>
               <TotalPrice />
               <Button

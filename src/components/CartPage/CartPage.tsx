@@ -57,7 +57,11 @@ function CartPage({ userId }: CartPageProps) {
                     상품을 추가해 보세요!
                   </Text>
                   <Button variant="primaryButton" size="lg" mt="2rem">
-                    <Link href="/product-list">상품보러가기</Link>
+                    <Link href="/product-list">
+                      <Center as="a" w="100%" h="100%">
+                        상품보러가기
+                      </Center>
+                    </Link>
                   </Button>
                 </Flex>
               </Center>

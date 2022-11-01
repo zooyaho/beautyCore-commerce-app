@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Button, ChakraProps } from '@chakra-ui/react';
 
@@ -21,16 +21,15 @@ interface CartButtonProps extends ChakraProps {
 }
 
 function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
-  console.log('variant', variant);
   const { data: userData } = useGetUserMe();
   const { data: cartData } = useGetCart(userData?.id as number);
   const { mutate: postCartMutate } = usePostCartMutation();
-  const { mutate: postCartItemMutate } = usePostCartItemMutation();
+  const { mutateAsync: postCartItemMutate } = usePostCartItemMutation();
   const { mutate: patchCartItemMutate } = usePatchCartItemMutation();
 
-  // const cartList = cartData ? cartData[0].cartitem : '';
   const storeCartList = useAppStore((store) => store.CART.productList);
   const queryClient = useQueryClient();
+  const qeuryCartList = queryClient.getQueryData(['cart']);
   console.log('store cart list: ', storeCartList);
   console.log('cartData: ', cartData);
 
@@ -38,14 +37,14 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
     if (cartData) return cartData[0].cartitem;
   }, [cartData]);
 
-  const cartClickHandler = () => {
+  const cartClickHandler = useCallback(() => {
     try {
-      /* 1️⃣ 카트 이동 버튼, 카트 아이콘 버튼 클릭 시 실행 */
       console.log('⭐️cartList: ', cartList);
       if (!cartData && userData?.id) postCartMutate(userData?.id); // user initial cart id post요청
       if (cartList && cartData && !cartList.length) {
         // store의 cart list 서버 post요청
-        storeCartList.forEach((product) => {
+        storeCartList.forEach((product, index) => {
+          console.log('🚨store의 cart list 서버 post요청의 횟수: ', index);
           postCartItemMutate(
             {
               productId: product.productId,
@@ -60,17 +59,19 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
           );
         });
       }
-
-      if (cartData) {
+      // cartData 업데이트 되기 전에 비교를 해서 업데이트가 이상하게 됨!!!
+      if (cartData && cartList && !!cartList.length) {
         // 새로운 제품 장바구니에 추가(post)
         const addPostCartRes = storeCartList.filter((storeP) => {
           let flag = true;
-          cartList?.forEach((queryP) => {
+          console.log('🔪cartList: ', cartList);
+          console.log('💥qeuryCartList: ', qeuryCartList);
+          cartList.forEach((queryP) => {
             if (queryP.productId === storeP.productId) flag = false;
           });
           return flag;
         });
-        // console.log('🔥addPostCartRes: ', addPostCartRes);
+        console.log('🔥addPostCartRes: ', addPostCartRes);
         if (addPostCartRes.length) {
           console.log('post cart item 실행(추가)');
           addPostCartRes.forEach((product) => {
@@ -84,7 +85,7 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
         // cart에 담겨있는 제품은 수량 비교해서 업데이트(patch)
         const updatePatchCartRes = storeCartList.filter((storeP) => {
           let flag = false;
-          cartList?.forEach((queryP) => {
+          cartList.forEach((queryP) => {
             if (
               queryP.productId === storeP.productId &&
               storeP.productQuantity !== queryP.count
@@ -94,7 +95,7 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
           return flag;
         });
         const addCartProductId = updatePatchCartRes.map((updateP) => {
-          const queryP = cartList?.find((queryP) => {
+          const queryP = cartList.find((queryP) => {
             return queryP.productId === updateP.productId;
           });
           return { ...updateP, id: queryP?.id };
@@ -113,7 +114,16 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [
+    cartData,
+    cartList,
+    patchCartItemMutate,
+    postCartItemMutate,
+    postCartMutate,
+    queryClient,
+    storeCartList,
+    userData?.id,
+  ]);
 
   return (
     <Button

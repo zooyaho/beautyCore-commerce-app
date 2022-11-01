@@ -53,6 +53,7 @@ function SelectSection({ cartQueryData }: SelectSectionProps) {
         return product.productId === checkedProduct.productId;
       });
     });
+    console.log('🔥🗑 deleteList: ', deleteList);
     deleteList?.forEach((product) => {
       deleteCartItemMutate(product.id, {
         onSuccess: () => {
@@ -62,6 +63,9 @@ function SelectSection({ cartQueryData }: SelectSectionProps) {
       });
     });
     checkedCartList.forEach((product) => {
+      dispatch(
+        cartSliceAction.deleteProductList({ productId: product.productId }),
+      );
       dispatch(
         cartSliceAction.deleteCheckedCartList({ productId: product.productId }),
       );

@@ -8,7 +8,6 @@ import {
   Img,
   Spacer,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
 
 import {
@@ -24,7 +23,6 @@ import useAppStore from '@features/useAppStore';
 import { useQueryClient } from '@tanstack/react-query';
 
 import CheckBox from './CheckBox';
-import SelectDeleteModal from './SelectDeleteModal';
 
 import {
   CloseButtonIcon,
@@ -53,7 +51,6 @@ function CartItem({ productQueryData, index }: CartItemProps) {
   const dispatch = useDispatch();
   const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
   console.log('checkedCartList: ', checkedCartList);
-  // const { onOpen, isOpen, onClose } = useDisclosure();
 
   const incrementeQuantityHandler = () => {
     if (productQueryData) {
@@ -107,18 +104,22 @@ function CartItem({ productQueryData, index }: CartItemProps) {
     }
   };
   const deleteCartHandler = () => {
-    console.log(productQueryData.id);
+    dispatch(
+      cartSliceAction.deleteProductList({
+        productId: productQueryData.productId,
+      }),
+    );
+    dispatch(
+      cartSliceAction.deleteCheckedCartList({
+        productId: productQueryData.productId,
+      }),
+    );
     deleteCartItemMutate(productQueryData.id, {
       onSuccess: () => {
         queryClient.invalidateQueries(['cart', productQueryData.id]);
         queryClient.invalidateQueries(['cart']);
       },
     });
-    dispatch(
-      cartSliceAction.deleteCheckedCartList({
-        productId: productQueryData.productId,
-      }),
-    );
   };
 
   return (
@@ -146,10 +147,7 @@ function CartItem({ productQueryData, index }: CartItemProps) {
                   variant="transparentButton"
                   pr="0"
                   h="1rem"
-                  onClick={() => {
-                    deleteCartHandler();
-                    // onOpen();
-                  }}
+                  onClick={deleteCartHandler}
                 >
                   <CloseButtonIcon boxSize="12px" />
                 </Button>
@@ -200,7 +198,6 @@ function CartItem({ productQueryData, index }: CartItemProps) {
               </Box>
             </Box>
           </Flex>
-          {/* <SelectDeleteModal onClose={onClose} isOpen={isOpen} /> */}
         </Container>
       )}
     </>

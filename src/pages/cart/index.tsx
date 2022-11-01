@@ -7,15 +7,14 @@ import CardLayout from '@components/common/@Layout/CardLayout';
 import CommonLayout from '@components/common/@Layout/CommonLayout';
 
 function Cart() {
-  const { data: userData } = useGetUserMe();
-  console.log(userData);
   return (
     <>
       <Head>
         <title>Beauty Core | cart</title>
       </Head>
       <CardLayout
-        content={<CommonLayout content={<CartPage userId={userData?.id} />} />}
+        // content={<CommonLayout content={<CartPage userId={userData?.id} />} />}
+        content={<CommonLayout content={<CartPage />} />}
       />
     </>
   );

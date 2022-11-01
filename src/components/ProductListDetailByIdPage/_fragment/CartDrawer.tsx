@@ -17,6 +17,8 @@ import {
 import { cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
+import CartButton from '@components/common/CartButton';
+
 import AddCartModal from './AddCartModal';
 
 import {
@@ -155,9 +157,9 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </Text>
             </Flex>
             <Flex mt="1rem" mb="1.5rem" gap=".7rem">
-              <Button variant="whiteButton" size="lg" onClick={onOpen}>
-                장바구니
-              </Button>
+              <CartButton variant="whiteButton" size="lg" drawerOpen={onOpen}>
+                <Text as="span">장바구니</Text>
+              </CartButton>
               <Button variant="primaryButton" size="lg">
                 바로구매
               </Button>

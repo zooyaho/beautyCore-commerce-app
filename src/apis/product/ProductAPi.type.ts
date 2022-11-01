@@ -1,4 +1,4 @@
-export interface Tags {
+export interface Tag {
   id: number;
   name: string;
 }
@@ -10,7 +10,7 @@ export interface Product {
   name: string;
   price: number;
   reviewCount: number;
-  tags: Tags[];
+  tag: Tag[];
   thumbnail: string;
 }
 export interface ProductList {

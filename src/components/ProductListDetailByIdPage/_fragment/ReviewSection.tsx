@@ -33,13 +33,13 @@ function ReviewSection({
   avgRate,
   focusTarget,
 }: IReviewSectionProps) {
-  const [printReviewList, setPrintReviewList] = useState<ProductReview[]>(); // 5개 페이지
   const [ratingfilter, setRatingfilter] = useState('최신순');
   const [photofilter, setPhotofilter] = useState('전체보기');
 
   const ratings = reviewList.map((review) => review.rate);
   const countNums = countProgress(ratings);
 
+  const [printReviewList, setPrintReviewList] = useState<ProductReview[]>(); // 5개 페이지
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageNum, setTotalPageNum] = useState(
     Math.ceil(reviewList.length / 5),

@@ -16,12 +16,12 @@ interface HomeProps {
 }
 
 function Home({ productTagData }: HomeProps) {
-  const router = useRouter();
-  const isLogin = useAppStore((store) => store.USER.isLogin);
-  console.log(isLogin);
-  useEffect(() => {
-    if (!isLogin) router.push('/login');
-  }, [isLogin, router]);
+  // const router = useRouter();
+  // const isLogin = useAppStore((store) => store.USER.isLogin);
+  // console.log(isLogin);
+  // useEffect(() => {
+  //   if (!isLogin) router.push('/login');
+  // }, [isLogin, router]);
 
   return (
     <>

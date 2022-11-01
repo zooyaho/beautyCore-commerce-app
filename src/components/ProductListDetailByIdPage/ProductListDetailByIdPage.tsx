@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -13,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 import { ProductDetail } from '@apis/product/ProductAPi.type';
+import { cartSliceAction } from '@features/cart/cartSlice';
 
 import ScrollToTop from '@components/common/ScrollToTop';
 
@@ -44,6 +47,7 @@ function ProductListDetailByIdPage({
     { title: `리뷰 (${productData?.reviewCount})`, target: 2 },
   ];
   const { onOpen, isOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -95,11 +99,29 @@ function ProductListDetailByIdPage({
             </Text>
           </Flex>
           <Flex flexDirection="column" gap=".7rem">
-            <Button variant="whiteButton" size="lg" onClick={onOpen}>
+            <Button
+              variant="whiteButton"
+              size="lg"
+              onClick={() => {
+                dispatch(
+                  cartSliceAction.addProductList({
+                    productId: productData.id,
+                    name: productData.name,
+                    price: productData.price,
+                    productQuantity: 1,
+                  }),
+                );
+                onOpen();
+              }}
+            >
               장바구니
             </Button>
-            <Button variant="primaryButton" size="lg" onClick={onOpen}>
-              바로구매
+            <Button variant="primaryButton" size="lg">
+              <Link href="/order">
+                <Center as="a" w="100%" h="100%">
+                  바로구매
+                </Center>
+              </Link>
             </Button>
           </Flex>
           <CartDrawer isOpen={isOpen} onClose={onClose} />

@@ -10,7 +10,6 @@ import {
   Container,
   Divider,
   Flex,
-  Img,
   Input,
   Radio,
   RadioGroup,
@@ -18,10 +17,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { CheckedCartItem } from '@features/cart/cartSlice';
+
 import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
 
+import OrderProductItem from './_fragments/OrderProductItem';
 import SearchAddressModal from './_fragments/SearchAddressModal';
 import { FormDataType } from './_hooks/useFormValidate';
 
@@ -29,6 +31,7 @@ import { CardPayIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
+  orderList: CheckedCartItem[] | undefined;
 }
 
 const OrderPageView = ({
@@ -39,6 +42,7 @@ const OrderPageView = ({
     setValue,
     getValues,
   },
+  orderList,
   onSubmit,
   ...basisProps
 }: FormPageProps) => {
@@ -83,22 +87,16 @@ const OrderPageView = ({
             주문 상품
           </Text>
           <Divider />
-          <Flex p=".7rem 1rem">
-            <Img
-              mr=".7rem"
-              w="3.75rem"
-              h="3.75rem"
-              src="/images/dummyImg/상품이미지.png"
-            />
-            <Box>
-              <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
-              <Text textStyle="ss_wn_cg600" textColor="gray.600">
-                바스 &amp; 샴푸 | 120ml
-              </Text>
-              <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
-            </Box>
-          </Flex>
-          <Divider />
+          {orderList &&
+            orderList.map((product) => (
+              <React.Fragment key={product.productId}>
+                <OrderProductItem
+                  productId={product.productId}
+                  count={product.count}
+                />
+                <Divider />
+              </React.Fragment>
+            ))}
         </Box>
         {/* s: Form */}
         <Box as="form" onSubmit={onSubmit} {...basisProps}>

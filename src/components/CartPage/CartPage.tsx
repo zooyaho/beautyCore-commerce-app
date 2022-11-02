@@ -82,13 +82,12 @@ function CartPage({ userId }: CartPageProps) {
           {cartList.length !== 0 && (
             <Container>
               <TotalPrice />
-              <Button
-                variant="primaryButton"
-                size="lg"
-                mb="3.125rem"
-                type="submit"
-              >
-                결제하기
+              <Button variant="primaryButton" size="lg" mb="3.125rem">
+                <Link href="/order">
+                  <Center as="a" w="100%" h="100%">
+                    결제하기
+                  </Center>
+                </Link>
               </Button>
             </Container>
           )}

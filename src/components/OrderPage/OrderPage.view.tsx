@@ -1,4 +1,5 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { Address } from 'react-daum-postcode';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
@@ -17,11 +18,10 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { CheckedCartItem } from '@features/cart/cartSlice';
-
 import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
+import { getLocalStorage } from '@utils/localStorage/helper';
 
 import OrderProductItem from './_fragments/OrderProductItem';
 import SearchAddressModal from './_fragments/SearchAddressModal';
@@ -31,7 +31,6 @@ import { CardPayIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
-  orderList: CheckedCartItem[] | undefined;
 }
 
 const OrderPageView = ({
@@ -42,11 +41,11 @@ const OrderPageView = ({
     setValue,
     getValues,
   },
-  orderList,
   onSubmit,
   ...basisProps
 }: FormPageProps) => {
   const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
+  const [orderList, setOrderList] = React.useState<localOrderListType[]>();
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
     const { username, phone, address, addressDetail } = getValues();
@@ -76,6 +75,22 @@ const OrderPageView = ({
     setValue('address', fullAddress);
   };
 
+  interface localOrderListType {
+    productId: number;
+    name: string;
+    photo: string;
+    capacity: number;
+    price: number;
+    count: number;
+  }
+
+  useEffect(() => {
+    setOrderList(getLocalStorage<localOrderListType[]>('order', []));
+  }, []);
+
+  if (!orderList) {
+    // return <></>;
+  }
   return (
     <>
       <Box pt={LAYOUT.HEADER.HEIGHT}>
@@ -87,16 +102,18 @@ const OrderPageView = ({
             주문 상품
           </Text>
           <Divider />
-          {orderList &&
-            orderList.map((product) => (
-              <React.Fragment key={product.productId}>
-                <OrderProductItem
-                  productId={product.productId}
-                  count={product.count}
-                />
-                <Divider />
-              </React.Fragment>
-            ))}
+          {orderList && (
+            <>
+              {orderList.map((v) => {
+                return (
+                  <React.Fragment key={v.productId}>
+                    <OrderProductItem productId={v.productId} count={v.count} />
+                    <Divider />
+                  </React.Fragment>
+                );
+              })}
+            </>
+          )}
         </Box>
         {/* s: Form */}
         <Box as="form" onSubmit={onSubmit} {...basisProps}>

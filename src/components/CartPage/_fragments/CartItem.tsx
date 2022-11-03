@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -16,11 +17,13 @@ import {
 } from '@apis/cart/CartApi.mutation';
 import { useGetCartItem } from '@apis/cart/CartApi.query';
 import { CartItem as CartItemType } from '@apis/cart/CartApi.type';
+import { ProductDetail } from '@apis/product/ProductAPi.type';
 import { useGetProduct } from '@apis/product/ProductApi.query';
-import { cartSliceAction } from '@features/cart/cartSlice';
+import { CheckedCartItem, cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
 import { useQueryClient } from '@tanstack/react-query';
+import { setLocalStorage } from '@utils/localStorage/helper';
 
 import CheckBox from './CheckBox';
 
@@ -36,7 +39,7 @@ interface CartItemProps {
 }
 
 function CartItem({ productQueryData, index }: CartItemProps) {
-  const { data: productData } = useGetProduct(productQueryData.productId);
+  const { data: productData } = useGetProduct(productQueryData.productId); // product에 all 데이터
   const { data: printCount } = useGetCartItem(productQueryData.id);
   const queryClient = useQueryClient();
   const { mutate: patchCartItemMutate } = usePatchCartItemMutation({
@@ -50,7 +53,13 @@ function CartItem({ productQueryData, index }: CartItemProps) {
   const { mutate: deleteCartItemMutate } = useDeleteCartItemMutation();
   const dispatch = useDispatch();
   const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
-  console.log('checkedCartList: ', checkedCartList);
+  console.log('checkedCartList: ', checkedCartList); // {productId: number; count: number;}
+  const cartItem = useMemo(
+    // {productId: 18, count: 3}
+    () =>
+      checkedCartList.find((product) => product.productId === productData?.id),
+    [checkedCartList, productData?.id],
+  );
 
   const incrementeQuantityHandler = () => {
     if (productQueryData) {
@@ -62,11 +71,7 @@ function CartItem({ productQueryData, index }: CartItemProps) {
         count: productQueryData.count + 1,
       });
       if (productData) {
-        if (
-          checkedCartList.find(
-            (product) => product.productId === productData.id,
-          )
-        ) {
+        if (cartItem) {
           dispatch(
             cartSliceAction.updateCheckedCartList({
               productId: productData.id,
@@ -77,7 +82,6 @@ function CartItem({ productQueryData, index }: CartItemProps) {
       }
     }
   };
-
   const decrementQuantityHandler = () => {
     if (productQueryData && productQueryData.count > 1) {
       patchCartItemMutate({
@@ -88,11 +92,7 @@ function CartItem({ productQueryData, index }: CartItemProps) {
         count: productQueryData.count - 1,
       });
       if (productData) {
-        if (
-          checkedCartList.find(
-            (product) => product.productId === productData.id,
-          )
-        ) {
+        if (cartItem) {
           dispatch(
             cartSliceAction.updateCheckedCartList({
               productId: productData.id,
@@ -121,6 +121,18 @@ function CartItem({ productQueryData, index }: CartItemProps) {
       },
     });
   };
+  /*   const setStorageOrderListHandler = () => {
+      const { name, photo, capacity, price } = productData as ProductDetail;
+      const { productId, count } = cartItem as CheckedCartItem;
+      setLocalStorage('order', {
+        productId,
+        name,
+        photo,
+        capacity,
+        price,
+        count,
+      });
+    }; */
 
   return (
     <>

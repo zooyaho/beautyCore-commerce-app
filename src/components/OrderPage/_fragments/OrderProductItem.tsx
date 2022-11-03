@@ -28,7 +28,7 @@ function OrderProductItem({ productId, count }: OrderProductItem) {
         </>
       ) : (
         <Flex p=".7rem 1rem">
-          <Img mr=".7rem" w="3.75rem" h="3.75rem" src={product?.photo} />
+          <Img mr=".7rem" w="3.75rem" h="3.75rem" src={product.photo} />
           <Box>
             <Text textStyle="ss_wb">{product.name}</Text>
             <Text textStyle="ss_wn_cg600" textColor="gray.600">

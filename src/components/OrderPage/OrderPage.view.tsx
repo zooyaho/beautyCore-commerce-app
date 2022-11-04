@@ -32,6 +32,14 @@ import { CardPayIcon } from 'generated/icons/MyIcons';
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
 }
+interface localOrderListType {
+  productId: number;
+  name: string;
+  photo: string;
+  capacity: number;
+  price: number;
+  count: number;
+}
 
 const OrderPageView = ({
   formData: {
@@ -46,6 +54,17 @@ const OrderPageView = ({
 }: FormPageProps) => {
   const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
   const [orderList, setOrderList] = React.useState<localOrderListType[]>();
+  const router = useRouter();
+
+  useEffect(() => {
+    const localData = getLocalStorage<localOrderListType[]>('order', []);
+    if (localData.length) {
+      setOrderList(getLocalStorage<localOrderListType[]>('order', []));
+    } else {
+      router.back();
+    }
+  }, [orderList?.length, router]);
+
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
     const { username, phone, address, addressDetail } = getValues();
@@ -75,22 +94,6 @@ const OrderPageView = ({
     setValue('address', fullAddress);
   };
 
-  interface localOrderListType {
-    productId: number;
-    name: string;
-    photo: string;
-    capacity: number;
-    price: number;
-    count: number;
-  }
-
-  useEffect(() => {
-    setOrderList(getLocalStorage<localOrderListType[]>('order', []));
-  }, []);
-
-  if (!orderList) {
-    // return <></>;
-  }
   return (
     <>
       <Box pt={LAYOUT.HEADER.HEIGHT}>

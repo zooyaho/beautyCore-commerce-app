@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Address } from 'react-daum-postcode';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
@@ -72,6 +72,10 @@ const OrderPageView = ({
     }
   }, [orderList?.length, router]);
 
+  const totalPrice = useMemo(
+    () => orderList?.reduce((prev, cur) => prev + cur.price * cur.count, 0),
+    [orderList],
+  );
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
     const { username, phone, address, addressDetail } = getValues();
@@ -347,18 +351,23 @@ const OrderPageView = ({
             <Flex textColor="gray.600" mt="2.5rem">
               <Text>총 상품금액</Text>
               <Spacer />
-              <Text>108,000 원</Text>
+              <Text>{totalPrice} 원</Text>
             </Flex>
             <Flex textColor="gray.600" mt=".7rem" mb="1.3rem">
               <Text>총 배송비</Text>
               <Spacer />
-              <Text>0 원</Text>
+              <Text>{totalPrice && totalPrice > 30000 ? 0 : 3000} 원</Text>
             </Flex>
             <Divider />
             <Flex my="1.3rem">
               <Text>결제금액</Text>
               <Spacer />
-              <Text textStyle="sm_wb_cp">108,000 원</Text>
+              <Text textStyle="sm_wb_cp">
+                {totalPrice && totalPrice > 30000
+                  ? totalPrice
+                  : totalPrice && 3000 + totalPrice}{' '}
+                원
+              </Text>
             </Flex>
             <Divider />
             <Controller

@@ -16,6 +16,7 @@ import {
   RadioGroup,
   Spacer,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import FormHelper from '@components/common/FormHelper';
@@ -55,6 +56,12 @@ const OrderPageView = ({
   const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
   const [orderList, setOrderList] = React.useState<localOrderListType[]>();
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: orderIsOpen,
+    onOpen: orderOnOpen,
+    onClose: orderOnClose,
+  } = useDisclosure();
 
   useEffect(() => {
     const localData = getLocalStorage<localOrderListType[]>('order', []);
@@ -76,7 +83,7 @@ const OrderPageView = ({
     }
   };
 
-  const searchCompleteHandler = (data: Address) => {
+  const searchCompleteHandler = (data: Address, type: string) => {
     let fullAddress = data.address;
     let extraAddress = '';
     console.log('data: ', data);
@@ -91,7 +98,9 @@ const OrderPageView = ({
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-    setValue('address', fullAddress);
+
+    if (type === 'ordererInfo') setValue('address', fullAddress);
+    else if (type === 'shippingInfo') setValue('orderAddress', fullAddress);
   };
 
   return (
@@ -169,7 +178,21 @@ const OrderPageView = ({
                     autoComplete="off"
                     placeholder="주소"
                   />
+                  <Button
+                    variant="primaryButton"
+                    w="30%"
+                    h="40px"
+                    borderRadius="5px"
+                    onClick={onOpen}
+                  >
+                    <Text as="span" fontSize="12px">
+                      우편번호 검색
+                    </Text>
+                  </Button>
                   <SearchAddressModal
+                    type="ordererInfo"
+                    onClose={onClose}
+                    isOpen={isOpen}
                     searchCompleteHandler={searchCompleteHandler}
                   />
                 </Flex>
@@ -244,7 +267,21 @@ const OrderPageView = ({
                     autoComplete="off"
                     placeholder="주소"
                   />
+                  <Button
+                    variant="primaryButton"
+                    w="30%"
+                    h="40px"
+                    borderRadius="5px"
+                    onClick={orderOnOpen}
+                  >
+                    <Text as="span" fontSize="12px">
+                      우편번호 검색
+                    </Text>
+                  </Button>
                   <SearchAddressModal
+                    type="shippingInfo"
+                    onClose={orderOnClose}
+                    isOpen={orderIsOpen}
                     searchCompleteHandler={searchCompleteHandler}
                   />
                 </Flex>

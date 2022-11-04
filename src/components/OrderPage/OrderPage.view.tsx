@@ -161,7 +161,7 @@ const OrderPageView = ({
                   borderColor="black"
                   {...register('phone')}
                   autoComplete="off"
-                  placeholder="010-1234-1234"
+                  placeholder="01012341234"
                 />
               </FormHelper>
               <FormHelper
@@ -177,6 +177,7 @@ const OrderPageView = ({
                     {...register('address')}
                     autoComplete="off"
                     placeholder="주소"
+                    onClick={onOpen}
                   />
                   <Button
                     variant="primaryButton"
@@ -250,7 +251,7 @@ const OrderPageView = ({
                   borderColor="black"
                   {...register('orderPhone')}
                   autoComplete="off"
-                  placeholder="010-1234-1234"
+                  placeholder="01012341234"
                 />
               </FormHelper>
               <FormHelper
@@ -266,6 +267,7 @@ const OrderPageView = ({
                     {...register('orderAddress')}
                     autoComplete="off"
                     placeholder="주소"
+                    onClick={orderOnOpen}
                   />
                   <Button
                     variant="primaryButton"

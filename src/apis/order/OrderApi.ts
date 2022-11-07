@@ -11,10 +11,11 @@ export async function getOrderList() {
   console.log(data);
   return data;
 }
-export async function postOrder() {
+export async function postOrder(body: Order) {
   const { data } = await instance({
     method: 'POST',
     url: '/v1/order/',
+    data: body,
   });
   return data;
 }

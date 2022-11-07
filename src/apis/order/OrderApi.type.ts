@@ -16,3 +16,12 @@ export interface Order {
   shipAddrDetail: string;
   orderMessage: string;
 }
+
+export interface localOrderListType {
+  productId: number;
+  name: string;
+  photo: string;
+  capacity: number;
+  price: number;
+  count: number;
+}

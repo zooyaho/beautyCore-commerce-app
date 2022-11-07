@@ -19,6 +19,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import { localOrderListType } from '@apis/order/OrderApi.type';
+
 import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
@@ -32,14 +34,8 @@ import { CardPayIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
-}
-interface localOrderListType {
-  productId: number;
-  name: string;
-  photo: string;
-  capacity: number;
-  price: number;
-  count: number;
+  orderList: localOrderListType[];
+  totalPrice: number;
 }
 
 const OrderPageView = ({
@@ -51,11 +47,12 @@ const OrderPageView = ({
     getValues,
   },
   onSubmit,
+  orderList,
+  totalPrice,
   ...basisProps
 }: FormPageProps) => {
   const [checkedOrderInfo, setCheckedOrderInfo] = useState(false);
-  const [orderList, setOrderList] = useState<localOrderListType[]>();
-  const router = useRouter();
+  // const [orderList, setOrderList] = useState<localOrderListType[]>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: orderIsOpen,
@@ -63,25 +60,22 @@ const OrderPageView = ({
     onClose: orderOnClose,
   } = useDisclosure();
 
-  useEffect(() => {
-    const localData = getLocalStorage<localOrderListType[]>('order', []);
-    if (localData.length) {
-      setOrderList(getLocalStorage<localOrderListType[]>('order', []));
-    } else {
-      router.back();
-    }
-  }, [orderList?.length, router]);
+  /*  useEffect(() => {
+     const localData = getLocalStorage<localOrderListType[]>('order', []);
+     if (localData.length) {
+       // setOrderList(getLocalStorage<localOrderListType[]>('order', []));
+     } else {
+       router.back();
+     }
+   }, [orderList?.length, router]); */
 
-  const totalPrice = useMemo(
-    () => orderList?.reduce((prev, cur) => prev + cur.price * cur.count, 0),
-    [orderList],
-  );
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
-    const { username, phone, address, addressDetail } = getValues();
+    const { username, phone, zonecode, address, addressDetail } = getValues();
     if (!checkedOrderInfo) {
       setValue('orderUsername', username);
       setValue('orderPhone', phone);
+      setValue('orderZonecode', zonecode);
       setValue('orderAddress', address);
       setValue('orderAddressDetail', addressDetail);
     }

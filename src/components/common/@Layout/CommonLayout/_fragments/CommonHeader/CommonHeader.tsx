@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Flex, IconButton, Image, Text } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
@@ -22,6 +23,7 @@ interface CommonHeaderProps {
 
 const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
 
   const cssByVariant = HOME_HEADER_VARIANTS[variant];
 
@@ -49,9 +51,11 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
         />
         <Image // LOGO
           src="/images/LOGO.png"
+          alt="Bueaty core logo"
           w="35%"
           h="25%"
           cursor="pointer"
+          onClick={() => router.push('/home')}
         />
         <CartButton variant="transparentButton">
           <Link href="/cart">

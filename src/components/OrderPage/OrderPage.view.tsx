@@ -53,8 +53,8 @@ const OrderPageView = ({
   onSubmit,
   ...basisProps
 }: FormPageProps) => {
-  const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
-  const [orderList, setOrderList] = React.useState<localOrderListType[]>();
+  const [checkedOrderInfo, setCheckedOrderInfo] = useState(false);
+  const [orderList, setOrderList] = useState<localOrderListType[]>();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -90,7 +90,6 @@ const OrderPageView = ({
   const searchCompleteHandler = (data: Address, type: string) => {
     let fullAddress = data.address;
     let extraAddress = '';
-    console.log('data: ', data);
 
     if (data.addressType === 'R') {
       if (data.bname !== '') {
@@ -103,8 +102,13 @@ const OrderPageView = ({
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
 
-    if (type === 'ordererInfo') setValue('address', fullAddress);
-    else if (type === 'shippingInfo') setValue('orderAddress', fullAddress);
+    if (type === 'ordererInfo') {
+      setValue('address', fullAddress);
+      setValue('zonecode', data.zonecode); // 우편번호
+    } else if (type === 'shippingInfo') {
+      setValue('orderAddress', fullAddress);
+      setValue('orderZonecode', data.zonecode); // 우편번호
+    }
   };
 
   return (
@@ -176,12 +180,14 @@ const OrderPageView = ({
                 <Flex gap=".7rem" mb=".7rem">
                   <Input
                     borderRadius="100px"
+                    w="50%"
                     size="md"
                     borderColor="black"
-                    {...register('address')}
+                    {...register('zonecode')}
                     autoComplete="off"
-                    placeholder="주소"
+                    placeholder="우편번호"
                     onClick={onOpen}
+                    disabled={getValues('zonecode') ? true : false}
                   />
                   <Button
                     variant="primaryButton"
@@ -201,6 +207,17 @@ const OrderPageView = ({
                     searchCompleteHandler={searchCompleteHandler}
                   />
                 </Flex>
+                <Input
+                  borderRadius="100px"
+                  mb=".7rem"
+                  size="md"
+                  borderColor="black"
+                  {...register('address')}
+                  autoComplete="off"
+                  placeholder="주소"
+                  onClick={onOpen}
+                  disabled={getValues('address') ? true : false}
+                />
                 <Input
                   borderRadius="100px"
                   size="md"
@@ -265,13 +282,15 @@ const OrderPageView = ({
               >
                 <Flex gap=".7rem" mb=".7rem">
                   <Input
+                    w="50%"
                     borderRadius="100px"
                     size="md"
                     borderColor="black"
-                    {...register('orderAddress')}
+                    {...register('orderZonecode')}
                     autoComplete="off"
-                    placeholder="주소"
-                    onClick={orderOnOpen}
+                    placeholder="우편번호"
+                    onClick={onOpen}
+                    disabled={getValues('orderZonecode') ? true : false}
                   />
                   <Button
                     variant="primaryButton"
@@ -291,6 +310,17 @@ const OrderPageView = ({
                     searchCompleteHandler={searchCompleteHandler}
                   />
                 </Flex>
+                <Input
+                  borderRadius="100px"
+                  mb=".7rem"
+                  size="md"
+                  borderColor="black"
+                  {...register('orderAddress')}
+                  autoComplete="off"
+                  placeholder="주소"
+                  onClick={orderOnOpen}
+                  disabled={getValues('orderAddress') ? true : false}
+                />
                 <Input
                   borderRadius="100px"
                   size="md"

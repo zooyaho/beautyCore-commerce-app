@@ -97,7 +97,7 @@ const OrderPage = () => {
               .requestPayment('카드', {
                 // amount: totalPrice + (totalPrice > 30000 ? 0 : 3000),
                 amount: 1,
-                orderId: orderData.id,
+                orderId: orderData.id, // 69534e64-335d-4ba5-956b-51d3483275e6
                 orderName: `${orderList[0].name} 외 ${orderList.length - 1}건`,
                 customerName: username,
                 /* successUrl: `${TOSSPAYMENT_SUCCESS_URL}`,

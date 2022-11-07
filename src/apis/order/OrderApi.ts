@@ -1,10 +1,13 @@
 import instance from '@apis/_axios/instance';
 
+import { loadTossPayments } from '@tosspayments/payment-sdk';
+
 import { Order } from './OrderApi.type';
 
-/* async function main() {
-  const tossPayments = await loadTossPayments(clientKey)
-} */
+export async function tossPayments(clientKey: string) {
+  const tossPayments = await loadTossPayments(clientKey);
+  return tossPayments;
+}
 
 export async function getOrderList() {
   const { data } = await instance('/v1/order/');

@@ -1,15 +1,22 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { CONFIG } from '@config';
+
 import { postOrder } from '@apis/order/OrderApi';
 import { localOrderListType } from '@apis/order/OrderApi.type';
 import { UserMe } from '@apis/user/userApi.type';
 
 import { useQueryClient } from '@tanstack/react-query';
+import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { getLocalStorage } from '@utils/localStorage/helper';
 
 import OrderPageView from './OrderPage.view';
 import useFormValidate from './_hooks/useFormValidate';
+
+const TOSSPAYMENT_CLIENT_KEY = `${CONFIG.TOSSPAYMENT_CLIENT_KEY}`;
+const TOSSPAYMENT_SUCCESS_URL = `${CONFIG.TOSSPAYMENT_SUCCESS_URL}`;
+const TOSSPAYMENT_FAIL_URL = `${CONFIG.TOSSPAYMENT_FAIL_URL}`;
 
 // interface SignUpPageProps extends ChakraProps { }
 
@@ -78,8 +85,45 @@ const OrderPage = () => {
           orderMessage: orderRequest.length === 0 ? '' : orderRequest,
         };
         console.log('⭐️order: ', order);
-        const orderData = await postOrder(order);
-        console.log(orderData.id, orderData.created);
+        try {
+          const orderData = await postOrder(order);
+          console.log(orderData.id, orderData.created);
+          const tossPayments = await loadTossPayments(
+            'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
+          );
+          console.log('tossPayments: ', tossPayments);
+          if (orderList)
+            tossPayments //post 요청
+              .requestPayment('카드', {
+                // amount: totalPrice + (totalPrice > 30000 ? 0 : 3000),
+                amount: 1,
+                orderId: orderData.id,
+                orderName: `${orderList[0].name} 외 ${orderList.length - 1}건`,
+                customerName: username,
+                /* successUrl: `${TOSSPAYMENT_SUCCESS_URL}`,
+                failUrl: `${TOSSPAYMENT_FAIL_URL}`, */
+                successUrl: `http://localhost:3000/tosspayment/success`,
+                failUrl: `http://localhost:3000/tosspayment/fail`,
+              })
+              .catch(function (error) {
+                console.log('🚨', error);
+                if (error.code === 'USER_CANCEL') {
+                  // 결제 고객이 결제창을 닫았을 때 에러 처리
+                  console.log(
+                    '결제 고객이 결제창을 닫았을 때 에러 처리: ',
+                    error.code,
+                  );
+                } else if (error.code === 'INVALID_CARD_COMPANY') {
+                  // 유효하지 않은 카드 코드에 대한 에러 처리
+                  console.log(
+                    '유효하지 않은 카드 코드에 대한 에러 처리: ',
+                    error.code,
+                  );
+                }
+              });
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
   );
@@ -87,8 +131,8 @@ const OrderPage = () => {
     <OrderPageView
       formData={formData}
       onSubmit={onSubmit}
-      orderList={orderList ? orderList : []}
-      totalPrice={totalPrice ? totalPrice : 0}
+      orderList={orderList}
+      totalPrice={totalPrice}
     />
   );
 };

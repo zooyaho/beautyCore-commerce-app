@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Address } from 'react-daum-postcode';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
@@ -24,7 +23,6 @@ import { localOrderListType } from '@apis/order/OrderApi.type';
 import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
-import { getLocalStorage } from '@utils/localStorage/helper';
 
 import OrderProductItem from './_fragments/OrderProductItem';
 import SearchAddressModal from './_fragments/SearchAddressModal';
@@ -34,8 +32,8 @@ import { CardPayIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
-  orderList: localOrderListType[];
-  totalPrice: number;
+  orderList: localOrderListType[] | undefined;
+  totalPrice: number | undefined;
 }
 
 const OrderPageView = ({

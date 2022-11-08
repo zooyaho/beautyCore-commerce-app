@@ -20,6 +20,7 @@ import { cartSliceAction } from '@features/cart/cartSlice';
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
+import { setLocalStorage } from '@utils/localStorage/helper';
 
 import CartDrawer from './_fragment/CartDrawer';
 import OrderInfoSection from './_fragment/OrderInfoSection';
@@ -48,6 +49,19 @@ function ProductListDetailByIdPage({
   ];
   const { onOpen, isOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
+
+  const setStorageOrderListHandler = () => {
+    setLocalStorage('order', [
+      {
+        productId: productData.id,
+        name: productData.name,
+        photo: productData.photo,
+        capacity: productData.capacity,
+        price: productData.price,
+        count: 1,
+      },
+    ]);
+  };
 
   return (
     <>
@@ -116,7 +130,11 @@ function ProductListDetailByIdPage({
             >
               장바구니
             </Button>
-            <Button variant="primaryButton" size="lg">
+            <Button
+              variant="primaryButton"
+              size="lg"
+              onClick={setStorageOrderListHandler}
+            >
               <Link href="/order">
                 <Center as="a" w="100%" h="100%">
                   바로구매

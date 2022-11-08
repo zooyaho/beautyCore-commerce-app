@@ -26,7 +26,7 @@ function SuccessPage() {
           productId: order.productId,
           count: order.count,
         });
-        await deleteCartItem(order.id);
+        if (order.id) await deleteCartItem(order.id);
       });
       removeLocalStorage('order');
     }

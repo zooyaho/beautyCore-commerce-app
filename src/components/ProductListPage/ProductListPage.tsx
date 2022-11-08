@@ -24,6 +24,7 @@ import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { setLocalStorage } from '@utils/localStorage/helper';
 
 import { Product, ProductList } from '../../apis/product/ProductAPi.type';
 
@@ -70,6 +71,19 @@ function ProductListPage({ productListData }: ProductListPageProps) {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
 
+  const setStorageOrderListHandler = (product: Product) => {
+    setLocalStorage('order', [
+      {
+        productId: product.id,
+        name: product.name,
+        photo: product.thumbnail,
+        capacity: product.capacity,
+        price: product.price,
+        count: 1,
+      },
+    ]);
+  };
+
   return (
     <>
       <InfiniteScroll loadMore={() => fetchNextPage()} hasMore={hasNextPage}>
@@ -115,7 +129,12 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                   </Flex>
                 </Box>
                 <Flex pt="1rem" pb="2rem" gap=".7rem" px="1.5rem">
-                  <Button variant="primaryButton" fontSize="md" flexGrow="1">
+                  <Button
+                    variant="primaryButton"
+                    fontSize="md"
+                    flexGrow="1"
+                    onClick={() => setStorageOrderListHandler(product)}
+                  >
                     <Link href="/order">
                       <Center as="a" w="100%" h="100%">
                         바로구매

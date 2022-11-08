@@ -33,9 +33,11 @@ const OrderPage = () => {
 
   useEffect(() => {
     const localData = getLocalStorage<localOrderListType[]>('order', []);
+    console.log('⭐️localData: ', localData);
     if (localData.length) {
       setOrderList(getLocalStorage<localOrderListType[]>('order', []));
     } else {
+      console.log('여기서 백이 됐나용????');
       router.back();
     }
   }, [orderList?.length, router]);
@@ -77,19 +79,23 @@ const OrderPage = () => {
           shipAddr: orderAddress,
           shipAddrDetail: orderAddressDetail,
           orderMessage:
-            orderRequest.length === 0 ? '요청메세지 없음' : orderRequest,
+            orderRequest.length === 0 ? '요청 메세지 없음' : orderRequest,
         };
         console.log('⭐️order: ', order);
         try {
           const orderData = await postOrder(order);
           const tossPayments = await loadTossPayments(TOSSPAYMENT_CLIENT_KEY);
 
-          if (orderList)
+          if (orderList) {
+            const orderCount =
+              orderList.length === 1
+                ? ''
+                : '외 ' + (orderList.length - 1) + '건';
             tossPayments //post 요청
               .requestPayment('카드', {
                 amount: totalPrice + (totalPrice > 30000 ? 0 : 3000),
                 orderId: orderData.id,
-                orderName: `${orderList[0].name} 외 ${orderList.length - 1}건`,
+                orderName: `${orderList[0].name}${orderCount}`,
                 customerName: username,
                 successUrl: `${TOSSPAYMENT_SUCCESS_URL}`,
                 failUrl: `${TOSSPAYMENT_FAIL_URL}`,
@@ -108,6 +114,7 @@ const OrderPage = () => {
                   status: 'error',
                 });
               });
+          }
         } catch (e) {
           console.error(e);
         }

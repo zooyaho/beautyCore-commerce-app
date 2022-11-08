@@ -50,22 +50,12 @@ const OrderPageView = ({
   ...basisProps
 }: FormPageProps) => {
   const [checkedOrderInfo, setCheckedOrderInfo] = useState(false);
-  // const [orderList, setOrderList] = useState<localOrderListType[]>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: orderIsOpen,
     onOpen: orderOnOpen,
     onClose: orderOnClose,
   } = useDisclosure();
-
-  /*  useEffect(() => {
-     const localData = getLocalStorage<localOrderListType[]>('order', []);
-     if (localData.length) {
-       // setOrderList(getLocalStorage<localOrderListType[]>('order', []));
-     } else {
-       router.back();
-     }
-   }, [orderList?.length, router]); */
 
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
@@ -96,10 +86,10 @@ const OrderPageView = ({
 
     if (type === 'ordererInfo') {
       setValue('address', fullAddress);
-      setValue('zonecode', data.zonecode); // 우편번호
+      setValue('zonecode', data.zonecode);
     } else if (type === 'shippingInfo') {
       setValue('orderAddress', fullAddress);
-      setValue('orderZonecode', data.zonecode); // 우편번호
+      setValue('orderZonecode', data.zonecode);
     }
   };
 

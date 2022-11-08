@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { CONFIG } from '@config';
 
+import { useToast } from '@chakra-ui/react';
+
 import { postOrder } from '@apis/order/OrderApi';
 import { localOrderListType } from '@apis/order/OrderApi.type';
 import { UserMe } from '@apis/user/userApi.type';
@@ -18,11 +20,10 @@ const TOSSPAYMENT_CLIENT_KEY = `${CONFIG.TOSSPAYMENT_CLIENT_KEY}`;
 const TOSSPAYMENT_SUCCESS_URL = `${CONFIG.TOSSPAYMENT_SUCCESS_URL}`;
 const TOSSPAYMENT_FAIL_URL = `${CONFIG.TOSSPAYMENT_FAIL_URL}`;
 
-// interface SignUpPageProps extends ChakraProps { }
-
 const OrderPage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
+  const toast = useToast();
 
   const queryClient = useQueryClient();
   const userData = queryClient.getQueryData<UserMe>(['user']);
@@ -43,10 +44,6 @@ const OrderPage = () => {
     () => orderList?.reduce((prev, cur) => prev + cur.price * cur.count, 0),
     [orderList],
   );
-  const totalCount = useMemo(
-    () => orderList?.reduce((prev, cur) => prev + cur.count, 0),
-    [orderList],
-  );
 
   const onSubmit = handleSubmit(
     async ({
@@ -62,9 +59,6 @@ const OrderPage = () => {
       orderAddressDetail,
       orderRequest,
     }) => {
-      console.log(
-        `submitted: ${username},  ${phone}, ${zonecode}, ${address}, ${addressDetail}, ${orderUsername},  ${orderPhone}, ${orderZonecode}, ${orderAddress}, ${orderAddressDetail},${orderRequest}`,
-      );
       if (userData && totalPrice) {
         const order = {
           userId: userData.id,
@@ -82,47 +76,40 @@ const OrderPage = () => {
           shipAddrPost: orderZonecode,
           shipAddr: orderAddress,
           shipAddrDetail: orderAddressDetail,
-          orderMessage: orderRequest.length === 0 ? '' : orderRequest,
+          orderMessage:
+            orderRequest.length === 0 ? '요청메세지 없음' : orderRequest,
         };
         console.log('⭐️order: ', order);
         try {
           const orderData = await postOrder(order);
-          console.log(orderData.id, orderData.created);
-          const tossPayments = await loadTossPayments(
-            'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
-          );
-          console.log('tossPayments: ', tossPayments);
+          const tossPayments = await loadTossPayments(TOSSPAYMENT_CLIENT_KEY);
+
           if (orderList)
             tossPayments //post 요청
               .requestPayment('카드', {
-                // amount: totalPrice + (totalPrice > 30000 ? 0 : 3000),
-                amount: 1,
-                orderId: orderData.id, // 69534e64-335d-4ba5-956b-51d3483275e6
+                amount: totalPrice + (totalPrice > 30000 ? 0 : 3000),
+                orderId: orderData.id,
                 orderName: `${orderList[0].name} 외 ${orderList.length - 1}건`,
                 customerName: username,
-                /* successUrl: `${TOSSPAYMENT_SUCCESS_URL}`,
-                failUrl: `${TOSSPAYMENT_FAIL_URL}`, */
-                successUrl: `http://localhost:3000/tosspayment/success`,
-                failUrl: `http://localhost:3000/tosspayment/fail`,
+                successUrl: `${TOSSPAYMENT_SUCCESS_URL}`,
+                failUrl: `${TOSSPAYMENT_FAIL_URL}`,
               })
               .catch(function (error) {
-                console.log('🚨', error);
-                if (error.code === 'USER_CANCEL') {
-                  // 결제 고객이 결제창을 닫았을 때 에러 처리
-                  console.log(
-                    '결제 고객이 결제창을 닫았을 때 에러 처리: ',
-                    error.code,
-                  );
-                } else if (error.code === 'INVALID_CARD_COMPANY') {
+                if (error.code === 'INVALID_CARD_COMPANY') {
                   // 유효하지 않은 카드 코드에 대한 에러 처리
-                  console.log(
-                    '유효하지 않은 카드 코드에 대한 에러 처리: ',
-                    error.code,
-                  );
+                  toast({
+                    description: '유효하지 않은 카드입니다.',
+                    status: 'error',
+                  });
+                  return;
                 }
+                toast({
+                  description: error.message,
+                  status: 'error',
+                });
               });
         } catch (e) {
-          console.log(e);
+          console.error(e);
         }
       }
     },

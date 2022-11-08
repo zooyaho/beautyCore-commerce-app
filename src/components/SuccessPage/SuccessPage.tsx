@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import { Button, Center, Flex, Image, ScaleFade, Text } from '@chakra-ui/react';
 
+import { deleteCartItem } from '@apis/cart/CartApi';
 import { postOrderStatus } from '@apis/order/OrderApi';
 import { localOrderListType } from '@apis/order/OrderApi.type';
 
@@ -16,16 +18,19 @@ function SuccessPage() {
   const { query } = useRouter();
   const orderList = getLocalStorage<localOrderListType[]>('order', []);
 
-  if (orderList) {
-    orderList.map(async (order) => {
-      await postOrderStatus({
-        orderId: query.orderId as string,
-        productId: order.productId,
-        count: order.count,
+  useEffect(() => {
+    if (orderList && query.orderId) {
+      orderList.map(async (order) => {
+        await postOrderStatus({
+          orderId: query.orderId as string,
+          productId: order.productId,
+          count: order.count,
+        });
+        await deleteCartItem(order.id);
       });
-    });
-    removeLocalStorage('order');
-  }
+      removeLocalStorage('order');
+    }
+  }, [orderList, query.orderId]);
 
   return (
     <Flex

@@ -17,6 +17,7 @@ export interface Order {
   orderMessage: string;
 }
 export interface localOrderListType {
+  id: number;
   productId: number;
   name: string;
   photo: string;

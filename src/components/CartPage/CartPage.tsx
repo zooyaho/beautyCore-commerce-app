@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useGetCart } from '@apis/cart/CartApi.query';
+import { CartItem as CartItemType } from '@apis/cart/CartApi.type';
 import { ProductDetail } from '@apis/product/ProductAPi.type';
 import useAppStore from '@features/useAppStore';
 
@@ -43,8 +44,12 @@ function CartPage({ userId }: CartPageProps) {
 
   const setStorageOrderListHandler = () => {
     const setOrderList = checkedCartList.map((product, index) => {
-      if (checkedProductList && checkedProductList.length)
+      if (checkedProductList && checkedProductList.length) {
+        const orderItem = cartList?.find(
+          (cartProduct) => cartProduct.productId === product.productId,
+        ) as CartItemType;
         return {
+          id: orderItem.id,
           productId: product.productId,
           name: checkedProductList[index].name,
           photo: checkedProductList[index].photo,
@@ -52,6 +57,7 @@ function CartPage({ userId }: CartPageProps) {
           price: checkedProductList[index].price,
           count: product.count,
         };
+      }
     });
     console.log('⭐️setOrderList: ', setOrderList);
     setLocalStorage('order', setOrderList);

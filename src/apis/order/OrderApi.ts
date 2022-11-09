@@ -13,7 +13,7 @@ export async function getOrderList() {
   console.log(data);
   return data;
 }
-export async function postOrder(body: Order) {
+export async function postOrder(body: Partial<Order>) {
   const { data } = await instance({
     method: 'POST',
     url: '/v1/order/',
@@ -21,7 +21,7 @@ export async function postOrder(body: Order) {
   });
   return data;
 }
-export async function getOrder(id: number) {
+export async function getOrder(id: string) {
   const { data } = await instance(`/v1/order/${id}/`);
   return data;
 }
@@ -30,6 +30,14 @@ export async function putOrder(id: number, body: Order) {
     method: 'PUT',
     url: `/v1/order/${id}/`,
     data: body,
+  });
+  return data;
+}
+export async function getOrderStatus(id: number) {
+  const { data } = await instance({
+    method: 'GET',
+    url: `/v1/order/status/`,
+    params: { order_id: id },
   });
   return data;
 }

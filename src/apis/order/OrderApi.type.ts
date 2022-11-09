@@ -15,6 +15,8 @@ export interface Order {
   shipAddr: string;
   shipAddrDetail: string;
   orderMessage: string;
+  created: string;
+  id: string;
 }
 export interface localOrderListType {
   id?: number;

@@ -1,8 +1,7 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { Button, Center, Flex, Image, ScaleFade, Text } from '@chakra-ui/react';
+import { Button, Flex, Image, ScaleFade, Text } from '@chakra-ui/react';
 
 import { deleteCartItem } from '@apis/cart/CartApi';
 import { postOrderStatus } from '@apis/order/OrderApi';
@@ -15,7 +14,7 @@ import {
 
 function SuccessPage() {
   console.log('👌tosspay success page!!');
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const orderList = getLocalStorage<localOrderListType[]>('order', []);
 
   useEffect(() => {
@@ -49,12 +48,19 @@ function SuccessPage() {
           w="100%"
         />
       </ScaleFade>
-      <Button variant="primaryButton" size="lg" w="60%" mt="2rem">
-        <Link href="/payment-history">
-          <Center as="a" w="100%" h="100%">
-            결제 내역으로 이동
-          </Center>
-        </Link>
+      <Button
+        variant="primaryButton"
+        size="lg"
+        w="60%"
+        mt="2rem"
+        onClick={() => {
+          push({
+            pathname: '/payment-history',
+            query: { orderId: query.orderId },
+          });
+        }}
+      >
+        결제 내역으로 이동
       </Button>
     </Flex>
   );

@@ -1,4 +1,5 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -12,11 +13,27 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { useGetOrder, useGetOrderStatus } from '@apis/order/OrderApi.query';
+import { useGetProduct } from '@apis/product/ProductApi.query';
+import { useGetUserMe } from '@apis/user/userApi.query';
+
 import { LAYOUT } from '@constants/layout';
+import { useQueryClient } from '@tanstack/react-query';
 
 // interface PaymentHistoryPageProps extends ChakraProps {}
 
 function PaymentHistoryPage() {
+  const { query } = useRouter();
+  const { data: userData } = useGetUserMe();
+  const orderData = useGetOrder(query.orderId as string);
+  const { data: orderList, isSuccess } = useGetOrderStatus(
+    userData?.id as number,
+    userData,
+  );
+  // const productList = orderList.map((order) => {
+  //   const data = useGetProduct(order.)
+  // });
+
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>
       <Text as="h2" textStyle="lg" fontWeight="bold" mt="1.6rem" px="1rem">

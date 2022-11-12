@@ -14,6 +14,8 @@ import {
 } from '@chakra-ui/react';
 
 import { useGetOrder, useGetOrderStatus } from '@apis/order/OrderApi.query';
+import { OrderGetStatus } from '@apis/order/OrderApi.type';
+import { getProduct } from '@apis/product/ProductApi';
 import { useGetProduct } from '@apis/product/ProductApi.query';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
@@ -25,14 +27,17 @@ import { useQueryClient } from '@tanstack/react-query';
 function PaymentHistoryPage() {
   const { query } = useRouter();
   const { data: userData } = useGetUserMe();
-  const orderData = useGetOrder(query.orderId as string);
+  const { data: orderData } = useGetOrder(query.orderId as string);
   const { data: orderList, isSuccess } = useGetOrderStatus(
     userData?.id as number,
     userData,
   );
-  // const productList = orderList.map((order) => {
-  //   const data = useGetProduct(order.)
-  // });
+  const paymentList = orderList?.results.filter(
+    (order) => query.orderId === order.orderId,
+  );
+  const productList = paymentList?.map(
+    async (order) => await getProduct(order.productId),
+  );
 
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>

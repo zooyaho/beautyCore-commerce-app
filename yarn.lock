@@ -2101,6 +2101,27 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
+"@tosspayments/payment-sdk@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@tosspayments/payment-sdk/-/payment-sdk-1.2.0.tgz#1e881ea6abdfd52991e964fd02bf0f00d8b6d759"
+  integrity sha512-ds8egFUjEQlKQIge3KMaN6T1BBoWGeT8/weaUtwS4hJWDosrzMnC6+DhXWkVTVFEH5fWuyJkZyZXYGfb9J/ZdQ==
+  dependencies:
+    "@tosspayments/payment__types" "^1.10.10"
+
+"@tosspayments/payment__types@^1.10.10":
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/@tosspayments/payment__types/-/payment__types-1.10.15.tgz#de655523f9d07b1817380d047a3c0f87aa7a2d4c"
+  integrity sha512-+EIrd+53kF/HFi2ss2s+Z3TKMF3vLk9r3tAnoXi22togLmYedLAi5JXLYVXGwbQjXkqakN9qxjeiRhndSOs+mA==
+  dependencies:
+    "@tosspayments/sdk-constants" "^0.2.0"
+
+"@tosspayments/sdk-constants@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@tosspayments/sdk-constants/-/sdk-constants-0.2.0.tgz#b5e7455821570736701462408a6b3ddfcd97787c"
+  integrity sha512-CuZ6w+CpyNc9dm1WAwtoimMMtYVwguqmWfLRnYd4gaglPwFJqfndtdzDfevwyXblBkVvBsfyjqZ1IyDf7RXB5g==
+  dependencies:
+    type-fest "^2.8.0"
+
 "@trivago/prettier-plugin-sort-imports@^3.2.0":
   version "3.2.0"
   resolved "https://registry.npmjs.org/@trivago/prettier-plugin-sort-imports/-/prettier-plugin-sort-imports-3.2.0.tgz"
@@ -8291,6 +8312,11 @@ type-fest@^0.21.3:
   version "0.21.3"
   resolved "https://registry.npmjs.org/type-fest/-/type-fest-0.21.3.tgz"
   integrity sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==
+
+type-fest@^2.8.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.19.0.tgz#88068015bb33036a598b952e55e9311a60fd3a9b"
+  integrity sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"

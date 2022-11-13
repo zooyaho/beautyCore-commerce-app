@@ -1,9 +1,11 @@
+import Link from 'next/link';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
   Box,
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -14,10 +16,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import { getProduct } from '@apis/product/ProductApi';
 import { cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
 import CartButton from '@components/common/CartButton';
+
+import { setLocalStorage } from '@utils/localStorage/helper';
 
 import AddCartModal from './AddCartModal';
 
@@ -70,6 +75,30 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         updateDataStore(selectedProduct, selectedProduct.productQuantity - 1);
       }
     };
+
+  const setStorageOrderListHandler = async () => {
+    const productList = await Promise.all(
+      cartProductList.map(
+        async (product) => await getProduct(product.productId),
+      ),
+    );
+    const orderList = productList.map((product) => {
+      const count = cartProductList.find(
+        (cart) => cart.productId === product.id,
+      )?.productQuantity;
+
+      if (count)
+        return {
+          productId: product.id,
+          name: product.name,
+          photo: product.photo,
+          capacity: product.capacity,
+          price: product.price,
+          count: count,
+        };
+    });
+    setLocalStorage('order', orderList);
+  };
 
   return (
     <>
@@ -160,8 +189,16 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <CartButton variant="whiteButton" size="lg" drawerOpen={onOpen}>
                 <Text as="span">장바구니</Text>
               </CartButton>
-              <Button variant="primaryButton" size="lg">
-                바로구매
+              <Button
+                variant="primaryButton"
+                size="lg"
+                onClick={setStorageOrderListHandler}
+              >
+                <Link href="/order">
+                  <Center as="a" w="100%" h="100%">
+                    바로구매
+                  </Center>
+                </Link>
               </Button>
             </Flex>
           </DrawerBody>

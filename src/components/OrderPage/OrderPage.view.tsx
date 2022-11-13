@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Address } from 'react-daum-postcode';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
@@ -10,18 +10,21 @@ import {
   Container,
   Divider,
   Flex,
-  Img,
   Input,
   Radio,
   RadioGroup,
   Spacer,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
+
+import { localOrderListType } from '@apis/order/OrderApi.type';
 
 import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
 
+import OrderProductItem from './_fragments/OrderProductItem';
 import SearchAddressModal from './_fragments/SearchAddressModal';
 import { FormDataType } from './_hooks/useFormValidate';
 
@@ -29,6 +32,8 @@ import { CardPayIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
+  orderList: localOrderListType[] | undefined;
+  totalPrice: number | undefined;
 }
 
 const OrderPageView = ({
@@ -40,24 +45,33 @@ const OrderPageView = ({
     getValues,
   },
   onSubmit,
+  orderList,
+  totalPrice,
   ...basisProps
 }: FormPageProps) => {
-  const [checkedOrderInfo, setCheckedOrderInfo] = React.useState(false);
+  const [checkedOrderInfo, setCheckedOrderInfo] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: orderIsOpen,
+    onOpen: orderOnOpen,
+    onClose: orderOnClose,
+  } = useDisclosure();
+
   const sameOrderInfoHandler = () => {
     setCheckedOrderInfo((checked) => !checked);
-    const { username, phone, address, addressDetail } = getValues();
+    const { username, phone, zonecode, address, addressDetail } = getValues();
     if (!checkedOrderInfo) {
       setValue('orderUsername', username);
       setValue('orderPhone', phone);
+      setValue('orderZonecode', zonecode);
       setValue('orderAddress', address);
       setValue('orderAddressDetail', addressDetail);
     }
   };
 
-  const searchCompleteHandler = (data: Address) => {
+  const searchCompleteHandler = (data: Address, type: string) => {
     let fullAddress = data.address;
     let extraAddress = '';
-    console.log('data: ', data);
 
     if (data.addressType === 'R') {
       if (data.bname !== '') {
@@ -69,7 +83,14 @@ const OrderPageView = ({
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-    setValue('address', fullAddress);
+
+    if (type === 'ordererInfo') {
+      setValue('address', fullAddress);
+      setValue('zonecode', data.zonecode);
+    } else if (type === 'shippingInfo') {
+      setValue('orderAddress', fullAddress);
+      setValue('orderZonecode', data.zonecode);
+    }
   };
 
   return (
@@ -83,22 +104,18 @@ const OrderPageView = ({
             주문 상품
           </Text>
           <Divider />
-          <Flex p=".7rem 1rem">
-            <Img
-              mr=".7rem"
-              w="3.75rem"
-              h="3.75rem"
-              src="/images/dummyImg/상품이미지.png"
-            />
-            <Box>
-              <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
-              <Text textStyle="ss_wn_cg600" textColor="gray.600">
-                바스 &amp; 샴푸 | 120ml
-              </Text>
-              <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
-            </Box>
-          </Flex>
-          <Divider />
+          {orderList && (
+            <>
+              {orderList.map((v) => {
+                return (
+                  <React.Fragment key={v.productId}>
+                    <OrderProductItem productId={v.productId} count={v.count} />
+                    <Divider />
+                  </React.Fragment>
+                );
+              })}
+            </>
+          )}
         </Box>
         {/* s: Form */}
         <Box as="form" onSubmit={onSubmit} {...basisProps}>
@@ -134,7 +151,7 @@ const OrderPageView = ({
                   borderColor="black"
                   {...register('phone')}
                   autoComplete="off"
-                  placeholder="010-1234-1234"
+                  placeholder="01012341234"
                 />
               </FormHelper>
               <FormHelper
@@ -145,16 +162,44 @@ const OrderPageView = ({
                 <Flex gap=".7rem" mb=".7rem">
                   <Input
                     borderRadius="100px"
+                    w="50%"
                     size="md"
                     borderColor="black"
-                    {...register('address')}
+                    {...register('zonecode')}
                     autoComplete="off"
-                    placeholder="주소"
+                    placeholder="우편번호"
+                    onClick={onOpen}
+                    disabled={getValues('zonecode') ? true : false}
                   />
+                  <Button
+                    variant="primaryButton"
+                    w="30%"
+                    h="40px"
+                    borderRadius="5px"
+                    onClick={onOpen}
+                  >
+                    <Text as="span" fontSize="12px">
+                      우편번호 검색
+                    </Text>
+                  </Button>
                   <SearchAddressModal
+                    type="ordererInfo"
+                    onClose={onClose}
+                    isOpen={isOpen}
                     searchCompleteHandler={searchCompleteHandler}
                   />
                 </Flex>
+                <Input
+                  borderRadius="100px"
+                  mb=".7rem"
+                  size="md"
+                  borderColor="black"
+                  {...register('address')}
+                  autoComplete="off"
+                  placeholder="주소"
+                  onClick={onOpen}
+                  disabled={getValues('address') ? true : false}
+                />
                 <Input
                   borderRadius="100px"
                   size="md"
@@ -209,7 +254,7 @@ const OrderPageView = ({
                   borderColor="black"
                   {...register('orderPhone')}
                   autoComplete="off"
-                  placeholder="010-1234-1234"
+                  placeholder="01012341234"
                 />
               </FormHelper>
               <FormHelper
@@ -219,17 +264,45 @@ const OrderPageView = ({
               >
                 <Flex gap=".7rem" mb=".7rem">
                   <Input
+                    w="50%"
                     borderRadius="100px"
                     size="md"
                     borderColor="black"
-                    {...register('orderAddress')}
+                    {...register('orderZonecode')}
                     autoComplete="off"
-                    placeholder="주소"
+                    placeholder="우편번호"
+                    onClick={onOpen}
+                    disabled={getValues('orderZonecode') ? true : false}
                   />
+                  <Button
+                    variant="primaryButton"
+                    w="30%"
+                    h="40px"
+                    borderRadius="5px"
+                    onClick={orderOnOpen}
+                  >
+                    <Text as="span" fontSize="12px">
+                      우편번호 검색
+                    </Text>
+                  </Button>
                   <SearchAddressModal
+                    type="shippingInfo"
+                    onClose={orderOnClose}
+                    isOpen={orderIsOpen}
                     searchCompleteHandler={searchCompleteHandler}
                   />
                 </Flex>
+                <Input
+                  borderRadius="100px"
+                  mb=".7rem"
+                  size="md"
+                  borderColor="black"
+                  {...register('orderAddress')}
+                  autoComplete="off"
+                  placeholder="주소"
+                  onClick={orderOnOpen}
+                  disabled={getValues('orderAddress') ? true : false}
+                />
                 <Input
                   borderRadius="100px"
                   size="md"
@@ -290,18 +363,23 @@ const OrderPageView = ({
             <Flex textColor="gray.600" mt="2.5rem">
               <Text>총 상품금액</Text>
               <Spacer />
-              <Text>108,000 원</Text>
+              <Text>{totalPrice} 원</Text>
             </Flex>
             <Flex textColor="gray.600" mt=".7rem" mb="1.3rem">
               <Text>총 배송비</Text>
               <Spacer />
-              <Text>0 원</Text>
+              <Text>{totalPrice && totalPrice > 30000 ? 0 : 3000} 원</Text>
             </Flex>
             <Divider />
             <Flex my="1.3rem">
               <Text>결제금액</Text>
               <Spacer />
-              <Text textStyle="sm_wb_cp">108,000 원</Text>
+              <Text textStyle="sm_wb_cp">
+                {totalPrice && totalPrice > 30000
+                  ? totalPrice
+                  : totalPrice && 3000 + totalPrice}{' '}
+                원
+              </Text>
             </Flex>
             <Divider />
             <Controller

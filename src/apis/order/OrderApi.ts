@@ -25,7 +25,7 @@ export async function getOrder(id: string) {
   const { data } = await instance(`/v1/order/${id}/`);
   return data;
 }
-export async function putOrder(id: number, body: Order) {
+export async function putOrder(id: number, body: Partial<Order>) {
   const { data } = await instance({
     method: 'PUT',
     url: `/v1/order/${id}/`,

@@ -1,9 +1,11 @@
 export interface Order {
+  id: string;
   userId: number;
   price: number;
   shippingPrice: number;
   amount: number;
   method: string;
+  status: string;
   userName: string;
   userPhone: string;
   userAddrPost: string;
@@ -15,8 +17,8 @@ export interface Order {
   shipAddr: string;
   shipAddrDetail: string;
   orderMessage: string;
+  shippingStatus: string;
   created: string;
-  id: string;
 }
 export interface localOrderListType {
   id?: number;
@@ -43,27 +45,5 @@ export interface OrderStatusResults {
   orderId: string;
   productId: number;
   count: number;
-  created: string;
-}
-export interface OrderResults {
-  id: string;
-  userId: 0;
-  price: 0;
-  shippingPrice: 0;
-  amount: 0;
-  method: 'CARD';
-  status: string;
-  userName: string;
-  userPhone: string;
-  userAddrPost: string;
-  userAddr: string;
-  userAddrDetail: string;
-  shipName: string;
-  shipPhone: string;
-  shipAddrPost: string;
-  shipAddr: string;
-  shipAddrDetail: string;
-  orderMessage: string;
-  shippingStatus: string;
   created: string;
 }

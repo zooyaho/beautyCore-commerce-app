@@ -1,3 +1,7 @@
+export const formatPhoneDash = (p: string | undefined) => {
+  return `${p?.slice(0, 3)}-${p?.slice(3, 7)}-${p?.slice(7)}`;
+};
+
 export const intComma = (x: number | string) => {
   return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

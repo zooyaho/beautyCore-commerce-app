@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import {
@@ -13,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 import { putOrderStatus } from '@apis/order/OrderApi';
-import { useGetOrder, useGetOrderStatus } from '@apis/order/OrderApi.query';
+import { useGetOrder } from '@apis/order/OrderApi.query';
 import { OrderGetStatus } from '@apis/order/OrderApi.type';
 import { UserMe } from '@apis/user/userApi.type';
 
@@ -38,6 +39,7 @@ interface OrderHistorySectionProps {
 }
 
 function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { data: orderData } = useGetOrder(orderId);
   const userData = queryClient.getQueryData(['user']) as UserMe;
@@ -78,6 +80,7 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
           size="sm"
           w="30%"
           onChange={changeShippingStatusHandler}
+          cursor="pointer"
         >
           <option value="PAID">결제완료</option>
           <option value="WAIT">상품준비중</option>
@@ -88,13 +91,23 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
       </Flex>
       <Divider />
       {/* order list section */}
-      {order.map((order) => (
-        <OrderSection
-          key={order.productId}
-          productId={order.productId}
-          count={order.count}
-        />
-      ))}
+      <Box
+        cursor="pointer"
+        onClick={() => {
+          router.push({
+            pathname: '/payment-history',
+            query: { orderId: orderId },
+          });
+        }}
+      >
+        {order.map((order) => (
+          <OrderSection
+            key={order.productId}
+            productId={order.productId}
+            count={order.count}
+          />
+        ))}
+      </Box>
       <Flex px="1rem" justifyContent="flex-end" gap="2rem" my="1rem">
         <Text textStyle="sm_wn_cg700">결제금액</Text>
         <Text textStyle="sm_wb_cp">

@@ -12,8 +12,6 @@ import {
   Divider,
   Flex,
   Image,
-  Img,
-  Spacer,
   Text,
   Textarea,
 } from '@chakra-ui/react';
@@ -203,7 +201,7 @@ function RiewviewWritePageView({
                   right="0"
                   onClick={() => {
                     setPrintImgsSrc(() =>
-                      printImgsSrc.filter((printSrc, printI) => i !== printI),
+                      printImgsSrc.filter((_printSrc, printI) => i !== printI),
                     );
                   }}
                 >
@@ -222,7 +220,7 @@ function RiewviewWritePageView({
           mb="2rem"
           type="submit"
         >
-          결제하기
+          작성하기
         </Button>
       </Container>
     </Box>

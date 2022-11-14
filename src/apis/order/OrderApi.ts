@@ -49,3 +49,11 @@ export async function postOrderStatus(body: OrderStatus) {
   });
   return data;
 }
+export async function putOrderStatus(orderId: string, body: Partial<Order>) {
+  const { data } = await instance({
+    method: 'PUT',
+    url: `/v1/order/status/${orderId}/`,
+    data: body,
+  });
+  return data;
+}

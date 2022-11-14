@@ -58,6 +58,7 @@ function PaymentHistoryPage() {
             <Text py="1rem" pl="1rem" textStyle="sm" fontWeight="700">
               {` [${formatDateDash(orderData.created)}] `}
             </Text>
+            <Divider />
             {paymentList &&
               paymentList.map((product) => (
                 <OrderSection

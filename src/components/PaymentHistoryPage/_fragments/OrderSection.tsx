@@ -12,6 +12,7 @@ interface OrderSectionProps {
 
 function OrderSection({ productId, count, shippingStatus }: OrderSectionProps) {
   const { data: product, isLoading } = useGetProduct(productId);
+  console.log('🔥');
   return (
     <>
       {!isLoading && product && (

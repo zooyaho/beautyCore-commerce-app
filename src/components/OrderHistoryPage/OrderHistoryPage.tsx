@@ -4,112 +4,63 @@ import {
   Box,
   Button,
   Center,
+  CircularProgress,
   Divider,
   Flex,
-  Img,
-  Spacer,
   Text,
 } from '@chakra-ui/react';
 
+import { useGetOrderStatus } from '@apis/order/OrderApi.query';
+import { useGetUserMe } from '@apis/user/userApi.query';
+
 import { LAYOUT } from '@constants/layout';
+
+import OrderHistorySection from './_fragments/OrderHistorySection';
 
 import { RightArrowIcon } from 'generated/icons/MyIcons';
 
+export interface uniqueObj {
+  [key: string]: string;
+}
+
 function OrderHistoryPage() {
+  const { data: userData } = useGetUserMe();
+  const { data: orderList, isLoading } = useGetOrderStatus(
+    userData?.id as number,
+    userData,
+  );
+  const uniqueObj: uniqueObj = {};
+  orderList?.results.forEach((order) => {
+    if (!uniqueObj.hasOwnProperty.call(uniqueObj, order.orderId))
+      // if (!Object.hasOwn(uniqueObj, order.orderId))
+      uniqueObj[order.orderId] = order.created;
+  });
+  const uniqueKeys = Object.keys(uniqueObj);
+  const uniqueValues = Object.values(uniqueObj);
+
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>
       <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
         주문내역
       </Text>
       <Box mt="3rem">
-        {/* s: 주문내역1 */}
-        <Box mt="1rem">
-          <Divider />
-          <Text py="1rem" pl="1rem" textStyle="ss_wb">
-            [2021 - 04 - 01]
-          </Text>
-          <Divider />
-        </Box>
-        <Flex p=".7rem 1rem">
-          <Img
-            mr=".7rem"
-            w="3.75rem"
-            h="3.75rem"
-            src="/images/dummyImg/상품이미지.png"
-          />
-          <Box>
-            <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
-            <Text textStyle="ss_wn_cg600" textColor="gray.600">
-              바스 &amp; 샴푸 | 120ml
-            </Text>
-            <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
-          </Box>
-          <Spacer />
-          <Flex
-            flexDirection="column"
-            alignItems="flex-end"
-            justifyContent="center"
-          >
-            <Text textStyle="ss_wb_cp">결제완료</Text>
-            <Text textStyle="sm">배송비 2,500원</Text>
-          </Flex>
-        </Flex>
-        {/* e: 주문내역1 */}
-        <Flex justifyContent="flex-end" px="1rem">
-          <Button
-            colorScheme="primary"
-            borderRadius="5px"
-            flexGrow=".2"
-            w="fit-content"
-          >
-            주문취소
-          </Button>
-        </Flex>
-
-        {/* s: 주문내역2 */}
-        <Box mt="1rem">
-          <Divider />
-          <Text py="1rem" pl="1rem" textStyle="ss_wb">
-            [2021 - 03 - 11]
-          </Text>
-          <Divider />
-        </Box>
-        <Flex p=".7rem 1rem">
-          <Img
-            mr=".7rem"
-            w="3.75rem"
-            h="3.75rem"
-            src="/images/dummyImg/상품이미지.png"
-          />
-          <Box>
-            <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
-            <Text textStyle="ss_wn_cg600" textColor="gray.600">
-              바스 &amp; 샴푸 | 120ml
-            </Text>
-            <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
-          </Box>
-          <Spacer />
-          <Flex
-            flexDirection="column"
-            alignItems="flex-end"
-            justifyContent="center"
-          >
-            <Text textStyle="ss_wb_cp">결제완료</Text>
-            <Text textStyle="sm">배송비 2,500원</Text>
-          </Flex>
-        </Flex>
-        {/* e: 주문내역2 */}
-        <Flex justifyContent="flex-end" px="1rem">
-          <Button
-            variant="whiteButton"
-            borderRadius="5px"
-            h="40px"
-            w="fit-content"
-            flexGrow=".2"
-          >
-            리뷰작성
-          </Button>
-        </Flex>
+        {/* s: 주문내역 > 이곳에서 map 돌리기~! */}
+        {isLoading || !orderList ? (
+          <Center h="100vh">
+            <CircularProgress isIndeterminate color="primary.500" />
+          </Center>
+        ) : (
+          Array(Object.keys(uniqueObj).length)
+            .fill(0)
+            .map((_v, i) => (
+              <OrderHistorySection
+                key={i}
+                orderId={uniqueKeys[i]}
+                created={uniqueValues[i]}
+              />
+            ))
+        )}
+        {/* e: 주문내역 */}
         <Divider mt="1rem" />
         <Center>
           <Flex justifyContent="center" alignItems="center" my="3rem" w="70%">

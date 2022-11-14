@@ -1,4 +1,5 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import {
@@ -6,6 +7,7 @@ import {
   BoxProps,
   Button,
   Center,
+  CircularProgress,
   Container,
   Divider,
   Flex,
@@ -20,12 +22,16 @@ import {
   useUploadFileToS3Mutation,
   useUploadFilesToS3Mutation,
 } from '@apis/S3FileUploader/S3FileUploaderApi.mutation';
+import { useGetOrderStatus } from '@apis/order/OrderApi.query';
+import { useGetUserMe } from '@apis/user/userApi.query';
 
+import OrderSection from '@components/PaymentHistoryPage/_fragments/OrderSection';
 import FormHelper from '@components/common/FormHelper';
 import RatingStars from '@components/common/InputRatingStars';
 
 import { LAYOUT } from '@constants/layout';
 import { bytesToMB, fileToBase64, isBase64Img, isOverSize } from '@utils/file';
+import { formatDateDash } from '@utils/format';
 
 import { FormDataType } from './_hooks/useFormValidate';
 
@@ -46,6 +52,15 @@ function RiewviewWritePageView({
   onSubmit,
   ...basisProps
 }: FormPageProps) {
+  const router = useRouter();
+  const { orderId } = router.query;
+  const { data: userData } = useGetUserMe();
+  const { data: orderList, isLoading } = useGetOrderStatus(
+    userData?.id as number,
+    userData,
+  );
+  const order = orderList?.results.filter((order) => order.orderId === orderId);
+  console.log('💙orderList, order: ', orderList, order);
   const [files, setFiles] = React.useState<File[]>([]); // 파일 상태
   const [currentFile, setCurrentFile] = React.useState<File | null>(null);
   const [currentFileBase64, setCurrentFileBase64] = React.useState<
@@ -62,7 +77,7 @@ function RiewviewWritePageView({
   };
 
   // For: Convert Current File To Base64
-  React.useEffect(() => {
+  useEffect(() => {
     async function setter() {
       if (!currentFile) return;
       setCurrentFileBase64(await fileToBase64(currentFile));
@@ -70,7 +85,7 @@ function RiewviewWritePageView({
     setter();
   }, [currentFile]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!currentFileBase64) return;
     if (printImgsSrc.length >= 3) return;
     if (typeof currentFileBase64 === 'string')
@@ -82,29 +97,27 @@ function RiewviewWritePageView({
       <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
         리뷰작성
       </Text>
-      <Box mt="5rem">
-        <Divider />
-        <Text py="1rem" pl="1rem" textStyle="ss_wb">
-          [2021 - 04 - 01]
-        </Text>
-        <Divider />
-      </Box>
-      <Flex p=".7rem 1rem" borderBottom="10px solid #F9F9F9">
-        <Img
-          mr=".7rem"
-          w="3.75rem"
-          h="3.75rem"
-          src="/images/dummyImg/상품이미지.png"
-        />
-        <Box>
-          <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
-          <Text textStyle="ss_wn_cg600" textColor="gray.600">
-            바스 &amp; 샴푸 | 120ml
+      {isLoading || !order ? (
+        <Center h="100vh">
+          <CircularProgress isIndeterminate color="primary.500" />
+        </Center>
+      ) : (
+        <Box mt="4rem">
+          <Divider />
+          <Text py="1rem" pl="1rem" textStyle="ss_wb">
+            {`[ ${formatDateDash(order[0].created)} ]`}
           </Text>
-          <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
+          <Divider />
+          {order.map((order) => (
+            <OrderSection
+              key={order.productId}
+              productId={order.productId}
+              count={order.count}
+            />
+          ))}
         </Box>
-        <Spacer />
-      </Flex>
+      )}
+      <Box h="10px" bg="gray.100" />
       <Container as="form" onSubmit={onSubmit} {...basisProps}>
         <Text mt="1.3rem">별점</Text>
         <Controller

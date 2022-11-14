@@ -73,7 +73,7 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
       <Divider mt="1rem" />
       <Flex alignItems="center" justifyContent="space-between">
         <Text py="1rem" pl="1rem" textStyle="ss_wb">
-          {` [${formatDateDash(created)}] `}
+          {`[ ${formatDateDash(created)} ]`}
         </Text>
         <Select
           value={shippingStatus}
@@ -127,12 +127,19 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
             주문취소
           </Button>
         ) : shippingStatus === 'DONE' ? (
-          <Button w="40%" h="2.5rem" variant="whiteButton" borderRadius="5px">
-            <Link href="/review-write">
-              <Center as="a" w="100%" h="100%">
-                리뷰작성
-              </Center>
-            </Link>
+          <Button
+            w="40%"
+            h="2.5rem"
+            variant="whiteButton"
+            borderRadius="5px"
+            onClick={() => {
+              router.push({
+                pathname: '/review-write',
+                query: { orderId: orderId },
+              });
+            }}
+          >
+            리뷰작성
           </Button>
         ) : (
           ''

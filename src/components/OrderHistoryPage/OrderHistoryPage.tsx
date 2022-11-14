@@ -32,7 +32,6 @@ function OrderHistoryPage() {
   const uniqueObj: uniqueObj = {};
   orderList?.results.forEach((order) => {
     if (!uniqueObj.hasOwnProperty.call(uniqueObj, order.orderId))
-      // if (!Object.hasOwn(uniqueObj, order.orderId))
       uniqueObj[order.orderId] = order.created;
   });
   const uniqueKeys = Object.keys(uniqueObj);

@@ -12,12 +12,10 @@ interface OrderSectionProps {
 
 function OrderSection({ productId, count, shippingStatus }: OrderSectionProps) {
   const { data: product, isLoading } = useGetProduct(productId);
-  console.log('🔥');
   return (
     <>
       {!isLoading && product && (
         <>
-          <Divider />
           <Flex p=".7rem 1rem">
             <Img mr=".7rem" w="3.75rem" h="3.75rem" src={product.photo} />
             <Box textStyle="sm">
@@ -39,29 +37,9 @@ function OrderSection({ productId, count, shippingStatus }: OrderSectionProps) {
               {shippingStatus === 'PAID' ? '결제완료' : ''}
             </Text>
           </Flex>
+          <Divider />
         </>
       )}
-      {/* <Flex p=".7rem 1rem">
-        <Img mr=".7rem" w="3.75rem" h="3.75rem" src={imgSrc} />
-        <Box textStyle="sm">
-          <Text fontWeight="bold">{name}</Text>
-          <Text textColor="gray.600">
-            {name}&nbsp;|&nbsp;{capacity}ml
-          </Text>
-          <Text textColor="primary.500" fontWeight="bold">
-            {intComma(price)}원&nbsp;/&nbsp;{count}개
-          </Text>
-        </Box>
-        <Spacer />
-        <Text
-          textStyle="sm"
-          fontWeight="700"
-          color="primary.500"
-          alignSelf="center"
-        >
-          {shippingStatus === 'PAID' ? '결제완료' : ''}
-        </Text>
-      </Flex> */}
     </>
   );
 }

@@ -9,6 +9,7 @@ import {
   Flex,
   Select,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { putOrderStatus } from '@apis/order/OrderApi';
@@ -20,6 +21,8 @@ import OrderSection from '@components/PaymentHistoryPage/_fragments/OrderSection
 
 import { useQueryClient } from '@tanstack/react-query';
 import { formatDateDash, intComma } from '@utils/format';
+
+import OrderCancelModal from './OrderCancelModal';
 
 /*
 각 상태는 관리자페이지에서 수동으로 컨트롤할 수 있음
@@ -56,6 +59,13 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
     setShippingStatus(e.target.value);
     queryClient.invalidateQueries({ queryKey: ['order', orderId] });
   };
+  const orderCancelHandler = async () => {
+    await putOrderStatus(orderId, { ['shippingStatus']: 'CANCELED' });
+    setShippingStatus('CANCELED');
+    queryClient.invalidateQueries({ queryKey: ['order', orderId] });
+  };
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
     <>
       <Divider mt="1rem" />
@@ -94,12 +104,14 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
       <Flex justifyContent="flex-end" px="1rem" mb="3rem">
         {/* 버튼 영역 */}
         {shippingStatus === 'PAID' ? (
-          <Button w="40%" h="2.5rem" variant="primaryButton" borderRadius="5px">
-            <Link href="/home">
-              <Center as="a" w="100%" h="100%">
-                주문취소
-              </Center>
-            </Link>
+          <Button
+            w="40%"
+            h="2.5rem"
+            variant="primaryButton"
+            borderRadius="5px"
+            onClick={onOpen}
+          >
+            주문취소
           </Button>
         ) : shippingStatus === 'DONE' ? (
           <Button w="40%" h="2.5rem" variant="whiteButton" borderRadius="5px">
@@ -113,6 +125,11 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
           ''
         )}
       </Flex>
+      <OrderCancelModal
+        orderCancelHandler={orderCancelHandler}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </>
   );
 }

@@ -43,7 +43,6 @@ function OrderHistoryPage() {
         주문내역
       </Text>
       <Box mt="3rem">
-        {/* s: 주문내역 > 이곳에서 map 돌리기~! */}
         {isLoading || !orderList ? (
           <Center h="100vh">
             <CircularProgress isIndeterminate color="primary.500" />
@@ -61,7 +60,7 @@ function OrderHistoryPage() {
         )}
         {/* e: 주문내역 */}
         <Divider mt="1rem" />
-        <Center>
+        {/* <Center>
           <Flex justifyContent="center" alignItems="center" my="3rem" w="70%">
             <Button variant="pageButton">1</Button>
             <Button variant="pageButton">2</Button>
@@ -72,7 +71,7 @@ function OrderHistoryPage() {
               <RightArrowIcon boxSize="10px" ml="1rem" />
             </Button>
           </Flex>
-        </Center>
+        </Center> */}
       </Box>
     </Box>
   );

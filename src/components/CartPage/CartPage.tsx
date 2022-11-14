@@ -12,8 +12,13 @@ import {
 } from '@chakra-ui/react';
 
 import { useGetCart } from '@apis/cart/CartApi.query';
+import { CartItem as CartItemType } from '@apis/cart/CartApi.type';
+import { ProductDetail } from '@apis/product/ProductAPi.type';
+import useAppStore from '@features/useAppStore';
 
 import { LAYOUT } from '@constants/layout';
+import { useQueryClient } from '@tanstack/react-query';
+import { setLocalStorage } from '@utils/localStorage/helper';
 
 import CartItem from './_fragments/CartItem';
 import SelectSection from './_fragments/SelectSection';
@@ -25,9 +30,38 @@ interface CartPageProps {
 
 function CartPage({ userId }: CartPageProps) {
   const { data: cartData, isLoading } = useGetCart(userId as number);
+  const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
+  const queryClient = useQueryClient();
+  const checkedProductList = useMemo(() => {
+    if (checkedCartList)
+      return checkedCartList.map((product) => {
+        return queryClient.getQueryData(['product', product.productId]);
+      });
+  }, [checkedCartList, queryClient]) as ProductDetail[];
   const cartList = useMemo(() => {
     if (cartData) return cartData[0].cartitem;
   }, [cartData]);
+
+  const setStorageOrderListHandler = () => {
+    const setOrderList = checkedCartList.map((product, index) => {
+      if (checkedProductList && checkedProductList.length) {
+        const orderItem = cartList?.find(
+          (cartProduct) => cartProduct.productId === product.productId,
+        ) as CartItemType;
+        return {
+          id: orderItem.id,
+          productId: product.productId,
+          name: checkedProductList[index].name,
+          photo: checkedProductList[index].photo,
+          capacity: checkedProductList[index].capacity,
+          price: checkedProductList[index].price,
+          count: product.count,
+        };
+      }
+    });
+    console.log('⭐️setOrderList: ', setOrderList);
+    setLocalStorage('order', setOrderList);
+  };
 
   return (
     <>
@@ -86,9 +120,13 @@ function CartPage({ userId }: CartPageProps) {
                 variant="primaryButton"
                 size="lg"
                 mb="3.125rem"
-                type="submit"
+                onClick={setStorageOrderListHandler}
               >
-                결제하기
+                <Link href="/order">
+                  <Center as="a" w="100%" h="100%">
+                    결제하기
+                  </Center>
+                </Link>
               </Button>
             </Container>
           )}

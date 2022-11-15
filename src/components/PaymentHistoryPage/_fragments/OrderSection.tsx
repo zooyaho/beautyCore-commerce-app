@@ -1,4 +1,14 @@
-import { Box, Divider, Flex, Img, Spacer, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Img,
+  Spacer,
+  Text,
+} from '@chakra-ui/react';
 
 import { useGetProduct } from '@apis/product/ProductApi.query';
 
@@ -12,6 +22,8 @@ interface OrderSectionProps {
 
 function OrderSection({ productId, count, shippingStatus }: OrderSectionProps) {
   const { data: product, isLoading } = useGetProduct(productId);
+  const router = useRouter();
+
   return (
     <>
       {!isLoading && product && (
@@ -34,7 +46,26 @@ function OrderSection({ productId, count, shippingStatus }: OrderSectionProps) {
               color="primary.500"
               alignSelf="center"
             >
-              {shippingStatus === 'PAID' ? '결제완료' : ''}
+              {shippingStatus === 'DONE' ? (
+                <Button
+                  h="2rem"
+                  size="sm"
+                  variant="whiteButton"
+                  borderRadius="5px"
+                  onClick={() => {
+                    router.push({
+                      pathname: '/review-write',
+                      query: { productId: productId },
+                    });
+                  }}
+                >
+                  리뷰작성
+                </Button>
+              ) : shippingStatus === 'PAID' ? (
+                '결제완료'
+              ) : (
+                ''
+              )}
             </Text>
           </Flex>
           <Divider />

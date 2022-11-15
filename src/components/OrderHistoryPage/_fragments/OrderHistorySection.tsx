@@ -105,6 +105,7 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
             key={order.productId}
             productId={order.productId}
             count={order.count}
+            shippingStatus={shippingStatus}
           />
         ))}
       </Box>
@@ -125,21 +126,6 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
             onClick={onOpen}
           >
             주문취소
-          </Button>
-        ) : shippingStatus === 'DONE' ? (
-          <Button
-            w="40%"
-            h="2.5rem"
-            variant="whiteButton"
-            borderRadius="5px"
-            onClick={() => {
-              router.push({
-                pathname: '/review-write',
-                query: { orderId: orderId },
-              });
-            }}
-          >
-            리뷰작성
           </Button>
         ) : (
           ''

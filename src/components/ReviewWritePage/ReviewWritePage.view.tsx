@@ -47,13 +47,16 @@ function RiewviewWritePageView({
   ...basisProps
 }: FormPageProps) {
   const router = useRouter();
-  const { orderId } = router.query;
+  const { productId, orderId } = router.query;
   const { data: userData } = useGetUserMe();
   const { data: orderList, isLoading } = useGetOrderStatus(
     userData?.id as number,
     userData,
   );
-  const order = orderList?.results.filter((order) => order.orderId === orderId);
+  const order = orderList?.results.filter(
+    (order) =>
+      order.productId === Number(productId) && order.orderId === orderId,
+  );
   const [fileBase64List, setFileBase64List] = useState<string[]>([]);
 
   async function addFileBase64List(file: File) {
@@ -65,7 +68,6 @@ function RiewviewWritePageView({
 
   const onChangeFile: ChangeEventHandler<HTMLInputElement> = (e) => {
     const file = e.target.files?.[0];
-    console.log('🔥file: ', file);
 
     if (!file || file.size / (1024 * 1024) > 2) return;
     addFileBase64List(file); // base64 변경 후 저장

@@ -106,6 +106,7 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
             productId={order.productId}
             count={order.count}
             shippingStatus={shippingStatus}
+            orderId={order.orderId}
           />
         ))}
       </Box>

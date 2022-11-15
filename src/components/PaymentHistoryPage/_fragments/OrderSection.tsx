@@ -17,10 +17,16 @@ import { intComma } from '@utils/format';
 interface OrderSectionProps {
   productId: number;
   count: number;
+  orderId?: string;
   shippingStatus?: string;
 }
 
-function OrderSection({ productId, count, shippingStatus }: OrderSectionProps) {
+function OrderSection({
+  productId,
+  count,
+  orderId,
+  shippingStatus,
+}: OrderSectionProps) {
   const { data: product, isLoading } = useGetProduct(productId);
   const router = useRouter();
 
@@ -55,7 +61,7 @@ function OrderSection({ productId, count, shippingStatus }: OrderSectionProps) {
                   onClick={() => {
                     router.push({
                       pathname: '/review-write',
-                      query: { productId: productId },
+                      query: { productId: productId, orderId: orderId },
                     });
                   }}
                 >

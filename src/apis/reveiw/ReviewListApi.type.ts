@@ -20,3 +20,7 @@ export interface ReviewList {
   previous: string;
   results: Review[];
 }
+export interface Presigned_url {
+  url: string;
+  name: string;
+}

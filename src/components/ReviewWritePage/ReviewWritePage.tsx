@@ -12,14 +12,24 @@ const ReviewWritePage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const imgNameArr: string[] = [];
 
   const onSubmit = handleSubmit(({ starRating, content }) => {
     console.log(`submitted: ${starRating},  ${content} `);
     onOpen();
   });
+  const setImgName = (name?: string, index?: number) => {
+    if (name) imgNameArr.push(name);
+    if (index?.toString()) imgNameArr.splice(index, 1);
+  };
+
   return (
     <>
-      <ReviewWritePageView formData={formData} onSubmit={onSubmit} />
+      <ReviewWritePageView
+        formData={formData}
+        onSubmit={onSubmit}
+        setImgNameHandler={setImgName}
+      />
       <ReviewWriteDoneModal isOpen={isOpen} onClose={onClose} />
     </>
   );

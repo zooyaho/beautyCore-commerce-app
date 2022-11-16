@@ -77,7 +77,7 @@ function withExampleContext<T extends Function>(Component: T) {
   return function WrappedComponent(props: Parameter<T>) {
     return (
       <ExampleProvider>
-        <Component {...props} />
+        <Component />
       </ExampleProvider>
     );
   };

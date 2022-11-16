@@ -12,6 +12,7 @@ export interface Review {
       url: string;
     },
   ];
+  reviewimagePath: string[];
   created: string;
 }
 export interface ReviewList {

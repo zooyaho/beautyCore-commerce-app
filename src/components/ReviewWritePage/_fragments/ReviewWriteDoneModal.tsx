@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import {
   Button,
   Center,
@@ -17,6 +19,7 @@ interface ReviewWriteDoneModalProps {
 }
 
 function ReviewWriteDoneModal({ isOpen, onClose }: ReviewWriteDoneModalProps) {
+  const router = useRouter();
   return (
     <Modal
       isCentered
@@ -41,7 +44,10 @@ function ReviewWriteDoneModal({ isOpen, onClose }: ReviewWriteDoneModalProps) {
               type="button"
               w="50%"
               variant="primaryButton"
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                router.push('/order-history/');
+              }}
             >
               확인
             </Button>

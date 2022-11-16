@@ -19,7 +19,7 @@ export interface ReviewList {
   count: number;
   next: string;
   previous: string;
-  results: Review[];
+  results: Partial<Review>[];
 }
 export interface Presigned_url {
   url: string;

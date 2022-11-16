@@ -2,8 +2,16 @@ import instance from '@apis/_axios/instance';
 
 import { Presigned_url, Review, ReviewList } from './ReviewListApi.type';
 
-export async function getReviewList(): Promise<ReviewList> {
-  const { data } = await instance.get('/v1/review/?page=1');
+export async function getReviewList(
+  page: number,
+  page_size: number,
+  userId?: number,
+): Promise<ReviewList> {
+  const { data } = await instance.get(
+    userId
+      ? `/v1/review/?page=${page}&page_size=${page_size}&user_id=${userId}`
+      : `/v1/review/?page=${page}&page_size=${page_size}`,
+  );
   return data;
 }
 export async function postReview(body: Partial<Review>): Promise<ReviewList> {

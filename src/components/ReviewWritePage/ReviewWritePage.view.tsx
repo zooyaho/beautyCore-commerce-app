@@ -14,6 +14,7 @@ import {
   Image,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 
 import { useGetOrderStatus } from '@apis/order/OrderApi.query';
@@ -48,6 +49,7 @@ function RiewviewWritePageView({
   setImgNameHandler,
   ...basisProps
 }: FormPageProps) {
+  const toast = useToast();
   const router = useRouter();
   const { productId, orderItemId } = router.query;
   const { data: userData } = useGetUserMe();
@@ -71,7 +73,13 @@ function RiewviewWritePageView({
   const onChangeFile: ChangeEventHandler<HTMLInputElement> = (e) => {
     const file = e.target.files?.[0];
 
-    if (!file || file.size / (1024 * 1024) > 2) return;
+    if (!file || file.size / (1024 * 1024) > 2) {
+      toast({
+        status: 'info',
+        description: '용량이 초과된 파일입니다. 2MB이하 파일을 선택해 주세요.',
+      });
+      return;
+    }
     addFileBase64List(file); // base64 변경 후 저장
     if (fileBase64List.length < 3) setImgNameHandler(file.name);
   };

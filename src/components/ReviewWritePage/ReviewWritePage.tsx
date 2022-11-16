@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useDisclosure } from '@chakra-ui/react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
 
 import { postPresigned_url, postReview } from '@apis/reveiw/ReviewListApi';
 
@@ -19,6 +19,7 @@ const ReviewWritePage = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const imgNameArr: string[] = [];
   const setFormData: setFormData = {};
+  const toast = useToast();
 
   const setImgName = (name?: string, index?: number) => {
     if (name) imgNameArr.push(name);
@@ -65,7 +66,10 @@ const ReviewWritePage = () => {
       }
       onOpen();
     } catch (err) {
-      console.error(err);
+      toast({
+        status: 'error',
+        description: '정상처리 되지 않았습니다.',
+      });
     }
   };
 

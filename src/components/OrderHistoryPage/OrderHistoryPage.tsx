@@ -17,8 +17,6 @@ import { LAYOUT } from '@constants/layout';
 
 import OrderHistorySection from './_fragments/OrderHistorySection';
 
-import { RightArrowIcon } from 'generated/icons/MyIcons';
-
 export interface uniqueObj {
   [key: string]: string;
 }

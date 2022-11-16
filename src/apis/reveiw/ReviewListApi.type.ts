@@ -12,6 +12,7 @@ export interface Review {
       url: string;
     },
   ];
+  reviewimagePath: string[];
   created: string;
 }
 export interface ReviewList {
@@ -19,4 +20,8 @@ export interface ReviewList {
   next: string;
   previous: string;
   results: Review[];
+}
+export interface Presigned_url {
+  url: string;
+  name: string;
 }

@@ -1,4 +1,5 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { ChangeEventHandler, useCallback, useState } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import {
@@ -6,35 +7,35 @@ import {
   BoxProps,
   Button,
   Center,
+  CircularProgress,
   Container,
   Divider,
   Flex,
   Image,
-  Img,
-  Spacer,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 
-import {
-  useUploadFileToS3Mutation,
-  useUploadFilesToS3Mutation,
-} from '@apis/S3FileUploader/S3FileUploaderApi.mutation';
+import { useGetOrderStatus } from '@apis/order/OrderApi.query';
+import { useGetUserMe } from '@apis/user/userApi.query';
 
+import OrderSection from '@components/PaymentHistoryPage/_fragments/OrderSection';
 import FormHelper from '@components/common/FormHelper';
 import RatingStars from '@components/common/InputRatingStars';
 
 import { LAYOUT } from '@constants/layout';
-import { bytesToMB, fileToBase64, isBase64Img, isOverSize } from '@utils/file';
+import { fileToBase64 } from '@utils/file';
+import { formatDateDash } from '@utils/format';
 
 import { FormDataType } from './_hooks/useFormValidate';
 
 import { PlusIcon, PlusItemIcon } from 'generated/icons/MyIcons';
 
-// interface RiewviewWritePageViewProps extends ChakraProps { }
-
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
+  onSubmitHandler: (userId: number, productId: number, orderId: number) => void;
+  setImgNameHandler: (name?: string, index?: number) => void;
 }
 
 function RiewviewWritePageView({
@@ -44,67 +45,78 @@ function RiewviewWritePageView({
     formState: { errors },
   },
   onSubmit,
+  onSubmitHandler,
+  setImgNameHandler,
   ...basisProps
 }: FormPageProps) {
-  const [files, setFiles] = React.useState<File[]>([]); // 파일 상태
-  const [currentFile, setCurrentFile] = React.useState<File | null>(null);
-  const [currentFileBase64, setCurrentFileBase64] = React.useState<
-    string | ArrayBuffer | null
-  >();
-  const [printImgsSrc, setPrintImgsSrc] = React.useState<string[]>([]);
+  const toast = useToast();
+  const router = useRouter();
+  const { productId, orderItemId } = router.query;
+  const { data: userData } = useGetUserMe();
+  const { data: orderList, isLoading } = useGetOrderStatus(
+    userData?.id as number,
+    userData,
+  );
+  const order = orderList?.results.filter(
+    (order) =>
+      order.productId === Number(productId) && order.id === Number(orderItemId),
+  );
+  const [fileBase64List, setFileBase64List] = useState<string[]>([]);
 
-  const onChangeFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  async function addFileBase64List(file: File) {
+    if (!file) return;
+    const fileToBase64Data = await fileToBase64(file);
+    if (typeof fileToBase64Data === 'string')
+      setFileBase64List((cur) => [...cur, fileToBase64Data]);
+  }
+
+  const onChangeFile: ChangeEventHandler<HTMLInputElement> = (e) => {
     const file = e.target.files?.[0];
 
-    if (!file) return;
-    setCurrentFile(file); // 최근 파일 저장
-    setFiles((cur) => [...cur, file]); // 파일 목록에 저장
+    if (!file || file.size / (1024 * 1024) > 2) {
+      toast({
+        status: 'info',
+        description: '용량이 초과된 파일입니다. 2MB이하 파일을 선택해 주세요.',
+      });
+      return;
+    }
+    addFileBase64List(file); // base64 변경 후 저장
+    if (fileBase64List.length < 3) setImgNameHandler(file.name);
   };
 
-  // For: Convert Current File To Base64
-  React.useEffect(() => {
-    async function setter() {
-      if (!currentFile) return;
-      setCurrentFileBase64(await fileToBase64(currentFile));
-    }
-    setter();
-  }, [currentFile]);
-
-  React.useEffect(() => {
-    if (!currentFileBase64) return;
-    if (printImgsSrc.length >= 3) return;
-    if (typeof currentFileBase64 === 'string')
-      setPrintImgsSrc((src) => [...src, currentFileBase64]);
-  }, [currentFileBase64]);
+  const onClickWrite = useCallback(() => {
+    if (userData && productId)
+      onSubmitHandler(userData.id, Number(productId), Number(orderItemId));
+  }, [userData, productId, orderItemId, onSubmitHandler]);
 
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>
       <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
         리뷰작성
       </Text>
-      <Box mt="5rem">
-        <Divider />
-        <Text py="1rem" pl="1rem" textStyle="ss_wb">
-          [2021 - 04 - 01]
-        </Text>
-        <Divider />
-      </Box>
-      <Flex p=".7rem 1rem" borderBottom="10px solid #F9F9F9">
-        <Img
-          mr=".7rem"
-          w="3.75rem"
-          h="3.75rem"
-          src="/images/dummyImg/상품이미지.png"
-        />
-        <Box>
-          <Text textStyle="ss_wb">바스 &amp; 샴푸</Text>
-          <Text textStyle="ss_wn_cg600" textColor="gray.600">
-            바스 &amp; 샴푸 | 120ml
+      {isLoading || !order ? (
+        <Center h="100vh">
+          <CircularProgress isIndeterminate color="primary.500" />
+        </Center>
+      ) : (
+        <Box mt="4rem">
+          <Divider />
+          <Text py="1rem" pl="1rem" textStyle="ss_wb">
+            {order[0] && order[0].created
+              ? `[ ${formatDateDash(order[0].created)} ]`
+              : ''}
           </Text>
-          <Text textStyle="ss_wb_cp">27,000원&nbsp;/&nbsp;1개</Text>
+          <Divider />
+          {order.map((order) => (
+            <OrderSection
+              key={order.productId}
+              productId={order.productId}
+              count={order.count}
+            />
+          ))}
         </Box>
-        <Spacer />
-      </Flex>
+      )}
+      <Box h="10px" bg="gray.100" />
       <Container as="form" onSubmit={onSubmit} {...basisProps}>
         <Text mt="1.3rem">별점</Text>
         <Controller
@@ -157,16 +169,17 @@ function RiewviewWritePageView({
         />
         <Divider />
         <Text my="1.3rem">
-          사진첨부&nbsp;<Text as="span">({printImgsSrc.length}/3)</Text>
+          사진첨부&nbsp;<Text as="span">({fileBase64List.length}/3)</Text>
         </Text>
         <Flex gap="10px" pt=".7rem">
           {/* 사진 추가 버튼 */}
-          {printImgsSrc.length === 3 ? null : (
+          {fileBase64List.length === 3 ? null : (
             <Button
               as="label"
               variant="transparentButton"
               pt=".7rem"
               mr=".6rem"
+              cursor="pointer"
             >
               <Center p="2rem" border="1px dashed #CBCED6" borderRadius="5px">
                 <input
@@ -179,26 +192,30 @@ function RiewviewWritePageView({
             </Button>
           )}
           {/* s: 이미지 */}
-          {printImgsSrc.reverse().map((src, i) => {
-            return (
-              <Flex key={i} pos="relative" pt="10px" pr="10px">
-                <Image src={src} alt="상품 이미지" w="5.3rem" h="5.3rem" />
-                <Button
-                  variant="transparentButton"
-                  pos="absolute"
-                  top="0"
-                  right="0"
-                  onClick={() => {
-                    setPrintImgsSrc(() =>
-                      printImgsSrc.filter((printSrc, printI) => i !== printI),
-                    );
-                  }}
-                >
-                  <PlusItemIcon color="gray.400" boxSize="20px" />
-                </Button>
-              </Flex>
-            );
-          })}
+          {fileBase64List &&
+            fileBase64List.reverse().map((src, i) => {
+              return (
+                <Flex key={i} pos="relative" pt="10px" pr="10px">
+                  <Image src={src} alt="상품 이미지" w="5.3rem" h="5.3rem" />
+                  <Button
+                    variant="transparentButton"
+                    pos="absolute"
+                    top="0"
+                    right="0"
+                    onClick={() => {
+                      setFileBase64List(() =>
+                        fileBase64List.filter(
+                          (_printSrc, printI) => i !== printI,
+                        ),
+                      );
+                      setImgNameHandler(undefined, i);
+                    }}
+                  >
+                    <PlusItemIcon color="gray.400" boxSize="20px" />
+                  </Button>
+                </Flex>
+              );
+            })}
           {/* e: 이미지 */}
         </Flex>
         {/* Submit Button */}
@@ -208,8 +225,9 @@ function RiewviewWritePageView({
           mt="6rem"
           mb="2rem"
           type="submit"
+          onClick={onClickWrite}
         >
-          결제하기
+          작성하기
         </Button>
       </Container>
     </Box>

@@ -100,15 +100,18 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
           });
         }}
       >
-        {order.map((order) => (
-          <OrderSection
-            key={order.productId}
-            productId={order.productId}
-            count={order.count}
-            shippingStatus={shippingStatus}
-            orderId={order.orderId}
-          />
-        ))}
+        {order.map((order) => {
+          console.log('⭐️order.id: ', order.id);
+          return (
+            <OrderSection
+              key={order.productId}
+              productId={order.productId}
+              count={order.count}
+              shippingStatus={shippingStatus}
+              orderItemId={order.id}
+            />
+          );
+        })}
       </Box>
       <Flex px="1rem" justifyContent="flex-end" gap="2rem" my="1rem">
         <Text textStyle="sm_wn_cg700">결제금액</Text>

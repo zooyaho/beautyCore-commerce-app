@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { ChangeEventHandler, useState } from 'react';
+import React, { ChangeEventHandler, useCallback, useState } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
 import {
@@ -24,7 +24,7 @@ import FormHelper from '@components/common/FormHelper';
 import RatingStars from '@components/common/InputRatingStars';
 
 import { LAYOUT } from '@constants/layout';
-import { bytesToMB, fileToBase64, isBase64Img, isOverSize } from '@utils/file';
+import { fileToBase64 } from '@utils/file';
 import { formatDateDash } from '@utils/format';
 
 import { FormDataType } from './_hooks/useFormValidate';
@@ -33,6 +33,7 @@ import { PlusIcon, PlusItemIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
+  onSubmitHandler: (userId: number, productId: number, orderId: number) => void;
   setImgNameHandler: (name?: string, index?: number) => void;
 }
 
@@ -43,11 +44,12 @@ function RiewviewWritePageView({
     formState: { errors },
   },
   onSubmit,
+  onSubmitHandler,
   setImgNameHandler,
   ...basisProps
 }: FormPageProps) {
   const router = useRouter();
-  const { productId, orderId } = router.query;
+  const { productId, orderItemId } = router.query;
   const { data: userData } = useGetUserMe();
   const { data: orderList, isLoading } = useGetOrderStatus(
     userData?.id as number,
@@ -55,7 +57,7 @@ function RiewviewWritePageView({
   );
   const order = orderList?.results.filter(
     (order) =>
-      order.productId === Number(productId) && order.orderId === orderId,
+      order.productId === Number(productId) && order.id === Number(orderItemId),
   );
   const [fileBase64List, setFileBase64List] = useState<string[]>([]);
 
@@ -74,6 +76,11 @@ function RiewviewWritePageView({
     if (fileBase64List.length < 3) setImgNameHandler(file.name);
   };
 
+  const onClickWrite = useCallback(() => {
+    if (userData && productId)
+      onSubmitHandler(userData.id, Number(productId), Number(orderItemId));
+  }, [userData, productId, orderItemId, onSubmitHandler]);
+
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>
       <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
@@ -87,7 +94,9 @@ function RiewviewWritePageView({
         <Box mt="4rem">
           <Divider />
           <Text py="1rem" pl="1rem" textStyle="ss_wb">
-            {order[0].created ? `[ ${formatDateDash(order[0].created)} ]` : ''}
+            {order[0] && order[0].created
+              ? `[ ${formatDateDash(order[0].created)} ]`
+              : ''}
           </Text>
           <Divider />
           {order.map((order) => (
@@ -208,6 +217,7 @@ function RiewviewWritePageView({
           mt="6rem"
           mb="2rem"
           type="submit"
+          onClick={onClickWrite}
         >
           작성하기
         </Button>

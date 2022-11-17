@@ -37,7 +37,7 @@ export async function getOrderStatus(id: number) {
   const { data } = await instance({
     method: 'GET',
     url: `/v1/order/status/`,
-    params: { order_id: id },
+    params: { user_id: id },
   });
   return data;
 }

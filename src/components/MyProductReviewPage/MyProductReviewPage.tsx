@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
@@ -13,38 +13,91 @@ import {
 } from '@chakra-ui/react';
 
 import { useGetReviewList } from '@apis/reveiw/ReviewApi.query';
+import { getReviewList } from '@apis/reveiw/ReviewListApi';
+import { ReviewList } from '@apis/reveiw/ReviewListApi.type';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
+import Pagination from '@components/common/Pagination';
 import PrintRatingStars from '@components/common/PrintRatingStars';
 
 import { LAYOUT } from '@constants/layout';
 import { formatDate } from '@utils/format';
 
-import { RightArrowIcon } from 'generated/icons/MyIcons';
-
 function MyProductReviewPage() {
   const { data: userData } = useGetUserMe();
-  const [currentPage, setCurrentPage] = useState(1);
-  const { data: reviewData, isLoading } = useGetReviewList(
-    currentPage,
-    !!userData,
-    userData?.id,
-  );
-  const [pageGroup, setPageGroup] = useState(1);
-  const [allPage, setAllPage] = useState<number[] | undefined>([]);
-  useEffect(() => {
-    if (reviewData && userData) {
-      const temp = [];
-      for (let i = 1; i <= Math.ceil(reviewData.count / 5); i++) {
-        temp.push(i);
-      }
-      setAllPage(temp);
+  // const { data: reviewData, isLoading } = useGetReviewList(
+  //   1,
+  //   !!userData,
+  //   userData?.id,
+  // );
+  const [printReviewData, setReviewData] = useState<ReviewList | undefined>();
+  const getReviewListHandler = async (currentPage: number) => {
+    if (userData) {
+      const data = await getReviewList(currentPage, userData.id);
+      if (typeof data !== undefined) setReviewData(data);
     }
-  }, [reviewData, userData]);
+  };
+
+  // const reviewData = useMemo(async () => {
+  //   if (userData) {
+  //     const data = await getReviewList(1, userData.id);
+  //     return data;
+  //     // if (typeof data !== undefined) setReviewData(data);
+  //   }
+  // }, [userData]);
 
   return (
     <>
-      {isLoading || !reviewData ? (
+      {printReviewData && (
+        <Box pt={LAYOUT.HEADER.HEIGHT}>
+          <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
+            내 상품 리뷰
+          </Text>
+          <Box mt="3rem" mb=".5rem" fontWeight="bold" px="1rem">
+            <Text>
+              총&nbsp;
+              <Text as="strong" textStyle="sm_wb_cp">
+                {printReviewData.count}
+              </Text>
+              건
+            </Text>
+          </Box>
+          {/* s: review item */}
+          {printReviewData.results.map((review) => (
+            <Container pt="1.5rem" key={review.id}>
+              <Box as="header" mb="1.5rem" textStyle="sm">
+                <Flex justifyContent="space-between">
+                  <Text textStyle="ss_wb">{review.nickname}</Text>
+                  <PrintRatingStars
+                    rate={review.rate ? review.rate : 0}
+                    starBoxSize="14px"
+                  />
+                </Flex>
+                <Text textStyle="ss_wn_cg600">
+                  {formatDate(review.created)}
+                </Text>
+              </Box>
+              <Flex flexDirection="column" mt="1rem" mb="1.5rem">
+                <Text>{review.content}</Text>
+                <Flex gap=".7rem" mt=".5rem">
+                  {review.reviewimageSet &&
+                    review.reviewimageSet.map((img) => (
+                      <Img key={img.reviewId} src={img.url} alt="리뷰 이미지" />
+                    ))}
+                </Flex>
+              </Flex>
+              <Divider />
+            </Container>
+          ))}
+          {printReviewData && (
+            <Pagination
+              page={Math.ceil(printReviewData.count / 5)}
+              getReviewListHandler={getReviewListHandler}
+            />
+          )}
+        </Box>
+      )}
+      {/*  {isLoading || !reviewData ? (
         <Center h="100vh">
           <CircularProgress isIndeterminate color="primary.500" />
         </Center>
@@ -63,7 +116,7 @@ function MyProductReviewPage() {
             </Text>
           </Box>
           {/* s: review item */}
-          {reviewData.results.map((review) => (
+      {/* {reviewData.results.map((review) => (
             <Container pt="1.5rem" key={review.id}>
               <Box as="header" mb="1.5rem" textStyle="sm">
                 <Flex justifyContent="space-between">
@@ -134,8 +187,8 @@ function MyProductReviewPage() {
               )}
             </Flex>
           </Center>
-        </Box>
-      )}
+        </Box> */}
+      {/* )}} */}
     </>
   );
 }

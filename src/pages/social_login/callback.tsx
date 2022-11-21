@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Box } from '@chakra-ui/react';
+import { Box, Center, CircularProgress, Flex, Img } from '@chakra-ui/react';
 
 import { usePostKakaoMutation } from '@apis/login/KakaoApi.mutation';
 import { userSliceActions } from '@features/user/userSlice';
@@ -36,7 +36,24 @@ const Callback = () => {
     }
   }, [mutate, code, state]);
 
-  return <Box></Box>;
+  return (
+    <Flex
+      h="100vh"
+      bgColor="primary.500"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      gap="5rem"
+    >
+      <Img // LOGO
+        src="/images/INTRO_LOGO.png"
+        alt="Bueaty core logo"
+        w="40%"
+        h="5%"
+      />
+      <CircularProgress isIndeterminate color="primary.500" />
+    </Flex>
+  );
 };
 
 export default Callback;

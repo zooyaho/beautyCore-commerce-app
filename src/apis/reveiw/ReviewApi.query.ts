@@ -1,19 +1,21 @@
+import { UserMe } from '@apis/user/userApi.type';
+
 import { useQuery } from '@tanstack/react-query';
 
 import { getReviewList } from './ReviewListApi';
 
 export const useGetReviewList = (
   page: number,
-  page_size: number,
+  userData?: UserMe,
   userId?: number,
 ) => {
   const { data, isLoading } = useQuery(
-    ['review-list', page],
+    ['review-list'],
     () => {
-      if (userId) return getReviewList(page, page_size, userId);
-      else return getReviewList(page, page_size);
+      if (userId && page) return getReviewList(page, userId);
+      else return getReviewList(page);
     },
-    { enabled: !!page },
+    { enabled: !!userData },
   );
   return { data, isLoading };
 };

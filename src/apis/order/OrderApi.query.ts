@@ -13,10 +13,17 @@ export const useGetOrder = (id: string) => {
   const data = useQuery<Order>(['order', id], () => getOrder(id));
   return data;
 };
-export const useGetOrderStatus = (id: number, userData?: UserMe) => {
+export const useGetOrderStatus = (
+  page: number,
+  userData?: UserMe,
+  userId?: number,
+) => {
   const data = useQuery<OrderGetStatus>(
-    ['order', id],
-    () => getOrderStatus(id),
+    ['order', userId],
+    () => {
+      if (userId && page) return getOrderStatus(page, userId);
+      else return getOrderStatus(page);
+    },
     {
       enabled: !!userData,
     },

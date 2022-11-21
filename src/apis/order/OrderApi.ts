@@ -33,12 +33,12 @@ export async function putOrder(id: number, body: Partial<Order>) {
   });
   return data;
 }
-export async function getOrderStatus(id: number) {
-  const { data } = await instance({
-    method: 'GET',
-    url: `/v1/order/status/`,
-    params: { user_id: id },
-  });
+export async function getOrderStatus(page: number, userId?: number) {
+  const { data } = await instance.get(
+    userId && page
+      ? `/v1/order/status/?page=${page}&&user_id=${userId}`
+      : `/v1/order/status/?page=${page}`,
+  );
   return data;
 }
 export async function postOrderStatus(body: OrderStatus) {

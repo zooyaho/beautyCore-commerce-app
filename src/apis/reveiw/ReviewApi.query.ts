@@ -1,10 +1,12 @@
+import { UserMe } from '@apis/user/userApi.type';
+
 import { useQuery } from '@tanstack/react-query';
 
 import { getReviewList } from './ReviewListApi';
 
 export const useGetReviewList = (
   page: number,
-  enabled: boolean,
+  userData?: UserMe,
   userId?: number,
 ) => {
   const { data, isLoading } = useQuery(
@@ -13,7 +15,7 @@ export const useGetReviewList = (
       if (userId && page) return getReviewList(page, userId);
       else return getReviewList(page);
     },
-    { enabled: enabled },
+    { enabled: !!userData },
   );
   return { data, isLoading };
 };

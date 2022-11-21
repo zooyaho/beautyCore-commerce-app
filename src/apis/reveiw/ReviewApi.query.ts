@@ -8,7 +8,7 @@ export const useGetReviewList = (
   userId?: number,
 ) => {
   const { data, isLoading } = useQuery(
-    ['review-list', page],
+    ['review-list'],
     () => {
       if (userId && page) return getReviewList(page, userId);
       else return getReviewList(page);

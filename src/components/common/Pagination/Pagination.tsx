@@ -15,17 +15,12 @@ function Pagination({ page, getReviewListHandler }: PaginationProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // props으로 전달 reviewData.count => (Math.ceil(전체 리뷰 개수 / 5))
-    // userId도 보내야함.
-    // page 버튼을 클릭할 때마다 useGetReviewList를 실행할 수 있는 함수를 전달해야하나
-    // if (reviewData) {
     const temp = [];
     for (let i = 1; i <= page; i++) {
       temp.push(i);
     }
     setAllPage(temp);
-    // }
-  }, []);
+  }, [page]);
   return (
     <Center>
       <Flex justifyContent="center" alignItems="center" my="3rem" w="60%">
@@ -49,7 +44,7 @@ function Pagination({ page, getReviewListHandler }: PaginationProps) {
                     currentPage === page ? 'activePageButton' : 'pageButton'
                   }
                   onClick={() => {
-                    getReviewListHandler(currentPage);
+                    getReviewListHandler(page);
                     setCurrentPage(page);
                   }}
                 >

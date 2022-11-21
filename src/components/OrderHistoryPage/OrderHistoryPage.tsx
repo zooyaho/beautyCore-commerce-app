@@ -1,19 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import {
-  Box,
-  Button,
-  Center,
-  CircularProgress,
-  Divider,
-  Flex,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Center, CircularProgress, Divider, Text } from '@chakra-ui/react';
 
+import { getOrderStatus } from '@apis/order/OrderApi';
 import { useGetOrderStatus } from '@apis/order/OrderApi.query';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
+import Pagination from '@components/common/Pagination';
+
 import { LAYOUT } from '@constants/layout';
+import { useQueryClient } from '@tanstack/react-query';
 
 import OrderHistorySection from './_fragments/OrderHistorySection';
 
@@ -22,10 +18,12 @@ export interface uniqueObj {
 }
 
 function OrderHistoryPage() {
+  const queryClient = useQueryClient();
   const { data: userData } = useGetUserMe();
   const { data: orderList, isLoading } = useGetOrderStatus(
-    userData?.id as number,
+    1,
     userData,
+    userData?.id,
   );
   const uniqueObj: uniqueObj = {};
   orderList?.results.forEach((order) => {
@@ -34,6 +32,16 @@ function OrderHistoryPage() {
   });
   const uniqueKeys = Object.keys(uniqueObj);
   const uniqueValues = Object.values(uniqueObj);
+
+  const getOrderListHandler = useCallback(
+    async (currentPage: number) => {
+      if (userData) {
+        const orderData = await getOrderStatus(currentPage, userData.id);
+        queryClient.setQueryData(['order', userData.id], orderData);
+      }
+    },
+    [queryClient, userData],
+  );
 
   return (
     <Box pt={LAYOUT.HEADER.HEIGHT}>
@@ -58,18 +66,12 @@ function OrderHistoryPage() {
         )}
         {/* e: 주문내역 */}
         <Divider mt="1rem" />
-        {/* <Center>
-          <Flex justifyContent="center" alignItems="center" my="3rem" w="70%">
-            <Button variant="pageButton">1</Button>
-            <Button variant="pageButton">2</Button>
-            <Button variant="pageButton">3</Button>
-            <Button variant="pageButton">4</Button>
-            <Button variant="pageButton">5</Button>
-            <Button variant="transparentButton">
-              <RightArrowIcon boxSize="10px" ml="1rem" />
-            </Button>
-          </Flex>
-        </Center> */}
+        {orderList && (
+          <Pagination
+            page={Math.ceil(orderList.count / 5)}
+            getListHandler={getOrderListHandler}
+          />
+        )}
       </Box>
     </Box>
   );

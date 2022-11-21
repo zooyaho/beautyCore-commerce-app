@@ -27,7 +27,7 @@ function MyProductReviewPage() {
   const { data: userData } = useGetUserMe();
   const { data: reviewData, isLoading } = useGetReviewList(
     1,
-    !!userData,
+    userData,
     userData?.id,
   );
   const getReviewListHandler = useCallback(
@@ -97,7 +97,7 @@ function MyProductReviewPage() {
           {reviewData && (
             <Pagination
               page={Math.ceil(reviewData.count / 5)}
-              getReviewListHandler={getReviewListHandler}
+              getListHandler={getReviewListHandler}
             />
           )}
         </Box>

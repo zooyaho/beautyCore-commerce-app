@@ -6,10 +6,10 @@ import { RightArrowIcon } from 'generated/icons/MyIcons';
 
 interface PaginationProps {
   page: number;
-  getReviewListHandler: (currentPage: number) => Promise<void>;
+  getListHandler: (currentPage: number) => Promise<void>;
 }
 
-function Pagination({ page, getReviewListHandler }: PaginationProps) {
+function Pagination({ page, getListHandler }: PaginationProps) {
   const [pageGroup, setPageGroup] = useState(1);
   const [allPage, setAllPage] = useState<number[] | undefined>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +44,7 @@ function Pagination({ page, getReviewListHandler }: PaginationProps) {
                     currentPage === page ? 'activePageButton' : 'pageButton'
                   }
                   onClick={() => {
-                    getReviewListHandler(page);
+                    getListHandler(page);
                     setCurrentPage(page);
                   }}
                 >

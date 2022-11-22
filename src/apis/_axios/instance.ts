@@ -1,12 +1,17 @@
+import { useRouter } from 'next/router';
+
 import axios, { AxiosError } from 'axios';
 
 import { CONFIG } from '@config';
 
 import { apiLogger } from '@utils/apiLogger';
-import { getToken } from '@utils/localStorage/token';
+import {
+  TokenType,
+  deleteToken,
+  getToken,
+  setToken,
+} from '@utils/localStorage/token';
 import styledConsole from '@utils/styledConsole';
-
-import { refresh } from './refresh';
 
 const isDev = CONFIG.ENV === 'development';
 
@@ -56,21 +61,36 @@ instance.interceptors.response.use(
     try {
       const { response: res, config: reqData } = error || {};
       const { status } = res || { status: 400 };
-      const isUnAuthError = status === 401;
-      const isExpiredToken = status === 444;
+      const isUnAuthError = status === 401; // 사용자가 아닐 때
+      const isExpiredToken = status === 444; // 만료된 토큰
       const isDev = CONFIG.ENV === 'development';
 
       if (isDev)
         apiLogger({ status, reqData, resData: error, method: 'error' });
 
       if (isExpiredToken) {
-        return refresh(reqData);
+        try {
+          const token = getToken();
+          if (!token?.refresh) throw new Error('not found refresh-token');
+          const { data: newToken }: { data: TokenType } = await instance.post(
+            `/v1/user/refresh/`,
+            { refresh: token.refresh },
+          );
+          setToken({ ...token, ...newToken });
+          return newToken;
+        } catch (err) {
+          deleteToken();
+          throw err;
+        }
+        // return refresh(reqData);
       }
 
       if (isUnAuthError) {
-        // deleteToken();
+        const router = useRouter();
+        deleteToken();
+        router.push('/login');
         // if (isClient) Router.push(ROUTE.LOGIN);
-        // return Promise.reject(error);
+        return Promise.reject(error);
       }
 
       return Promise.reject(error);

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -15,10 +14,10 @@ import {
 } from '@chakra-ui/react';
 
 import { useGetUserMe } from '@apis/user/userApi.query';
-import { userSliceActions } from '@features/user/userSlice';
 
 import { LAYOUT } from '@constants/layout';
 import { deleteToken } from '@utils/localStorage/token';
+import { deleteUser } from '@utils/localStorage/user';
 
 import LogoutModal from './_fragments/LogoutModal';
 
@@ -33,9 +32,8 @@ function MypagePage() {
   const { data: userData, isLoading } = useGetUserMe();
   const { onOpen, isOpen, onClose } = useDisclosure();
 
-  const dispatch = useDispatch();
   const userStoreClearHandler = () => {
-    dispatch(userSliceActions.setIsLogged(false));
+    deleteUser();
     deleteToken();
   };
 

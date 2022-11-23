@@ -31,7 +31,7 @@ function ProductList({ productListData }: ProductListProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const productListData = await getProductList('');
+  const productListData = await getProductList();
 
   return {
     props: { productListData },

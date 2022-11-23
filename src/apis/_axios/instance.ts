@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router';
-
 import axios, { AxiosError } from 'axios';
 
 import { CONFIG } from '@config';
+
+import { getUserMe } from '@apis/user/userApi';
 
 import { apiLogger } from '@utils/apiLogger';
 import {
@@ -11,7 +11,10 @@ import {
   getToken,
   setToken,
 } from '@utils/localStorage/token';
+import { UserType, setUser } from '@utils/localStorage/user';
 import styledConsole from '@utils/styledConsole';
+
+import { AUTH_STATUS } from './../../constants/authStatus';
 
 const isDev = CONFIG.ENV === 'development';
 
@@ -77,6 +80,11 @@ instance.interceptors.response.use(
             { refresh: token.refresh },
           );
           setToken({ ...token, ...newToken });
+          const userData = await getUserMe();
+          setUser({
+            user_id: userData.id,
+            auth_status: AUTH_STATUS.LOGIN,
+          } as UserType);
           return newToken;
         } catch (err) {
           deleteToken();
@@ -86,10 +94,8 @@ instance.interceptors.response.use(
       }
 
       if (isUnAuthError) {
-        const router = useRouter();
+        console.log('🔥isUnAuthError(401): ', isUnAuthError);
         deleteToken();
-        router.push('/login');
-        // if (isClient) Router.push(ROUTE.LOGIN);
         return Promise.reject(error);
       }
 

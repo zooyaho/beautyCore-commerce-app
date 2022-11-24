@@ -5,8 +5,6 @@ import { Box, Container, Flex, Text } from '@chakra-ui/react';
 
 import ArrowRight from '@components/common/@Icons/System/ArrowRight';
 
-// interface HomeSection4Props extends ChakraProps { }
-
 function HomeSection4() {
   return (
     <Container

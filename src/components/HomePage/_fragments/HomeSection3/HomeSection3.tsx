@@ -8,8 +8,6 @@ import {
   VerticalLineIcon,
 } from 'generated/icons/MyIcons';
 
-// interface HomeSection3Props extends ChakraProps { }
-
 function HomeSection3() {
   return (
     <Flex

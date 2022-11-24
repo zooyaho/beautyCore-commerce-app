@@ -4,7 +4,6 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 import { PlusIcon } from 'generated/icons/MyIcons';
 
-// interface HomeSection2Props extends ChakraProps { }
 function HomeSection2() {
   return (
     <Flex w="100%" direction="column" bg="#FFFCEF" position="relative">

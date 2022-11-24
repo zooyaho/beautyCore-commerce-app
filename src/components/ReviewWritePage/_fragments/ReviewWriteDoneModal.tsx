@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import {
   Button,
   Center,
@@ -11,12 +13,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-interface OrderCancelModalProps {
+interface ReviewWriteDoneModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-function OrderCancelDoneModal({ isOpen, onClose }: OrderCancelModalProps) {
+function ReviewWriteDoneModal({ isOpen, onClose }: ReviewWriteDoneModalProps) {
+  const router = useRouter();
   return (
     <Modal
       isCentered
@@ -27,9 +30,12 @@ function OrderCancelDoneModal({ isOpen, onClose }: OrderCancelModalProps) {
     >
       <ModalOverlay />
       <ModalContent maxW="343px" h="300px">
+        <ModalHeader>
+          <ModalCloseButton />
+        </ModalHeader>
         <ModalBody>
           <Center h="100%" mt="1rem">
-            <Text textStyle="sm_wb">주문취소가 완료되었습니다.</Text>
+            <Text textStyle="sm_wb">리뷰작성이 완료되었습니다.</Text>
           </Center>
         </ModalBody>
         <ModalFooter>
@@ -38,7 +44,10 @@ function OrderCancelDoneModal({ isOpen, onClose }: OrderCancelModalProps) {
               type="button"
               w="50%"
               variant="primaryButton"
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                router.push('/order-history/');
+              }}
             >
               확인
             </Button>
@@ -49,4 +58,4 @@ function OrderCancelDoneModal({ isOpen, onClose }: OrderCancelModalProps) {
   );
 }
 
-export default OrderCancelDoneModal;
+export default ReviewWriteDoneModal;

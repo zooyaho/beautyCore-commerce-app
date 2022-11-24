@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -21,6 +22,7 @@ import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
 import { setLocalStorage } from '@utils/localStorage/helper';
+import { productImgSrc } from '@utils/productImgSrc';
 
 import CartDrawer from './_fragment/CartDrawer';
 import OrderInfoSection from './_fragment/OrderInfoSection';
@@ -39,6 +41,7 @@ interface ProductListDetailByIdPageProps extends ChakraProps {
 function ProductListDetailByIdPage({
   productListData: productData,
 }: ProductListDetailByIdPageProps) {
+  const { query } = useRouter();
   const [isShowDetail, setIsShowDetail] = useState(false);
   const detailShowToggleHandler = () => setIsShowDetail((isShow) => !isShow);
   const focusTarget = useRef<Array<null | HTMLDivElement>>([]);
@@ -176,7 +179,7 @@ function ProductListDetailByIdPage({
 
         {/* 상세 정보 */}
         <Img
-          src="/images/dummyImg/크림-상세이미지.png"
+          src={query && productImgSrc(query.tagName as string)}
           alt="크림 상세이미지"
           w="100%"
           h={isShowDetail ? 'auto' : '80vh'}

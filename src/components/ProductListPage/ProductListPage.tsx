@@ -102,7 +102,14 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                   px="1.5rem"
                   pt="1.5rem"
                   cursor="pointer"
-                  onClick={() => router.push(`/product-list/${product.id}`)}
+                  onClick={() => {
+                    router.push({
+                      pathname: `/product-list/${product.id}`,
+                      query: {
+                        tagName: product.tag[product.tag.length - 1].name,
+                      },
+                    });
+                  }}
                 >
                   <Flex gap="5px">
                     <Text textStyle="sm_wb">{product.name}</Text>

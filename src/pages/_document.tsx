@@ -11,10 +11,10 @@ import { ColorModeScript } from '@chakra-ui/color-mode';
 
 import config from '@theme/foundations/config';
 
-const SITE_NAME = 'TOKTOKHAN.DEV';
-const SITE_TITLE = 'TOKTOKHAN.DEV';
-const SITE_DESCRIPTION = '디지털프로덕트의 TOKTOK한 경험';
-const SITE_IMAGE = '/images/new_og.png';
+const SITE_NAME = 'BEAUTYCORE.DEV';
+const SITE_TITLE = 'BEAUTYCORE.DEV';
+const SITE_DESCRIPTION = 'ZOOYAHO의 새로운 BEAUTY환경';
+const SITE_IMAGE = '/images/beautyCore_og.png';
 
 const GOOGLE_ANALYTICS_ID = 'G-입력해주세요';
 

@@ -1,3 +1,5 @@
+import { TokenType } from './token';
+
 export function getLocalStorage<T>(key: string): T | null;
 export function getLocalStorage<T>(key: string, defaultValue: T): T;
 export function getLocalStorage(key: string, defaultValue = null) {
@@ -7,7 +9,7 @@ export function getLocalStorage(key: string, defaultValue = null) {
   return JSON.parse(value);
 }
 
-export const setLocalStorage = <T = any>(
+export const setLocalStorage = <T = TokenType>(
   key: string,
   value: T,
   defaultValue?: T,

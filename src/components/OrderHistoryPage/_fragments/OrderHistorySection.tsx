@@ -73,7 +73,7 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
       <Divider mt="1rem" />
       <Flex alignItems="center" justifyContent="space-between">
         <Text py="1rem" pl="1rem" textStyle="ss_wb">
-          {` [${formatDateDash(created)}] `}
+          {`[ ${formatDateDash(created)} ]`}
         </Text>
         <Select
           value={shippingStatus}
@@ -100,13 +100,18 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
           });
         }}
       >
-        {order.map((order) => (
-          <OrderSection
-            key={order.productId}
-            productId={order.productId}
-            count={order.count}
-          />
-        ))}
+        {order.map((order) => {
+          console.log('⭐️order.id: ', order.id);
+          return (
+            <OrderSection
+              key={order.productId}
+              productId={order.productId}
+              count={order.count}
+              shippingStatus={shippingStatus}
+              orderItemId={order.id}
+            />
+          );
+        })}
       </Box>
       <Flex px="1rem" justifyContent="flex-end" gap="2rem" my="1rem">
         <Text textStyle="sm_wn_cg700">결제금액</Text>
@@ -125,14 +130,6 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
             onClick={onOpen}
           >
             주문취소
-          </Button>
-        ) : shippingStatus === 'DONE' ? (
-          <Button w="40%" h="2.5rem" variant="whiteButton" borderRadius="5px">
-            <Link href="/review-write">
-              <Center as="a" w="100%" h="100%">
-                리뷰작성
-              </Center>
-            </Link>
           </Button>
         ) : (
           ''

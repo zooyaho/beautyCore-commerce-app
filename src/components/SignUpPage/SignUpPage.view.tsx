@@ -28,7 +28,6 @@ import { FormDataType } from './_hooks/useSignupValidate';
 import {
   CheckLineIcon,
   CircleCheckIcon,
-  UserProfileIcon,
 } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
@@ -94,12 +93,9 @@ const FormPageView = ({
         <Box as="form" onSubmit={onSubmit} {...basisProps}>
           {/* 회원정보입력 */}
           <Box mb="5rem">
-            <Text as="h3" textStyle="sm_wb" mt="3.75rem">
+            <Text as="h3" textStyle="sm_wb" my="3.75rem">
               회원정보입력
             </Text>
-            <Flex justifyContent="center" my="2.5rem">
-              <UserProfileIcon />
-            </Flex>
             <FormHelper
               mb="3.125rem"
               label="이름"
@@ -139,7 +135,7 @@ const FormPageView = ({
                 borderColor="black"
                 {...register('phone')}
                 autoComplete="off"
-                placeholder="010-1234-1234"
+                placeholder="01012345678"
               />
             </FormHelper>
             <FormHelper

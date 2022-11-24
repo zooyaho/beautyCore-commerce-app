@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { useToast } from '@chakra-ui/react';
+
 import { postUserRegister } from '@apis/user/userApi';
 
 import AuthRouteModal from '@components/common/AuthRouteModal';
@@ -15,12 +17,10 @@ const SignUpPage = () => {
   const { query, push } = useRouter();
   const formData = useFormValidate();
   const { handleSubmit, reset } = formData;
+  const toast = useToast();
 
   const onSubmit = handleSubmit(
     ({ username, nickname, email, phone, gender, age }) => {
-      console.log(
-        `submitted: ${username}, ${nickname}, ${email}, ${phone},${typeof gender}, ${gender},${typeof age}, ${age}`,
-      );
       postUserRegister({
         socialToken: query.token,
         name: username,
@@ -36,7 +36,24 @@ const SignUpPage = () => {
           setToken(data);
           push('/sign-up-done');
         })
-        .catch((e) => console.error('회원가입 에러', e));
+        .catch((e) => {
+          if (e.response.subStr(0, 1) === '4')
+            toast({
+              title: e.response,
+              description: '재시도 부탁드립니다.',
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            });
+          else if (e.response.subStr(0, 1) === '5')
+            toast({
+              title: e.response,
+              description: '서버가 불안정합니다. 재시도 부탁드립니다.',
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            });
+        });
       reset();
     },
   );

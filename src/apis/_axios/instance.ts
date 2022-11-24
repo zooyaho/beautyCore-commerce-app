@@ -2,11 +2,19 @@ import axios, { AxiosError } from 'axios';
 
 import { CONFIG } from '@config';
 
+import { getUserMe } from '@apis/user/userApi';
+
 import { apiLogger } from '@utils/apiLogger';
-import { getToken } from '@utils/localStorage/token';
+import {
+  TokenType,
+  deleteToken,
+  getToken,
+  setToken,
+} from '@utils/localStorage/token';
+import { UserType, setUser } from '@utils/localStorage/user';
 import styledConsole from '@utils/styledConsole';
 
-import { refresh } from './refresh';
+import { AUTH_STATUS } from './../../constants/authStatus';
 
 const isDev = CONFIG.ENV === 'development';
 
@@ -56,21 +64,39 @@ instance.interceptors.response.use(
     try {
       const { response: res, config: reqData } = error || {};
       const { status } = res || { status: 400 };
-      const isUnAuthError = status === 401;
-      const isExpiredToken = status === 444;
+      const isUnAuthError = status === 401; // 사용자가 아닐 때
+      const isExpiredToken = status === 444; // 만료된 토큰
       const isDev = CONFIG.ENV === 'development';
 
       if (isDev)
         apiLogger({ status, reqData, resData: error, method: 'error' });
 
       if (isExpiredToken) {
-        return refresh(reqData);
+        try {
+          const token = getToken();
+          if (!token?.refresh) throw new Error('not found refresh-token');
+          const { data: newToken }: { data: TokenType } = await instance.post(
+            `/v1/user/refresh/`,
+            { refresh: token.refresh },
+          );
+          setToken({ ...token, ...newToken });
+          const userData = await getUserMe();
+          setUser({
+            user_id: userData.id,
+            auth_status: AUTH_STATUS.LOGIN,
+          } as UserType);
+          return newToken;
+        } catch (err) {
+          deleteToken();
+          throw err;
+        }
+        // return refresh(reqData);
       }
 
       if (isUnAuthError) {
-        // deleteToken();
-        // if (isClient) Router.push(ROUTE.LOGIN);
-        // return Promise.reject(error);
+        console.log('🔥isUnAuthError(401): ', isUnAuthError);
+        deleteToken();
+        return Promise.reject(error);
       }
 
       return Promise.reject(error);

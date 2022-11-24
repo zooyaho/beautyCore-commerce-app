@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -22,11 +21,10 @@ import {
   DrawerOverlay,
 } from '@chakra-ui/react';
 
-import { userSliceActions } from '@features/user/userSlice';
-
 import LogoutModal from '@components/MypagePage/_fragments/LogoutModal';
 
 import { deleteToken } from '@utils/localStorage/token';
+import { deleteUser } from '@utils/localStorage/user';
 
 import { LogoutIcon } from 'generated/icons/MyIcons';
 
@@ -40,9 +38,8 @@ const CommonHeaderDrawer = ({
 }: CommonHeaderDrawerProps) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
 
-  const dispatch = useDispatch();
   const userStoreClearHandler = () => {
-    dispatch(userSliceActions.setIsLogged(false));
+    deleteUser();
     deleteToken();
   };
 

@@ -8,9 +8,9 @@ import {
   usePostWithdrawalReasonMutation,
 } from '@apis/user/userApi.mutation';
 import { useGetUserMe } from '@apis/user/userApi.query';
-import { userSliceActions } from '@features/user/userSlice';
 
 import { deleteToken } from '@utils/localStorage/token';
+import { deleteUser } from '@utils/localStorage/user';
 
 import WithdrawPageView from './WithdrawPage.view';
 import useFormValidate from './_hooks/useFormValidate';
@@ -26,8 +26,8 @@ const ReviewWritePage = () => {
     options: {
       onSuccess: () => {
         onOpen();
+        deleteUser();
         deleteToken();
-        dispatch(userSliceActions.setIsLogged(false));
       },
     },
   });

@@ -3,6 +3,9 @@ import React from 'react';
 
 import { postUserRegister } from '@apis/user/userApi';
 
+import AuthRouteModal from '@components/common/AuthRouteModal';
+
+import { AUTH_STATUS } from '@constants/authStatus';
 import { setToken } from '@utils/localStorage/token';
 
 import SignupPageView from './SignUpPage.view';
@@ -37,7 +40,13 @@ const SignUpPage = () => {
       reset();
     },
   );
-  return <SignupPageView formData={formData} onSubmit={onSubmit} />;
+
+  return (
+    <>
+      <SignupPageView formData={formData} onSubmit={onSubmit} />
+      {!query.token && <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />}
+    </>
+  );
 };
 
 export default SignUpPage;

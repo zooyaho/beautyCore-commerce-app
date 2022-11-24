@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { AxiosError } from 'axios';
+
 import { useToast } from '@chakra-ui/react';
 
 import { postUserRegister } from '@apis/user/userApi';
@@ -36,23 +38,26 @@ const SignUpPage = () => {
           setToken(data);
           push('/sign-up-done');
         })
-        .catch((e) => {
-          if (e.response.subStr(0, 1) === '4')
-            toast({
-              title: e.response,
-              description: '재시도 부탁드립니다.',
-              status: 'error',
-              duration: 9000,
-              isClosable: true,
-            });
-          else if (e.response.subStr(0, 1) === '5')
-            toast({
-              title: e.response,
-              description: '서버가 불안정합니다. 재시도 부탁드립니다.',
-              status: 'error',
-              duration: 9000,
-              isClosable: true,
-            });
+        .catch((error) => {
+          const { response } = error as unknown as AxiosError;
+          if (response) {
+            if (response.status.toString().slice(0, 1) === '4')
+              toast({
+                title: response,
+                description: '재시도 부탁드립니다.',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+              });
+            else if (response.status.toString().slice(0, 1) === '5')
+              toast({
+                title: response,
+                description: '서버가 불안정합니다. 재시도 부탁드립니다.',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+              });
+          }
         });
       reset();
     },

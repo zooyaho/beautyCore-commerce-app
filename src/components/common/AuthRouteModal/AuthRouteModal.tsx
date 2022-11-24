@@ -37,7 +37,7 @@ function AuthRouteModal({ authStatus }: AuthRouteModalProps) {
             <Center h="100%" mt="1rem">
               <Text textStyle="sm_wb">
                 {authStatus === AUTH_STATUS.LOGIN
-                  ? `이미 계정이 있으므로${(<br />)} 홈으로 이동합니다.`
+                  ? '이미 계정이 있으므로 홈으로 이동합니다.'
                   : '로그인이 필요한 서비스입니다.'}
               </Text>
             </Center>

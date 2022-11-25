@@ -30,7 +30,7 @@ function ReviewCarousel({ selectedTagData: reviewList }: ReviewCarouselProps) {
     <Slider {...settings}>
       {reviewList &&
         reviewList.map((review, i) => (
-          <Box p="4rem .5rem 1rem" key={i}>
+          <Box p="4rem .5rem 1rem" key={review.created}>
             <Flex
               flexDirection="column"
               justifyContent="space-between"

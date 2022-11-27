@@ -9,6 +9,7 @@ import { usePostKakaoMutation } from '@apis/login/KakaoApi.mutation';
 import { getUserMe } from '@apis/user/userApi';
 
 import { AUTH_STATUS } from '@constants/authStatus';
+import { ROUTES } from '@constants/routes';
 import { TokenType, setToken } from '@utils/localStorage/token';
 import { UserType, setUser } from '@utils/localStorage/user';
 
@@ -31,7 +32,7 @@ const Callback = () => {
             user_id: userData.id,
             auth_status: AUTH_STATUS.LOGIN,
           } as UserType);
-          push('/home');
+          push(ROUTES.HOME);
         }
       },
     },

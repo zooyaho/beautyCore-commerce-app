@@ -23,6 +23,7 @@ import {
 
 import LogoutModal from '@components/MypagePage/_fragments/LogoutModal';
 
+import { ROUTES } from '@constants/routes';
 import { deleteToken } from '@utils/localStorage/token';
 import { deleteUser } from '@utils/localStorage/user';
 
@@ -65,7 +66,7 @@ const CommonHeaderDrawer = ({
             <Box as="nav">
               <List textStyle="sm_wb">
                 <ListItem p="1rem" onClick={basisProps.onClose}>
-                  <Link href="/home">홈</Link>
+                  <Link href={ROUTES.HOME}>홈</Link>
                 </ListItem>
                 <Divider />
                 <ListItem p="1rem">

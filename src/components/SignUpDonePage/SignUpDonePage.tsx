@@ -5,6 +5,7 @@ import { Button, Center, Flex, Link, Spacer, Text } from '@chakra-ui/react';
 import AuthRouteModal from '@components/common/AuthRouteModal';
 
 import { AUTH_STATUS } from '@constants/authStatus';
+import { ROUTES } from '@constants/routes';
 import { UserType, getUser } from '@utils/localStorage/user';
 
 import { HandsClappingIcon } from 'generated/icons/MyIcons';
@@ -35,7 +36,7 @@ function SignUpDonePage() {
         </Center>
         <Spacer />
         <Button variant="primaryButton" mb="1.875rem">
-          <Link href="/home" w="100%" h="100%">
+          <Link href={ROUTES.HOME} w="100%" h="100%">
             <Flex
               as="span"
               w="100%"

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 
 import { Button, Center, Flex, Text } from '@chakra-ui/react';
 
+import { ROUTES } from '@constants/routes';
+
 function FailPage() {
   console.log('❌tposspay fail page!!!');
   const { query } = useRouter();
@@ -51,7 +53,7 @@ function FailPage() {
           </Link>
         </Button>
         <Button variant="whiteButton" size="lg" w="60%">
-          <Link href="/home">
+          <Link href={ROUTES.HOME}>
             <Center as="a" w="100%" h="100%">
               홈으로 이동
             </Center>

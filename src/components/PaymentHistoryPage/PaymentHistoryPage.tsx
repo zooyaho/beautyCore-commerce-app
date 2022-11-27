@@ -17,6 +17,7 @@ import { useGetOrder, useGetOrderStatus } from '@apis/order/OrderApi.query';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 import { formatDateDash, formatPhoneDash, intComma } from '@utils/format';
 
 import OrderSection from './_fragments/OrderSection';
@@ -144,7 +145,7 @@ function PaymentHistoryPage() {
             {/* e: 결제 정보 */}
             <Flex p="2rem 1rem" gap=".7rem">
               <Button size="lg" flexGrow="1" variant="whiteButton">
-                <Link href="/home">
+                <Link href={ROUTES.HOME}>
                   <Center as="a" w="100%" h="100%">
                     메인화면 이동
                   </Center>

@@ -13,7 +13,7 @@ function Home() {
   // 자동 로그인 기능이 없으므로 바로 intro login page로 이동
   React.useEffect(() => {
     setUser({ user_id: undefined, auth_status: AUTH_STATUS.LOGOUT });
-    router.push(ROUTES.Login);
+    router.push(ROUTES.LOGIN);
   }, [router]);
 
   return (

@@ -8,10 +8,10 @@ import {
   usePostCartMutation,
 } from '@apis/cart/CartApi.mutation';
 import { useGetCart } from '@apis/cart/CartApi.query';
-import { useGetUserMe } from '@apis/user/userApi.query';
 import useAppStore from '@features/useAppStore';
 
 import { useQueryClient } from '@tanstack/react-query';
+import { getUser } from '@utils/localStorage/user';
 
 interface CartButtonProps extends ChakraProps {
   children: JSX.Element;
@@ -21,27 +21,27 @@ interface CartButtonProps extends ChakraProps {
 }
 
 function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
-  const { data: userData } = useGetUserMe();
-  const { data: cartData } = useGetCart(userData?.id as number);
+  const userData = getUser();
+  const { data: cartData } = useGetCart(userData?.user_id as number);
   const { mutate: postCartMutate } = usePostCartMutation();
   const { mutateAsync: postCartItemMutate } = usePostCartItemMutation();
   const { mutate: patchCartItemMutate } = usePatchCartItemMutation();
 
   const storeCartList = useAppStore((store) => store.CART.productList);
   const queryClient = useQueryClient();
-  // console.log('store cart list: ', storeCartList);
-  // console.log('cartData: ', cartData);
 
   const cartList = useMemo(() => {
-    if (cartData) return cartData[0].cartitem;
+    if (cartData && !!cartData.length) return cartData[0].cartitem;
   }, [cartData]);
 
   const cartClickHandler = useCallback(() => {
     try {
       // console.log('⭐️cartList: ', cartList);
-      if (!cartData && userData?.id) postCartMutate(userData?.id); // user initial cart id post요청
+      if (cartData && !cartData.length && userData && userData.user_id) {
+        postCartMutate(userData?.user_id);
+      } // user initial cart id post요청
       if (cartList && cartData && !cartList.length) {
-        // store의 cart list 서버 post요청
+        // store의 cart list 서버에 post요청
         storeCartList.forEach((product) => {
           postCartItemMutate(
             {
@@ -57,7 +57,6 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
           );
         });
       }
-      // cartData 업데이트 되기 전에 비교를 해서 업데이트가 이상하게 됨!!!
       if (cartData && cartList && !!cartList.length) {
         // 새로운 제품 장바구니에 추가(post)
         const addPostCartRes = storeCartList.filter((storeP) => {
@@ -120,7 +119,7 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
     postCartMutate,
     queryClient,
     storeCartList,
-    userData?.id,
+    userData,
   ]);
 
   return (

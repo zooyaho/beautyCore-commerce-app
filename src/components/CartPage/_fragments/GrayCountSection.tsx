@@ -1,4 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Box, Button, Flex, Spacer, Text } from '@chakra-ui/react';
+
+import { SelectedProductType } from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
 
 import {
   MinusCartButtonIcon,
@@ -9,17 +12,36 @@ interface GrayCountSectionProps {
   name: string;
   count: number;
   price: number;
-  decrementQuantityHandler: () => void;
-  incrementeQuantityHandler: () => void;
+  product?: SelectedProductType;
+  decreQuantityServerHandler?: () => void;
+  increQuantityServerHandler?: () => void;
+  decreQuantityStoreHandler?: (
+    selectedProduct: SelectedProductType,
+  ) => () => void;
+  increQuantityStoreHandler?: (
+    selectedProduct: SelectedProductType,
+  ) => () => void;
 }
 
 function GrayCountSection({
   name,
   count,
   price,
-  decrementQuantityHandler,
-  incrementeQuantityHandler,
+  product,
+  decreQuantityServerHandler,
+  increQuantityServerHandler,
+  decreQuantityStoreHandler,
+  increQuantityStoreHandler,
 }: GrayCountSectionProps) {
+  const decreQuantityHandler = () => {
+    if (decreQuantityServerHandler) decreQuantityServerHandler();
+    else if (decreQuantityStoreHandler && product) decreQuantityStoreHandler(product)();
+  };
+  const increQuantityHandler = () => {
+    if (increQuantityServerHandler) increQuantityServerHandler();
+    else if (increQuantityStoreHandler && product) increQuantityStoreHandler(product)();
+  }
+
   return (
     <Box bg="gray.200" borderRadius="5px" my="1rem" p=".7rem">
       <Text textStyle="sm_wn_cg600">{name}</Text>
@@ -29,7 +51,7 @@ function GrayCountSection({
             variant="transparentButton"
             w="1.5rem"
             h="1.5rem"
-            onClick={decrementQuantityHandler}
+            onClick={() => { decreQuantityHandler() }}
           >
             <MinusCartButtonIcon boxSize="25px" />
           </Button>
@@ -47,7 +69,7 @@ function GrayCountSection({
             variant="transparentButton"
             w="1.5rem"
             h="1.5rem"
-            onClick={incrementeQuantityHandler}
+            onClick={() => { increQuantityHandler() }}
           >
             <PlusCartButtonIcon boxSize="25px" />
           </Button>

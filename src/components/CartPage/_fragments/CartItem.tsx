@@ -148,8 +148,8 @@ function CartItem({ productQueryData, index }: CartItemProps) {
                   name={productData.name}
                   count={printCount.count}
                   price={productData.price}
-                  decrementQuantityHandler={decrementQuantityHandler}
-                  incrementeQuantityHandler={incrementeQuantityHandler}
+                  decreQuantityServerHandler={decrementQuantityHandler}
+                  increQuantityServerHandler={incrementeQuantityHandler}
                 />
               )}
             </Box>

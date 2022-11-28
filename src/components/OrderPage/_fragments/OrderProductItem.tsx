@@ -13,10 +13,21 @@ import { LAYOUT } from '@constants/layout';
 
 interface OrderProductItem {
   productId: number;
-  count: number;
+  count?: number;
+  children?: JSX.Element;
+  flexPadding?: string;
+  imgSize?: string;
+  textStyle?: string[];
 }
 
-function OrderProductItem({ productId, count }: OrderProductItem) {
+function OrderProductItem({
+  productId,
+  count,
+  children,
+  flexPadding,
+  imgSize,
+  textStyle,
+}: OrderProductItem) {
   const { data: product, isLoading } = useGetProduct(productId);
   return (
     <>
@@ -27,18 +38,30 @@ function OrderProductItem({ productId, count }: OrderProductItem) {
           </Center>
         </>
       ) : (
-        <Flex p=".7rem 1rem">
-          <Img mr=".7rem" w="3.75rem" h="3.75rem" src={product.photo} />
+        <Flex
+          pt={flexPadding ? flexPadding : 'auto'}
+          p={flexPadding ? 'auto' : '.7rem 1rem'}
+        >
+          <Img
+            mr=".7rem"
+            w={imgSize ? imgSize : '3.75rem'}
+            h={imgSize ? imgSize : '3.75rem'}
+            src={product.photo}
+          />
           <Box>
-            <Text textStyle="ss_wb">{product.name}</Text>
-            <Text textStyle="ss_wn_cg600" textColor="gray.600">
+            <Text textStyle={textStyle ? textStyle[0] : 'ss_wb'}>
+              {product.name}
+            </Text>
+            <Text textStyle={textStyle ? textStyle[1] : 'sm_wb_cp500'}>
               {product.name} | {product.capacity}ml
             </Text>
-            <Text textStyle="ss_wb_cp">
-              {product.price * count}원&nbsp;/&nbsp;
-              {count}개
+            <Text textStyle={textStyle ? textStyle[2] : 'ss_wb_cp'}>
+              {count
+                ? `${product.price * count}원 / ${count}개`
+                : `${product.price}원`}
             </Text>
           </Box>
+          {children}
         </Flex>
       )}
     </>

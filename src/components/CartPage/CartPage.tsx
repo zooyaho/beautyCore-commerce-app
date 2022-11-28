@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
@@ -16,20 +16,26 @@ import { CartItem as CartItemType } from '@apis/cart/CartApi.type';
 import { ProductDetail } from '@apis/product/ProductAPi.type';
 import useAppStore from '@features/useAppStore';
 
+import AuthRouteModal from '@components/common/AuthRouteModal';
+
+import { AUTH_STATUS } from '@constants/authStatus';
 import { LAYOUT } from '@constants/layout';
 import { useQueryClient } from '@tanstack/react-query';
 import { setLocalStorage } from '@utils/localStorage/helper';
+import { UserType, getUser } from '@utils/localStorage/user';
 
 import CartItem from './_fragments/CartItem';
 import SelectSection from './_fragments/SelectSection';
 import TotalPrice from './_fragments/TotalPrice';
 
-interface CartPageProps {
-  userId?: number;
-}
-
-function CartPage({ userId }: CartPageProps) {
-  const { data: cartData, isLoading } = useGetCart(userId as number);
+function CartPage() {
+  const [userData, setUserData] = useState<UserType | null>();
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserData(getUser());
+    }
+  }, []);
+  const { data: cartData, isLoading } = useGetCart(userData?.user_id as number);
   const checkedCartList = useAppStore((store) => store.CART.checkedCartList);
   const queryClient = useQueryClient();
   const checkedProductList = useMemo(() => {
@@ -39,7 +45,7 @@ function CartPage({ userId }: CartPageProps) {
       });
   }, [checkedCartList, queryClient]) as ProductDetail[];
   const cartList = useMemo(() => {
-    if (cartData) return cartData[0].cartitem;
+    if (cartData && !!cartData.length) return cartData[0].cartitem;
   }, [cartData]);
 
   const setStorageOrderListHandler = () => {
@@ -132,6 +138,7 @@ function CartPage({ userId }: CartPageProps) {
           )}
         </>
       )}
+      {!userData && <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />}
     </>
   );
 }

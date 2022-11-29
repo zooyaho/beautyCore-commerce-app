@@ -14,6 +14,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { ROUTES } from '@constants/routes';
+
 interface AddCartModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -47,7 +49,7 @@ function AddCartModal({ isOpen, onClose }: AddCartModalProps) {
                 onClick={onClose}
                 flexGrow="1"
               >
-                <Link href="/cart">
+                <Link href={ROUTES.CART}>
                   <Center as="a" w="100%" h="100%">
                     장바구니 이동
                   </Center>

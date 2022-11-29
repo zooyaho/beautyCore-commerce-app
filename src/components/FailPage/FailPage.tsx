@@ -46,7 +46,7 @@ function FailPage() {
       </Flex>
       <Flex w="100%" gap="1rem" flexDirection="column" alignItems="center">
         <Button variant="primaryButton" size="lg" w="60%" mt="2rem">
-          <Link href="/cart">
+          <Link href={ROUTES.CART}>
             <Center as="a" w="100%" h="100%">
               장바구니로 가기
             </Center>

@@ -14,6 +14,7 @@ import {
 import { useGetUserMe } from '@apis/user/userApi.query';
 
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 import { deleteToken } from '@utils/localStorage/token';
 import { deleteUser } from '@utils/localStorage/user';
 
@@ -53,7 +54,7 @@ function MypagePage() {
             borderBottom="10px solid #F9F9F9"
           >
             <IconBtnSection
-              routerPath={'/edit-user-info'}
+              routerPath={ROUTES.EDIT_USER_INFO}
               text={'회원정보수정'}
             />
             <IconBtnSection routerPath={'/order-history'} text={'주문내역'} />

@@ -59,7 +59,7 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
           onClick={() => router.push(ROUTES.HOME)}
         />
         <CartButton variant="transparentButton">
-          <Link href="/cart">
+          <Link href={ROUTES.CART}>
             <Text as="a">
               <HeaderCartIcon />
             </Text>

@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 
 import { Box, Center, Text, VStack } from '@chakra-ui/react';
 
+import { ROUTES } from '@constants/routes';
+
 import {
   EditUserInfoIcon,
   MyProductReviewIcon,
@@ -16,9 +18,9 @@ interface IconBtnSectionProps {
 function IconBtnSection({ routerPath, text }: IconBtnSectionProps) {
   const route = useRouter();
   const printIcon =
-    routerPath === '/edit-user-info' ? (
+    routerPath === ROUTES.EDIT_USER_INFO ? (
       <EditUserInfoIcon w="41px" h="21px" color="primary.500" />
-    ) : routerPath === '/order-history' ? (
+    ) : routerPath === ROUTES.ORDER_HISTORY ? (
       <OrderHistoryIcon w="36px" h="33px" color="primary.500" />
     ) : (
       <MyProductReviewIcon w="28px" h="25px" color="primary.500" />

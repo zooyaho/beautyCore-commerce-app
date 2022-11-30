@@ -57,9 +57,12 @@ function MypagePage() {
               routerPath={ROUTES.EDIT_USER_INFO}
               text={'회원정보수정'}
             />
-            <IconBtnSection routerPath={'/order-history'} text={'주문내역'} />
             <IconBtnSection
-              routerPath={'/my-product-review'}
+              routerPath={ROUTES.ORDER_HISTORY}
+              text={'주문내역'}
+            />
+            <IconBtnSection
+              routerPath={ROUTES.MY_PRODUCT_REVIEW}
               text={'내 상품 리뷰'}
             />
           </Flex>

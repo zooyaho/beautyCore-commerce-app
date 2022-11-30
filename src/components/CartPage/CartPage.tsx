@@ -20,6 +20,7 @@ import AuthRouteModal from '@components/common/AuthRouteModal';
 
 import { AUTH_STATUS } from '@constants/authStatus';
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
 import { setLocalStorage } from '@utils/localStorage/helper';
 import { UserType, getUser } from '@utils/localStorage/user';
@@ -128,7 +129,7 @@ function CartPage() {
                 mb="3.125rem"
                 onClick={setStorageOrderListHandler}
               >
-                <Link href="/order">
+                <Link href={ROUTES.ORDER}>
                   <Center as="a" w="100%" h="100%">
                     결제하기
                   </Center>

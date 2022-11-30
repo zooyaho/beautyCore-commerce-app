@@ -74,7 +74,7 @@ const CommonHeaderDrawer = ({
                 </ListItem>
                 <Divider />
                 <ListItem p="1rem">
-                  <Link href="/mypage">마이페이지</Link>
+                  <Link href={ROUTES.MYPAGE}>마이페이지</Link>
                 </ListItem>
                 <Divider />
               </List>

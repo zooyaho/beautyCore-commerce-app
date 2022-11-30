@@ -152,7 +152,7 @@ function PaymentHistoryPage() {
                 </Link>
               </Button>
               <Button size="lg" flexGrow="1" variant="primaryButton">
-                <Link href="/order-history">
+                <Link href={ROUTES.ORDER_HISTORY}>
                   <Center as="a" w="100%" h="100%">
                     주문내역 이동
                   </Center>

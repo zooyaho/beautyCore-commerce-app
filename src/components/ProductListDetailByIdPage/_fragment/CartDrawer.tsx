@@ -23,6 +23,7 @@ import useAppStore from '@features/useAppStore';
 import GrayCountSection from '@components/CartPage/_fragments/GrayCountSection';
 import CartButton from '@components/common/CartButton';
 
+import { ROUTES } from '@constants/routes';
 import { setLocalStorage } from '@utils/localStorage/helper';
 
 import AddCartModal from './AddCartModal';
@@ -150,7 +151,7 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 size="lg"
                 onClick={setStorageOrderListHandler}
               >
-                <Link href="/order">
+                <Link href={ROUTES.ORDER}>
                   <Center as="a" w="100%" h="100%">
                     바로구매
                   </Center>

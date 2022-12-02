@@ -3,6 +3,8 @@ import React from 'react';
 
 import { Box, Button, Center, Flex, Image, Text } from '@chakra-ui/react';
 
+import { ROUTES } from '@constants/routes';
+
 // interface HomeSection5Props extends ChakraProps { }
 
 function HomeSection5() {
@@ -33,7 +35,7 @@ function HomeSection5() {
           variant="primaryButton"
           size="lg"
         >
-          <Link href="/product-list">상품전체보기</Link>
+          <Link href={ROUTES.PRODUCT_LIST}>상품전체보기</Link>
         </Button>
         <Box textStyle="sm_wb" textAlign="center" mb="10vh">
           <Image

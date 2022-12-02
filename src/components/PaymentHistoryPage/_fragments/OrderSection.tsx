@@ -12,6 +12,7 @@ import {
 
 import { useGetProduct } from '@apis/product/ProductApi.query';
 
+import { ROUTES } from '@constants/routes';
 import { intComma } from '@utils/format';
 
 interface OrderSectionProps {
@@ -60,7 +61,7 @@ function OrderSection({
                   borderRadius="5px"
                   onClick={() => {
                     router.push({
-                      pathname: '/review-write',
+                      pathname: ROUTES.REVIEW_WRITE,
                       query: { productId: productId, orderItemId: orderItemId },
                     });
                   }}

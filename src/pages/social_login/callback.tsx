@@ -24,7 +24,10 @@ const Callback = () => {
     options: {
       onSuccess: async (data) => {
         if (!data.isRegister && data.socialToken) {
-          push({ pathname: '/sign-up', query: { token: data.socialToken } });
+          push({
+            pathname: ROUTES.SIGN_UP,
+            query: { token: data.socialToken },
+          });
         } else if (data.access && data.refresh) {
           setToken(data as TokenType);
           const userData = await getUserMe();

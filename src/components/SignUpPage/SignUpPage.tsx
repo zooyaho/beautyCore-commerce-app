@@ -10,6 +10,7 @@ import { postUserRegister } from '@apis/user/userApi';
 import AuthRouteModal from '@components/common/AuthRouteModal';
 
 import { AUTH_STATUS } from '@constants/authStatus';
+import { ROUTES } from '@constants/routes';
 import { setToken } from '@utils/localStorage/token';
 
 import SignupPageView from './SignUpPage.view';
@@ -36,7 +37,7 @@ const SignUpPage = () => {
       })
         .then((data) => {
           setToken(data);
-          push('/sign-up-done');
+          push(ROUTES.SIGN_UP_DONE);
         })
         .catch((error) => {
           const { response } = error as unknown as AxiosError;

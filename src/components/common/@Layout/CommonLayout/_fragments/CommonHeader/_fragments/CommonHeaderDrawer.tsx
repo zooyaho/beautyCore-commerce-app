@@ -70,7 +70,7 @@ const CommonHeaderDrawer = ({
                 </ListItem>
                 <Divider />
                 <ListItem p="1rem">
-                  <Link href="/product-list">상품보기</Link>
+                  <Link href={ROUTES.PRODUCT_LIST}>상품보기</Link>
                 </ListItem>
                 <Divider />
                 <ListItem p="1rem">

@@ -67,7 +67,7 @@ function MypagePage() {
             />
           </Flex>
           <Box borderBottom="30px solid #F9F9F9">
-            <ArrowBtnSection routerPath={'/withdraw'} text={'회원탈퇴'} />
+            <ArrowBtnSection routerPath={ROUTES.WITHDRAW} text={'회원탈퇴'} />
             <Divider />
             <ArrowBtnSection
               modalOpen={onOpen}

@@ -26,7 +26,6 @@ export const MY_IMAGES = {
     HOME: {},
     LOGO: { src: '/images/LOGO.png', alt: 'logo' },
     INTRO_LOGO: { src: '/images/INTRO_LOGO.png', alt: 'logo' },
-    MAIN_BG: { src: '/images/mainBg.png', alt: 'main-bg' },
     NEW_OG: { src: '/images/new_og.png', alt: 'new-og' },
   },
   VERCEL: { src: '/vercel.svg', alt: 'vercel' },

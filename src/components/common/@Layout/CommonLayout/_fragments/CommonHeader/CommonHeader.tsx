@@ -8,6 +8,7 @@ import MenuIcon from '@components/common/@Icons/System/Menu';
 import CartButton from '@components/common/CartButton';
 
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 
 import {
   CommonHeaderVariantType,
@@ -55,10 +56,10 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
           w="35%"
           h="25%"
           cursor="pointer"
-          onClick={() => router.push('/home')}
+          onClick={() => router.push(ROUTES.HOME)}
         />
         <CartButton variant="transparentButton">
-          <Link href="/cart">
+          <Link href={ROUTES.CART}>
             <Text as="a">
               <HeaderCartIcon />
             </Text>

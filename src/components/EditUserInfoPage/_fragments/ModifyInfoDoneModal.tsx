@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { MouseEventHandler } from 'react';
 
 import {
   Button,
@@ -12,6 +11,8 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+
+import { ROUTES } from '@constants/routes';
 
 interface ModifyInfoModalProps {
   isOpen: boolean;
@@ -44,7 +45,7 @@ function ModifyInfoModal({ isOpen, onClose }: ModifyInfoModalProps) {
                 onClick={onClose}
                 w="50%"
               >
-                <Link href="/mypage">
+                <Link href={ROUTES.MYPAGE}>
                   <Center as="a" w="100%" h="100%">
                     확인
                   </Center>

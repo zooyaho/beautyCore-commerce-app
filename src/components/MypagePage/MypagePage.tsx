@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react';
 
 import {
@@ -9,24 +8,19 @@ import {
   Divider,
   Flex,
   Text,
-  VStack,
   useDisclosure,
 } from '@chakra-ui/react';
 
 import { useGetUserMe } from '@apis/user/userApi.query';
 
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 import { deleteToken } from '@utils/localStorage/token';
 import { deleteUser } from '@utils/localStorage/user';
 
+import ArrowBtnSection from './_fragments/ArrowBtnSection';
+import IconBtnSection from './_fragments/IconBtnSection';
 import LogoutModal from './_fragments/LogoutModal';
-
-import {
-  EditUserInfoIcon,
-  MyProductReviewIcon,
-  OrderHistoryIcon,
-  RightArrowIcon,
-} from 'generated/icons/MyIcons';
 
 function MypagePage() {
   const { data: userData, isLoading } = useGetUserMe();
@@ -59,65 +53,28 @@ function MypagePage() {
             borderTop="10px solid #F9F9F9"
             borderBottom="10px solid #F9F9F9"
           >
-            <Box flexGrow="1" cursor="pointer">
-              <Link href="/edit-user-info">
-                <VStack>
-                  <Center w="50px" h="50px">
-                    <EditUserInfoIcon w="41px" h="21px" color="primary.500" />
-                  </Center>
-                  <Text>회원정보수정</Text>
-                </VStack>
-              </Link>
-            </Box>
-            <Box flexGrow="1" cursor="pointer">
-              <Link href="/order-history">
-                <VStack>
-                  <Center w="50px" h="50px">
-                    <OrderHistoryIcon w="36px" h="33px" color="primary.500" />
-                  </Center>
-                  <Text>주문내역</Text>
-                </VStack>
-              </Link>
-            </Box>
-            <Box flexGrow="1" cursor="pointer">
-              <Link href="/my-product-review">
-                <VStack>
-                  <Center w="50px" h="50px">
-                    <MyProductReviewIcon
-                      w="28px"
-                      h="25px"
-                      color="primary.500"
-                    />
-                  </Center>
-                  <Text>내 상품 리뷰</Text>
-                </VStack>
-              </Link>
-            </Box>
+            <IconBtnSection
+              routerPath={ROUTES.EDIT_USER_INFO}
+              text={'회원정보수정'}
+            />
+            <IconBtnSection
+              routerPath={ROUTES.ORDER_HISTORY}
+              text={'주문내역'}
+            />
+            <IconBtnSection
+              routerPath={ROUTES.MY_PRODUCT_REVIEW}
+              text={'내 상품 리뷰'}
+            />
           </Flex>
-          <Link href="/withdraw">
-            <Flex
-              justifyContent="space-between"
-              alignItems="center"
-              p="1rem"
-              cursor="pointer"
-            >
-              <Text>회원탈퇴</Text>
-              <RightArrowIcon />
-            </Flex>
-          </Link>
-          <Divider />
-          <Flex
-            justifyContent="space-between"
-            alignItems="center"
-            p="1rem"
-            borderBottom="30px solid #F9F9F9"
-            cursor="pointer"
-            w="100%"
-            onClick={onOpen}
-          >
-            <Text>로그아웃</Text>
-            <RightArrowIcon />
-          </Flex>
+          <Box borderBottom="30px solid #F9F9F9">
+            <ArrowBtnSection routerPath={ROUTES.WITHDRAW} text={'회원탈퇴'} />
+            <Divider />
+            <ArrowBtnSection
+              modalOpen={onOpen}
+              text={'로그아웃'}
+              borderBottom="30px solid #F9F9F9"
+            />
+          </Box>
           <LogoutModal
             isOpen={isOpen}
             onClose={onClose}

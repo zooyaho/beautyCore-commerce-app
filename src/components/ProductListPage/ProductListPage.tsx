@@ -23,6 +23,7 @@ import CartDrawer from '@components/ProductListDetailByIdPage/_fragment/CartDraw
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { setLocalStorage } from '@utils/localStorage/helper';
 
@@ -142,7 +143,7 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                     flexGrow="1"
                     onClick={() => setStorageOrderListHandler(product)}
                   >
-                    <Link href="/order">
+                    <Link href={ROUTES.ORDER}>
                       <Center as="a" w="100%" h="100%">
                         바로구매
                       </Center>

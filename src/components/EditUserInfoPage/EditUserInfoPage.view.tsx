@@ -21,6 +21,7 @@ import { useGetUserMe } from '@apis/user/userApi.query';
 import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 
 import ModifyInfoModal from './_fragments/ModifyInfoDoneModal';
 import { FormDataType } from './_hooks/useFormValidate';
@@ -200,7 +201,7 @@ const FormPageView = ({
                   flexGrow="1"
                   variant="whiteButton"
                 >
-                  <Link href="/mypage">
+                  <Link href={ROUTES.MYPAGE}>
                     <Center as="a" w="100%" h="100%">
                       취소
                     </Center>

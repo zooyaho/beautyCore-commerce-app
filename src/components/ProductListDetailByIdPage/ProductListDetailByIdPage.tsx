@@ -21,6 +21,7 @@ import { cartSliceAction } from '@features/cart/cartSlice';
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
+import { ROUTES } from '@constants/routes';
 import { setLocalStorage } from '@utils/localStorage/helper';
 import { productImgSrc } from '@utils/productImgSrc';
 
@@ -138,7 +139,7 @@ function ProductListDetailByIdPage({
               size="lg"
               onClick={setStorageOrderListHandler}
             >
-              <Link href="/order">
+              <Link href={ROUTES.ORDER}>
                 <Center as="a" w="100%" h="100%">
                   바로구매
                 </Center>

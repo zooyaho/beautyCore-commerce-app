@@ -2,7 +2,7 @@ import { Button, Flex, Image, Text } from '@chakra-ui/react';
 
 import { SOCIALS } from './SocialButton.data';
 
-export type SocialType = 'kakao' | 'naver' | 'facebook' | 'google' | 'apple';
+export type SocialType = 'kakao';
 export interface SocialButtonProps {
   data: {
     social: SocialType;

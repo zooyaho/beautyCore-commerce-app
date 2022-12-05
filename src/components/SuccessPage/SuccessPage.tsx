@@ -43,7 +43,7 @@ function SuccessPage() {
       </Text>
       <ScaleFade initialScale={0.9} in={true}>
         <Image
-          src="/images/completePayment.png"
+          src="/icons/completePayment.png"
           alt="결제완료 이미지"
           w="100%"
         />

@@ -1,28 +1,16 @@
 export const ROUTES = {
-  HOME: '/',
-  //@delete:line
-  Login: '/login',
-  STARTER_DOCS: {
-    //@delete:line
-    MAIN: '/starter-docs',
-    //@delete:line
-    THEME_VIEWER: '/starter-docs/theme-viewer',
-    //@delete:line
-    EXAMPLES: {
-      //@delete:line
-      MAIN: '/starter-docs/examples',
-      //@delete:line
-      COUNTER: '/starter-docs/examples/counter',
-      //@delete:line
-      FORM: '/starter-docs/examples/form',
-      //@delete:line
-      MODALS: '/starter-docs/examples/modals',
-      //@delete:line
-      SOCIAL: '/starter-docs/examples/social',
-      //@delete:line
-      LODASH: '/starter-docs/examples/lodash',
-      //@delete:line
-      S3_FILE_INPUT: '/starter-docs/examples/file-input',
-    },
-  },
+  HOME: '/home',
+  LOGIN: '/login',
+  CART: '/cart',
+  EDIT_USER_INFO: '/edit-user-info',
+  MY_PRODUCT_REVIEW: '/my-product-review',
+  MYPAGE: '/mypage',
+  ORDER: '/order',
+  ORDER_HISTORY: '/order-history',
+  PAYMENT_HISTORY: '/payment-history',
+  PRODUCT_LIST: '/product-list',
+  REVIEW_WRITE: '/review-write',
+  SIGN_UP: '/sign-up',
+  SIGN_UP_DONE: '/sign-up-done',
+  WITHDRAW: '/withdraw',
 } as const;

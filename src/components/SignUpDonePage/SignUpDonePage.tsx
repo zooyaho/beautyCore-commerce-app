@@ -1,22 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { Button, Center, Flex, Link, Spacer, Text } from '@chakra-ui/react';
+import { AxiosError } from 'axios';
+
+import { Button, Center, Flex, Spacer, Text, useToast } from '@chakra-ui/react';
+
+import { getUserMe } from '@apis/user/userApi';
 
 import AuthRouteModal from '@components/common/AuthRouteModal';
 
 import { AUTH_STATUS } from '@constants/authStatus';
-import { UserType, getUser } from '@utils/localStorage/user';
+import { ROUTES } from '@constants/routes';
+import { UserType, getUser, setUser } from '@utils/localStorage/user';
 
 import { HandsClappingIcon } from 'generated/icons/MyIcons';
 
 function SignUpDonePage() {
-  const [authStatus, setAuthStatus] = useState<UserType | null>();
-
+  const toast = useToast();
+  const [userStatus, setUserStatus] = useState<UserType | null>();
   useEffect(() => {
     if (typeof window !== undefined) {
-      setAuthStatus(getUser());
+      setUserStatus(getUser());
     }
   }, []);
+
+  const setUserDataHandler = useCallback(async () => {
+    try {
+      const userData = await getUserMe();
+      if (userData)
+        setUser({ user_id: userData.id, auth_status: AUTH_STATUS.LOGIN });
+    } catch (error) {
+      const { response } = error as unknown as AxiosError;
+      if (response) {
+        if (response.status.toString().slice(0, 1) === '4')
+          toast({
+            title: response,
+            description: '재시도 부탁드립니다.',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        else if (response.status.toString().slice(0, 1) === '5')
+          toast({
+            title: response,
+            description: '서버가 불안정합니다. 재시도 부탁드립니다.',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+      }
+    }
+  }, [toast]);
 
   return (
     <>
@@ -34,23 +68,20 @@ function SignUpDonePage() {
           <HandsClappingIcon />
         </Center>
         <Spacer />
-        <Button variant="primaryButton" mb="1.875rem">
-          <Link href="/home" w="100%" h="100%">
-            <Flex
-              as="span"
-              w="100%"
-              h="100%"
-              alignItems="center"
-              justifyContent="center"
-            >
+        <Button
+          size="lg"
+          variant="primaryButton"
+          mb="1.875rem"
+          onClick={setUserDataHandler}
+        >
+          <Link href={ROUTES.HOME}>
+            <Center as="a" w="100%" h="100%">
               시작하기
-            </Flex>
+            </Center>
           </Link>
         </Button>
       </Flex>
-      {authStatus && authStatus.auth_status === AUTH_STATUS.LOGIN && (
-        <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />
-      )}
+      {userStatus && <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />}
     </>
   );
 }

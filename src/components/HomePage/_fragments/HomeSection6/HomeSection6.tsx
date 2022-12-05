@@ -20,7 +20,7 @@ function HomeSection6({ productTagData }: HomeSection6Props) {
       .filter((_a, i, arr) => arr[i].length !== 0)
       .flat(),
   );
-  const clickedSelectTab = (tabId: number) => {
+  const seletedHandler = (tabId: number) => {
     setSelectedTagData(() => {
       if (tabId === 0) {
         return productTagData
@@ -41,7 +41,7 @@ function HomeSection6({ productTagData }: HomeSection6Props) {
           고객님의 솔직한 리뷰
         </Text>
         <Box maxW="100%" pr="1.6rem" pl="1rem" my="2rem">
-          <TabCarousel seletedHandler={clickedSelectTab} />
+          <TabCarousel seletedHandler={seletedHandler} />
           <ReviewCarousel selectedTagData={selectedTagData} />
         </Box>
         <Button

@@ -20,6 +20,7 @@ import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
 
+import ProfileSection from './_fragments/ ProfileSection';
 import WithdrawDoneModal from './_fragments/WithdrawDoneModal';
 import { FormDataType } from './_hooks/useFormValidate';
 import { WITHDRAWAL_REASON } from './withdrawPage.data';
@@ -53,26 +54,7 @@ function WithdrawPageView({
         회원 탈퇴 시 개인 정보 및 인코스런에서 만들어진 모든 데이터는
         삭제됩니다. 한 번 삭제된 정보는 복구가 불가능합니다.
       </Text>
-      <Container borderBottom="solid 10px #F9F9F9">
-        <Text as="h3" py=".8rem" textStyle="sm_wb">
-          회원 정보
-        </Text>
-        <Divider />
-        <Flex flexDirection="column" gap=".7rem" my="1rem">
-          <Flex>
-            <Text minW="30%">이름</Text>
-            <Text textColor="gray.700">박지우</Text>
-          </Flex>
-          <Flex>
-            <Text minW="30%">핸드폰 번호</Text>
-            <Text textColor="gray.700">010-1234-1234</Text>
-          </Flex>
-          <Flex>
-            <Text minW="30%">이메일 주소</Text>
-            <Text textColor="gray.700">incourse.run@gmail.com</Text>
-          </Flex>
-        </Flex>
-      </Container>
+      <ProfileSection />
       <Box as="form" onSubmit={onSubmit} {...basisProps}>
         <Container borderBottom="solid 10px #F9F9F9">
           <Text as="h3" py=".8rem" textStyle="sm_wb">

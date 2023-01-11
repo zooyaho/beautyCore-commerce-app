@@ -26,8 +26,6 @@ import { ROUTES } from '@constants/routes';
 import ModifyInfoModal from './_fragments/ModifyInfoDoneModal';
 import { FormDataType } from './_hooks/useFormValidate';
 
-import { UserProfileIcon } from 'generated/icons/MyIcons';
-
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
   isOpen: boolean;
@@ -74,10 +72,7 @@ const FormPageView = ({
             {/* s: Form */}
             <Box as="form" onSubmit={onSubmit} {...basisProps}>
               {/* 회원정보입력 */}
-              <Box mb="5rem">
-                <Flex justifyContent="center" mt="3.75rem" mb="2.5rem">
-                  <UserProfileIcon />
-                </Flex>
+              <Box mb="5rem" pt="3.75rem">
                 <FormHelper
                   mb="3.125rem"
                   label="이름"

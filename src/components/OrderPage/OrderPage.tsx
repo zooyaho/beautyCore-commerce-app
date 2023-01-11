@@ -7,9 +7,8 @@ import { useToast } from '@chakra-ui/react';
 
 import { postOrder } from '@apis/order/OrderApi';
 import { localOrderListType } from '@apis/order/OrderApi.type';
-import { UserMe } from '@apis/user/userApi.type';
+import { useGetUserMe } from '@apis/user/userApi.query';
 
-import { useQueryClient } from '@tanstack/react-query';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { getLocalStorage } from '@utils/localStorage/helper';
 
@@ -25,19 +24,15 @@ const OrderPage = () => {
   const { handleSubmit } = formData;
   const toast = useToast();
 
-  const queryClient = useQueryClient();
-  const userData = queryClient.getQueryData<UserMe>(['user']);
-  console.log('userData: ', userData);
+  const { data: userData } = useGetUserMe();
   const [orderList, setOrderList] = useState<localOrderListType[]>();
   const router = useRouter();
 
   useEffect(() => {
     const localData = getLocalStorage<localOrderListType[]>('order', []);
-    console.log('⭐️localData: ', localData);
     if (localData.length) {
       setOrderList(getLocalStorage<localOrderListType[]>('order', []));
     } else {
-      console.log('여기서 백이 됐나용????');
       router.back();
     }
   }, [orderList?.length, router]);

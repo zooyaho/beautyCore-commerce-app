@@ -26,26 +26,10 @@ function PaymentHistoryPage() {
   const { query } = useRouter();
   const { data: userData } = useGetUserMe();
   const { data: orderData } = useGetOrder(query.orderId as string);
-  const { data: orderList } = useGetOrderStatus(
-    userData?.id as number,
-    userData,
-  );
+  const { data: orderList } = useGetOrderStatus(1, userData);
   const paymentList = orderList?.results.filter(
     (order) => query.orderId === order.orderId,
   );
-  /* const productList = useMemo(async () => {
-    if (paymentList) {
-      return await Promise.all(
-        paymentList.map(async (order) => {
-          const product = await getProduct(order.productId);
-          return {
-            ...order,
-            ...product,
-          };
-        }),
-      );
-    }
-  }, [paymentList]); */
 
   return (
     <>

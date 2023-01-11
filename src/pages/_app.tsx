@@ -16,9 +16,9 @@ function MyApp({ Component, pageProps }: any) {
     <ThemeProvider
       theme={{ ...theme, colors: { ...theme.colors, ...mode[colorMode] } }}
     >
-      <ToggleColorModeButton />
+      {/* <ToggleColorModeButton /> */}
       <Component {...pageProps} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </ThemeProvider>
   );
 }

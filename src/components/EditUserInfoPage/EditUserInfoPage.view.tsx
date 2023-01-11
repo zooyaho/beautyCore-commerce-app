@@ -26,8 +26,6 @@ import { ROUTES } from '@constants/routes';
 import ModifyInfoModal from './_fragments/ModifyInfoDoneModal';
 import { FormDataType } from './_hooks/useFormValidate';
 
-import { UserProfileIcon } from 'generated/icons/MyIcons';
-
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
   isOpen: boolean;

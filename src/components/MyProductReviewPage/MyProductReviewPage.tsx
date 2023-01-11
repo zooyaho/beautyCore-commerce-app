@@ -89,6 +89,22 @@ function MyProductReviewPage() {
                         alt="리뷰 이미지"
                       />
                     ))}
+                  {/* <Img
+                    key="img1"
+                    src="/public/images/리뷰1.jpeg"
+                    w="80px"
+                    h="80px"
+                    borderRadius="5px"
+                    alt="리뷰 이미지"
+                  />
+                  <Img
+                    key="img2"
+                    src="/public/images/리뷰2.jpeg"
+                    w="80px"
+                    h="80px"
+                    borderRadius="5px"
+                    alt="리뷰 이미지"
+                  /> */}
                 </Flex>
               </Flex>
               <Divider />

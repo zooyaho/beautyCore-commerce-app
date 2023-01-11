@@ -10,7 +10,9 @@ export const useGetOrderList = () => {
   return data;
 };
 export const useGetOrder = (id: string) => {
-  const data = useQuery<Order>(['order', id], () => getOrder(id));
+  const data = useQuery<Order>(['order', id], () => getOrder(id), {
+    enabled: !!id,
+  });
   return data;
 };
 export const useGetOrderStatus = (

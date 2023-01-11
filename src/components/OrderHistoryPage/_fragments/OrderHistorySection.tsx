@@ -9,6 +9,7 @@ import {
   Divider,
   Flex,
   Select,
+  Spacer,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -75,7 +76,22 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
         <Text py="1rem" pl="1rem" textStyle="ss_wb">
           {`[ ${formatDateDash(created)} ]`}
         </Text>
+        <Spacer />
+        <Text
+          mr="1rem"
+          textStyle="ss_wb"
+          cursor="pointer"
+          onClick={() => {
+            router.push({
+              pathname: '/payment-history',
+              query: { orderId: orderId },
+            });
+          }}
+        >
+          결제 내역
+        </Text>
         <Select
+          mr="1rem"
           value={shippingStatus}
           size="sm"
           w="30%"
@@ -91,28 +107,17 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
       </Flex>
       <Divider />
       {/* order list section */}
-      <Box
-        cursor="pointer"
-        onClick={() => {
-          router.push({
-            pathname: '/payment-history',
-            query: { orderId: orderId },
-          });
-        }}
-      >
-        {order.map((order) => {
-          console.log('⭐️order.id: ', order.id);
-          return (
-            <OrderSection
-              key={order.productId}
-              productId={order.productId}
-              count={order.count}
-              shippingStatus={shippingStatus}
-              orderItemId={order.id}
-            />
-          );
-        })}
-      </Box>
+      {order.map((order) => {
+        return (
+          <OrderSection
+            key={order.productId}
+            productId={order.productId}
+            count={order.count}
+            shippingStatus={shippingStatus}
+            orderItemId={order.id}
+          />
+        );
+      })}
       <Flex px="1rem" justifyContent="flex-end" gap="2rem" my="1rem">
         <Text textStyle="sm_wn_cg700">결제금액</Text>
         <Text textStyle="sm_wb_cp">

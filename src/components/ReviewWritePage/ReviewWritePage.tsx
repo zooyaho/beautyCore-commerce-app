@@ -45,15 +45,14 @@ const ReviewWritePage = () => {
           }),
         ),
       );
-
-      if (typeof imgUrlArr === 'string') {
+      if (imgUrlArr.length > 0) {
         await postReview({
           userId,
           productId,
           orderItemId,
           rate: setFormData.starRating,
           content: setFormData.content,
-          reviewimagePath: imgUrlArr,
+          reviewimagePath: imgUrlArr as string[],
         });
       } else if (imgUrlArr.length === 0) {
         await postReview({

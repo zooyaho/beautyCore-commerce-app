@@ -15,7 +15,7 @@ interface Review {
   created: string;
 }
 
-export const reviewFilter = (reviewList: Review[], productType: string) => {
+export const reviewFilter = (reviewList: Review[]) => {
   return reviewList.filter((review) => {
     return review;
   });

@@ -2,7 +2,7 @@
 
 <br/>
 <div align="center">
-<img src="https://i.imgur.com/87n8mHs.png" width=400/>
+<img src="https://i.imgur.com/87n8mHs.png" width=600/>
 <br/>
 <br/>
  <img src="https://img.shields.io/badge/Typescript-v4-3178c6?logo=typescript"/>
@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Redux Toolkit-v1.3-764ABC?logo=Redux"/>
   <br />
   <img src="https://img.shields.io/badge/Chakra UI-v3.2-319795?logo=Chakra UI"/>
-  <img src="https://img.shields.io/badge/React Hook Form-v7.2-EC5990?logo=React Hook Form"/>
+  <img src="https://img.shields.io/badge/React Hook Form-v7.2-EC5990?logo=ReactHookForm"/>
   <img src="https://img.shields.io/badge/Yarn-v1.22.17-2C8EBB?logo=Yarn"/>
   <br/>
   <br/>
@@ -31,11 +31,12 @@
 <br><br><br>
 
 ## 🎥 데모 영상
-
+<br/><br/>
+<div align="center">
 <a href="https://youtu.be/v0hGzzNT_BM" target="_blank">
   <img src="https://i.imgur.com/FJU6mli.png" width="600">
 </a>
-
+</div>
 <br><br><br>
 
 # 🚀 Quick Start

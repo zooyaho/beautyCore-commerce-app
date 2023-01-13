@@ -10,7 +10,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Fonts from 'generated/fonts/fonts';
 import theme from 'styles/theme';
 
-// Create a client
 const queryClient = new QueryClient();
 
 function withAppProvider(AppComponent: React.FC<AppProps>) {

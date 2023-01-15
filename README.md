@@ -70,7 +70,7 @@ NEXT_PUBLIC_TOSSPAYMENT_FAIL_URL=http://localhost:3000/tosspayment/fail
 
 # 📄 프로젝트 설명
 
-- 프로젝트 Duration : 22.09.19 ~
+<!-- - 프로젝트 Duration : 22.09.19 ~ -->
 - 프로젝트 팀원 : 박지우(FE)
 - 프로젝트 Figma : Figma [**link**](https://www.figma.com/file/0AiQrpaJevxhXGo4iu2F0i/💳-커머스-트랙?node-id=4802%3A20827)
 

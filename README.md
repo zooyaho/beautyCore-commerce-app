@@ -48,7 +48,7 @@
 <!-- [**자세히**]() -->
 
 ```
-$ git clone https://github.com/zooyaho/fastcampas-1-commerce-fe.git
+$ git clone https://github.com/zooyaho/beautyCore-commerce-app.git
 $ yarn install
 $ yarn dev or yarn start
 ```

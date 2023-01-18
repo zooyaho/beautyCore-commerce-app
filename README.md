@@ -39,11 +39,56 @@
 </div>
 <br><br><br>
 
+# 📄 프로젝트 설명
+
+<!-- - 프로젝트 Duration : 22.09.19 ~ -->
+- 프로젝트 팀원 : 박지우(FE)
+- 프로젝트 Figma : Figma [**link**](https://www.figma.com/file/0AiQrpaJevxhXGo4iu2F0i/💳-커머스-트랙?node-id=4802%3A20827)
+
+<br>
+
+<!-- 노션 링크 필요 -->
+
+> 프로젝트의 자세한 설명은 <a href="https://gregarious-cathedral-9f7.notion.site/Beauty-CORE-b48feda861ca4f669dbbdb750b5cb117" target="_blank"><strong>여기</strong></a>로!
+
+<br>
+
+🔀 **User Flow** <a href="https://gregarious-cathedral-9f7.notion.site/User-Flow-6eafa146091a4ab3adf1a0271641e697" target="_blank"><strong>자세히</strong></a> 보기!
+
+<br>
+
+🔖 **기능 명세서** <a href="https://gregarious-cathedral-9f7.notion.site/7c1922df4fcc47abab62dcdcdf92ff0d" target="_blank"><strong>자세히</strong></a> 보기!
+
+<br><br>
+
+### 📁 폴더 구조
+<!-- [**자세히**](https://gregarious-cathedral-9f7.notion.site/900db2935e6947019f597f1bac0943cd) 보기! -->
+> **폴더 구조** <a href="https://gregarious-cathedral-9f7.notion.site/900db2935e6947019f597f1bac0943cd" target="_blank"><strong>자세히</strong></a> 보기!
+
+
+    ├── public                  # 폰트, 이미지 등 정적파일 폴더
+    ├── src
+        ├── apis                # api 관련 함수 폴더
+        ├── components          # 비즈니스 로직이 담긴 폴더
+        ├── constants           # 상수 폴더
+        ├── contexts            # provider정의 폴더
+        ├── features            # RTK 관련 폴더
+        ├── generated           # gen 명령어를 이용해 생성된 파일 모음 폴더
+        ├── pages               # 페이지 뷰 컴포넌트 폴더
+        ├── scripts             # 명령어 모음 폴더
+        ├── styles              # CSS, Chakra-ui 모음 폴더
+        ├── utils               # 유용한 함수 모음
+    ├── README.md
+    └── ...
+
+
+<br><br><br>
+
 # 🚀 Quick Start
 
 <i>현재 서버가 비활성된 상태로 해당 프로젝트는 실행할 수 없습니다.</i>
 <br/>
-<a href="https://fastcampas-1-commerce-fe-lake.vercel.app/"><del>Beauty CORE</del></a> 보러가기!
+<a href="https://beautycore-commerce.vercel.app/"><del>Beauty CORE</del></a> 보러가기!
 
 <!-- [**자세히**]() -->
 
@@ -66,46 +111,7 @@ NEXT_PUBLIC_TOSSPAYMENT_SUCCESS_URL=http://localhost:3000/tosspayment/success
 NEXT_PUBLIC_TOSSPAYMENT_FAIL_URL=http://localhost:3000/tosspayment/fail
 ```
 
-<br><br><br>
 
-# 📄 프로젝트 설명
-
-<!-- - 프로젝트 Duration : 22.09.19 ~ -->
-- 프로젝트 팀원 : 박지우(FE)
-- 프로젝트 Figma : Figma [**link**](https://www.figma.com/file/0AiQrpaJevxhXGo4iu2F0i/💳-커머스-트랙?node-id=4802%3A20827)
-
-<br>
-
-<!-- 노션 링크 필요 -->
-
-> 프로젝트의 자세한 설명은 [**여기**]()로!
-
-<br>
-
-🔀 **User Flow** [**자세히**](https://i.imgur.com/1kk8Pgv.jpg) 보기!
-<br><br>
-
-🔖 **기능 명세서** [**자세히**](https://toktokhan.notion.site/7102dc90f3594caea5ed7e17f29e18ec) 보기!
-<br><br>
-
-### 📁 폴더 구조
-
-    ├── public                  # 폰트, 이미지 등 정적파일 폴더
-    ├── src
-        ├── apis                # api 관련 함수 폴더
-        ├── components          # 비즈니스 로직이 담긴 폴더
-        ├── constants           # 상수 폴더
-        ├── contexts            # provider정의 폴더
-        ├── features            # RTK 관련 폴더
-        ├── generated           # gen 명령어를 이용해 생성된 파일 모음 폴더
-        ├── pages               # 페이지 뷰 컴포넌트 폴더
-        ├── scripts             # 명령어 모음 폴더
-        ├── styles              # CSS, Chakra-ui 모음 폴더
-        ├── utils               # 유용한 함수 모음
-    ├── README.md
-    └── ...
-
-📂 **폴더 구조** [**자세히**](https://toktokhan.notion.site/c459c92f21114659b31d273f42a935e9) 보기!
 
 <!-- ### Pages
 

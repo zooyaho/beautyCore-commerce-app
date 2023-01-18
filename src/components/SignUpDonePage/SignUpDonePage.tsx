@@ -13,7 +13,7 @@ import { AUTH_STATUS } from '@constants/authStatus';
 import { ROUTES } from '@constants/routes';
 import { UserType, getUser, setUser } from '@utils/localStorage/user';
 
-import { HandsClappingIcon } from 'generated/icons/MyIcons';
+import { HandsClappingIcon } from '@components/common/@Icons/MyIcons';
 
 function SignUpDonePage() {
   const toast = useToast();

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { RatingStarIcon } from 'generated/icons/MyIcons';
+import { RatingStarIcon } from '@components/common/@Icons/MyIcons';
 
 interface IProps {
   rate: number;

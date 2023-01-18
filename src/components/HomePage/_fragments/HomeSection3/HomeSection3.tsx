@@ -6,7 +6,7 @@ import {
   CheckIcon_P,
   CurveIcon,
   VerticalLineIcon,
-} from 'generated/icons/MyIcons';
+} from '@components/common/@Icons/MyIcons';
 
 function HomeSection3() {
   return (

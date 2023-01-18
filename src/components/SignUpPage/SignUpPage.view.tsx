@@ -28,7 +28,7 @@ import { FormDataType } from './_hooks/useSignupValidate';
 import {
   CheckLineIcon,
   CircleCheckIcon,
-} from 'generated/icons/MyIcons';
+} from '@components/common/@Icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;

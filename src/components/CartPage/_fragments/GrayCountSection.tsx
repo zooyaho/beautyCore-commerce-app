@@ -6,7 +6,7 @@ import { SelectedProductType } from '@components/ProductListDetailByIdPage/_frag
 import {
   MinusCartButtonIcon,
   PlusCartButtonIcon,
-} from 'generated/icons/MyIcons';
+} from '@components/common/@Icons/MyIcons';
 
 interface GrayCountSectionProps {
   name: string;

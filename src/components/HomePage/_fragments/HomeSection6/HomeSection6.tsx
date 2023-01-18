@@ -6,8 +6,7 @@ import { ProductTag, ProductTagReview } from '@apis/product/ProductAPi.type';
 
 import ReviewCarousel from '@components/HomePage/_fragments/HomeSection6/_fragments/Carousel/ReviewCarousel';
 import TabCarousel from '@components/HomePage/_fragments/HomeSection6/_fragments/Carousel/TabCarousel';
-
-import { ChatbotIcon } from 'generated/icons/MyIcons';
+import { ChatbotIcon } from '@components/common/@Icons/MyIcons';
 
 interface HomeSection6Props extends ChakraProps {
   productTagData: ProductTag[];

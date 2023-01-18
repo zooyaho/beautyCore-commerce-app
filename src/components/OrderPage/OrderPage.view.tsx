@@ -20,6 +20,7 @@ import {
 
 import { localOrderListType } from '@apis/order/OrderApi.type';
 
+import { CardPayIcon } from '@components/common/@Icons/MyIcons';
 import FormHelper from '@components/common/FormHelper';
 
 import { LAYOUT } from '@constants/layout';
@@ -27,8 +28,6 @@ import { LAYOUT } from '@constants/layout';
 import OrderProductItem from './_fragments/OrderProductItem';
 import SearchAddressModal from './_fragments/SearchAddressModal';
 import { FormDataType } from './_hooks/useFormValidate';
-
-import { CardPayIcon } from 'generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;

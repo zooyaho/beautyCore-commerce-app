@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button } from '@chakra-ui/react';
 
-import { UpwardArrowIcon } from 'generated/icons/MyIcons';
+import { UpwardArrowIcon } from '@components/common/@Icons/MyIcons';
 
 function ScrollToTop() {
   const [showTopBtn, setShowTopBtn] = useState(false);

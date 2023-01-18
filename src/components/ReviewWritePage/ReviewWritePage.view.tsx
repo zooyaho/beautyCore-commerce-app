@@ -30,7 +30,7 @@ import { formatDateDash } from '@utils/format';
 
 import { FormDataType } from './_hooks/useFormValidate';
 
-import { PlusIcon, PlusItemIcon } from 'generated/icons/MyIcons';
+import { PlusIcon, PlusItemIcon } from '@components/common/@Icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;

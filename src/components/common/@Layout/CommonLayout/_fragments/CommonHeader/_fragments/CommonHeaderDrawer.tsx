@@ -22,12 +22,11 @@ import {
 } from '@chakra-ui/react';
 
 import LogoutModal from '@components/MypagePage/_fragments/LogoutModal';
+import { LogoutIcon } from '@components/common/@Icons/MyIcons';
 
 import { ROUTES } from '@constants/routes';
 import { deleteToken } from '@utils/localStorage/token';
 import { deleteUser } from '@utils/localStorage/user';
-
-import { LogoutIcon } from 'generated/icons/MyIcons';
 
 interface CommonHeaderDrawerProps extends Omit<DrawerProps, 'children'> {
   bodyProps?: ChakraProps;

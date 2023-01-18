@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { ChakraStyledOptions, Flex, Text } from '@chakra-ui/react';
 
-import { RightArrowIcon } from 'generated/icons/MyIcons';
+import { RightArrowIcon } from '@components/common/@Icons/MyIcons';
 
 interface ArrowBtnSectionProps extends ChakraStyledOptions {
   text: string;

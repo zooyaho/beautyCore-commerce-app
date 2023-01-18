@@ -1,6 +1,9 @@
 import { ChakraProps, Flex } from '@chakra-ui/react';
 
-import { RatingHalfStarIcon, RatingStarIcon } from 'generated/icons/MyIcons';
+import {
+  RatingHalfStarIcon,
+  RatingStarIcon,
+} from '@components/common/@Icons/MyIcons';
 
 interface PrintRatingStarsProps extends ChakraProps {
   rate: number;

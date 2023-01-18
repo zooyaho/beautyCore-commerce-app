@@ -18,6 +18,11 @@ import {
 import { ProductDetail } from '@apis/product/ProductAPi.type';
 import { cartSliceAction } from '@features/cart/cartSlice';
 
+import {
+  DownArrowIcon,
+  RatingStarIcon,
+  UpArrowIcon,
+} from '@components/common/@Icons/MyIcons';
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
@@ -28,12 +33,6 @@ import { productImgSrc } from '@utils/productImgSrc';
 import CartDrawer from './_fragment/CartDrawer';
 import OrderInfoSection from './_fragment/OrderInfoSection';
 import ReviewSection from './_fragment/ReviewSection';
-
-import {
-  DownArrowIcon,
-  RatingStarIcon,
-  UpArrowIcon,
-} from 'generated/icons/MyIcons';
 
 interface ProductListDetailByIdPageProps extends ChakraProps {
   productListData: ProductDetail;

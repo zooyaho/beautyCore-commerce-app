@@ -20,6 +20,7 @@ import { getProductList } from '@apis/product/ProductApi';
 import { cartSliceAction } from '@features/cart/cartSlice';
 
 import CartDrawer from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
+import { RatingStarIcon } from '@components/common/@Icons/MyIcons';
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
@@ -28,8 +29,6 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { setLocalStorage } from '@utils/localStorage/helper';
 
 import { Product, ProductList } from '../../apis/product/ProductAPi.type';
-
-import { RatingStarIcon } from 'generated/icons/MyIcons';
 
 interface ProductListPageProps extends ChakraProps {
   productListData: ProductList;

@@ -22,13 +22,12 @@ import { cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
 import OrderProductItem from '@components/OrderPage/_fragments/OrderProductItem';
+import { CloseButtonIcon } from '@components/common/@Icons/MyIcons';
 
 import { useQueryClient } from '@tanstack/react-query';
 
 import CheckBox from './CheckBox';
 import GrayCountSection from './GrayCountSection';
-
-import { CloseButtonIcon } from 'generated/icons/MyIcons';
 
 interface CartItemProps {
   productQueryData: CartItemType;

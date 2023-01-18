@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Flex, IconButton, Image, Text } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 
+import { HeaderCartIcon } from '@components/common/@Icons/MyIcons';
 import MenuIcon from '@components/common/@Icons/System/Menu';
 import CartButton from '@components/common/CartButton';
 
@@ -15,8 +16,6 @@ import {
   HOME_HEADER_VARIANTS,
 } from './CommonHeader.data';
 import CommonHeaderDrawer from './_fragments/CommonHeaderDrawer';
-
-import { HeaderCartIcon } from 'generated/icons/MyIcons';
 
 interface CommonHeaderProps {
   variant?: CommonHeaderVariantType;

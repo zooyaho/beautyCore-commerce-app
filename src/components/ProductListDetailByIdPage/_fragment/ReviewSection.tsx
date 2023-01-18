@@ -16,11 +16,10 @@ import {
 
 import { ProductReview } from '@apis/product/ProductAPi.type';
 
+import { RightArrowIcon } from '@components/common/@Icons/MyIcons';
 import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingStars';
 
 import { countProgress, formatDate } from '@utils/format';
-
-import { RightArrowIcon } from 'generated/icons/MyIcons';
 
 interface IReviewSectionProps {
   reviewList: ProductReview[];

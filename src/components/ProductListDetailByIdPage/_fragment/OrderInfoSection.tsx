@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 
-import { DownArrowIcon, UpArrowIcon } from 'generated/icons/MyIcons';
+import { DownArrowIcon, UpArrowIcon } from '@components/common/@Icons/MyIcons';
 
 interface IOrderInfoSectionProps {
   focusTarget: React.MutableRefObject<(HTMLDivElement | null)[]>;

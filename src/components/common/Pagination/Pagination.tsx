@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button, Center, Flex } from '@chakra-ui/react';
 
-import { RightArrowIcon } from 'generated/icons/MyIcons';
+import { RightArrowIcon } from '@components/common/@Icons/MyIcons';
 
 interface PaginationProps {
   page: number;

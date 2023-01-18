@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
-import { PlusIcon } from 'generated/icons/MyIcons';
+import { PlusIcon } from '@components/common/@Icons/MyIcons';
 
 function HomeSection2() {
   return (

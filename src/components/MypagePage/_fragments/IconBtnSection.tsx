@@ -8,7 +8,7 @@ import {
   EditUserInfoIcon,
   MyProductReviewIcon,
   OrderHistoryIcon,
-} from 'generated/icons/MyIcons';
+} from '@components/common/@Icons/MyIcons';
 
 interface IconBtnSectionProps {
   routerPath: string;

@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
 
-import { InstagramIcon } from 'generated/icons/MyIcons';
+import { InstagramIcon } from '@components/common/@Icons/MyIcons';
 
 // interface HomeSection7Props extends ChakraProps { }
 

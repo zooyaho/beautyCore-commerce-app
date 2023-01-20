@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import { useDisclosure } from '@chakra-ui/react';
 
@@ -20,7 +19,6 @@ const ReviewWritePage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
   const { data: userData } = useGetUserMe();
-  const dispatch = useDispatch();
 
   const { mutateAsync: deleteMutate } = useDeleteWithdrawalMutation({
     options: {

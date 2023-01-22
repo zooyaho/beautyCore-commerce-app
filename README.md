@@ -35,6 +35,8 @@
 <div align="center">
 <a href="https://youtu.be/v0hGzzNT_BM" target="_blank">
   <img src="https://i.imgur.com/FJU6mli.png" width="600">
+ <br/> <br/>
+ <a href="https://beautycore-commerce.vercel.app/">✨ Beauty CORE</a> 실행하기!
 </a>
 </div>
 <br><br><br>
@@ -86,9 +88,9 @@
 
 # 🚀 Quick Start
 
-<i>현재 서버가 비활성된 상태로 해당 프로젝트는 실행할 수 없습니다.</i>
-<br/>
-<a href="https://beautycore-commerce.vercel.app/"><del>Beauty CORE</del></a> 보러가기!
+<!-- <i>현재 서버가 비활성된 상태로 해당 프로젝트는 실행할 수 없습니다.</i>
+<br/> -->
+<!-- <a href="https://beautycore-commerce.vercel.app/"><del>Beauty CORE</del></a> 보러가기! -->
 
 <!-- [**자세히**]() -->
 

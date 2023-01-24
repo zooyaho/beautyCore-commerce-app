@@ -14,13 +14,20 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { deleteToken } from '@utils/localStorage/token';
+import { deleteUser } from '@utils/localStorage/user';
+
 interface LogoutModal {
   isOpen: boolean;
   onClose: () => void;
-  userStoreClear: () => void;
 }
 
-function LogoutModal({ isOpen, onClose, userStoreClear }: LogoutModal) {
+function LogoutModal({ isOpen, onClose }: LogoutModal) {
+  const userStoreClearHandler = () => {
+    deleteUser();
+    deleteToken();
+  };
+
   return (
     <>
       <Modal
@@ -54,7 +61,7 @@ function LogoutModal({ isOpen, onClose, userStoreClear }: LogoutModal) {
                 type="submit"
                 variant="primaryButton"
                 onClick={() => {
-                  userStoreClear();
+                  userStoreClearHandler();
                   onClose();
                 }}
                 flexGrow="1"

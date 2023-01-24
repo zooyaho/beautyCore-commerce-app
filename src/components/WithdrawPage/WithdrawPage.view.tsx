@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
 
@@ -42,6 +43,7 @@ function WithdrawPageView({
   onClose,
   ...basisProps
 }: WithdrawPageViewProps) {
+  const router = useRouter();
   const { REJOIN, LOW_PURCHASE_FREQ, DISSATISFACTION, USE_OTHER_BRANDS, ETC } =
     WITHDRAWAL_REASON;
 
@@ -50,7 +52,7 @@ function WithdrawPageView({
       <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
         회원 탈퇴
       </Text>
-      <Text p="1.1rem 1rem" bg="gray.100" mt="5rem">
+      <Text p="1.1rem 1rem" bg="gray.100" my="2rem">
         회원 탈퇴 시 개인 정보 및 인코스런에서 만들어진 모든 데이터는
         삭제됩니다. 한 번 삭제된 정보는 복구가 불가능합니다.
       </Text>
@@ -130,6 +132,7 @@ function WithdrawPageView({
             fontSize="md"
             flexGrow="1"
             variant="whiteButton"
+            onClick={() => router.back()}
           >
             취소
           </Button>

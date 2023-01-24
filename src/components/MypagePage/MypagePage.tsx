@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -13,10 +13,12 @@ import {
 
 import { useGetUserMe } from '@apis/user/userApi.query';
 
+import AuthRouteModal from '@components/common/AuthRouteModal';
+
+import { AUTH_STATUS } from '@constants/authStatus';
 import { LAYOUT } from '@constants/layout';
 import { ROUTES } from '@constants/routes';
-import { deleteToken } from '@utils/localStorage/token';
-import { deleteUser } from '@utils/localStorage/user';
+import { UserType, getUser } from '@utils/localStorage/user';
 
 import ArrowBtnSection from './_fragments/ArrowBtnSection';
 import IconBtnSection from './_fragments/IconBtnSection';
@@ -25,11 +27,13 @@ import LogoutModal from './_fragments/LogoutModal';
 function MypagePage() {
   const { data: userData, isLoading } = useGetUserMe();
   const { onOpen, isOpen, onClose } = useDisclosure();
+  const [userStatus, setUserStatus] = useState<UserType | null>();
 
-  const userStoreClearHandler = () => {
-    deleteUser();
-    deleteToken();
-  };
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserStatus(getUser());
+    }
+  }, []);
 
   return (
     <>
@@ -75,14 +79,11 @@ function MypagePage() {
               borderBottom="30px solid #F9F9F9"
             />
           </Box>
-          <LogoutModal
-            isOpen={isOpen}
-            onClose={onClose}
-            userStoreClear={userStoreClearHandler}
-          />
+          <LogoutModal isOpen={isOpen} onClose={onClose} />
           <Divider />
         </>
       )}
+      {!userStatus && <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Box, Center, CircularProgress, Divider, Text } from '@chakra-ui/react';
 
@@ -6,10 +6,13 @@ import { getOrderStatus } from '@apis/order/OrderApi';
 import { useGetOrderStatus } from '@apis/order/OrderApi.query';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
+import AuthRouteModal from '@components/common/AuthRouteModal';
 import Pagination from '@components/common/Pagination';
 
+import { AUTH_STATUS } from '@constants/authStatus';
 import { LAYOUT } from '@constants/layout';
 import { useQueryClient } from '@tanstack/react-query';
+import { UserType, getUser } from '@utils/localStorage/user';
 
 import OrderHistorySection from './_fragments/OrderHistorySection';
 
@@ -32,6 +35,13 @@ function OrderHistoryPage() {
   });
   const uniqueKeys = Object.keys(uniqueObj);
   const uniqueValues = Object.values(uniqueObj);
+  const [userStatus, setUserStatus] = useState<UserType | null>();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserStatus(getUser());
+    }
+  }, []);
 
   const getOrderListHandler = useCallback(
     async (currentPage: number) => {
@@ -44,36 +54,41 @@ function OrderHistoryPage() {
   );
 
   return (
-    <Box pt={LAYOUT.HEADER.HEIGHT}>
-      <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
-        주문내역
-      </Text>
-      <Box mt="3rem">
-        {isLoading || !orderList ? (
-          <Center h="100vh">
-            <CircularProgress isIndeterminate color="primary.500" />
-          </Center>
-        ) : (
-          Array(Object.keys(uniqueObj).length)
-            .fill(0)
-            .map((_v, i) => (
-              <OrderHistorySection
-                key={i}
-                orderId={uniqueKeys[i]}
-                created={uniqueValues[i]}
+    <>
+      {!userStatus ? (
+        <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />
+      ) : (
+        <Box pt={LAYOUT.HEADER.HEIGHT}>
+          <Text as="h2" textStyle="sl_wb" mt="1.6rem" px="1rem">
+            주문내역
+          </Text>
+          <Box mt="3rem">
+            {isLoading || !orderList ? (
+              <Center h="100vh">
+                <CircularProgress isIndeterminate color="primary.500" />
+              </Center>
+            ) : (
+              Array(Object.keys(uniqueObj).length)
+                .fill(0)
+                .map((_v, i) => (
+                  <OrderHistorySection
+                    key={i}
+                    orderId={uniqueKeys[i]}
+                    created={uniqueValues[i]}
+                  />
+                ))
+            )}
+            <Divider mt="1rem" />
+            {orderList && (
+              <Pagination
+                page={Math.ceil(orderList.count / 5)}
+                getListHandler={getOrderListHandler}
               />
-            ))
-        )}
-        {/* e: 주문내역 */}
-        <Divider mt="1rem" />
-        {orderList && (
-          <Pagination
-            page={Math.ceil(orderList.count / 5)}
-            getListHandler={getOrderListHandler}
-          />
-        )}
-      </Box>
-    </Box>
+            )}
+          </Box>
+        </Box>
+      )}
+    </>
   );
 }
 

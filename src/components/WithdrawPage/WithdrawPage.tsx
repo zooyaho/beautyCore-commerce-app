@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useDisclosure } from '@chakra-ui/react';
 
@@ -8,8 +8,11 @@ import {
 } from '@apis/user/userApi.mutation';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
+import AuthRouteModal from '@components/common/AuthRouteModal';
+
+import { AUTH_STATUS } from '@constants/authStatus';
 import { deleteToken } from '@utils/localStorage/token';
-import { deleteUser } from '@utils/localStorage/user';
+import { UserType, deleteUser, getUser } from '@utils/localStorage/user';
 
 import WithdrawPageView from './WithdrawPage.view';
 import useFormValidate from './_hooks/useFormValidate';
@@ -19,6 +22,13 @@ const ReviewWritePage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
   const { data: userData } = useGetUserMe();
+  const [userStatus, setUserStatus] = useState<UserType | null>();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserStatus(getUser());
+    }
+  }, []);
 
   const { mutateAsync: deleteMutate } = useDeleteWithdrawalMutation({
     options: {
@@ -40,12 +50,18 @@ const ReviewWritePage = () => {
     }
   });
   return (
-    <WithdrawPageView
-      formData={formData}
-      onSubmit={onSubmit}
-      isOpen={isOpen}
-      onClose={onClose}
-    />
+    <>
+      {!userStatus ? (
+        <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />
+      ) : (
+        <WithdrawPageView
+          formData={formData}
+          onSubmit={onSubmit}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      )}
+    </>
   );
 };
 

@@ -25,8 +25,6 @@ import LogoutModal from '@components/MypagePage/_fragments/LogoutModal';
 import { LogoutIcon } from '@components/common/@Icons/MyIcons';
 
 import { ROUTES } from '@constants/routes';
-import { deleteToken } from '@utils/localStorage/token';
-import { deleteUser } from '@utils/localStorage/user';
 
 interface CommonHeaderDrawerProps extends Omit<DrawerProps, 'children'> {
   bodyProps?: ChakraProps;
@@ -37,11 +35,6 @@ const CommonHeaderDrawer = ({
   ...basisProps
 }: CommonHeaderDrawerProps) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
-
-  const userStoreClearHandler = () => {
-    deleteUser();
-    deleteToken();
-  };
 
   return (
     <Drawer placement="left" {...basisProps}>
@@ -97,11 +90,7 @@ const CommonHeaderDrawer = ({
                   로그아웃
                 </Text>
               </Button>
-              <LogoutModal
-                isOpen={isOpen}
-                onClose={onClose}
-                userStoreClear={userStoreClearHandler}
-              />
+              <LogoutModal isOpen={isOpen} onClose={onClose} />
             </Container>
           </Flex>
         </DrawerBody>

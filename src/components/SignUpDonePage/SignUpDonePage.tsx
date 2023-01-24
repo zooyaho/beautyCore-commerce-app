@@ -1,34 +1,29 @@
 import Link from 'next/link';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useCallback } from 'react';
 
 import { AxiosError } from 'axios';
 
 import { Button, Center, Flex, Spacer, Text, useToast } from '@chakra-ui/react';
 
-import { getUserMe } from '@apis/user/userApi';
-
+import { HandsClappingIcon } from '@components/common/@Icons/MyIcons';
 import AuthRouteModal from '@components/common/AuthRouteModal';
 
 import { AUTH_STATUS } from '@constants/authStatus';
 import { ROUTES } from '@constants/routes';
-import { UserType, getUser, setUser } from '@utils/localStorage/user';
-
-import { HandsClappingIcon } from '@components/common/@Icons/MyIcons';
+import { setUser } from '@utils/localStorage/user';
 
 function SignUpDonePage() {
   const toast = useToast();
-  const [userStatus, setUserStatus] = useState<UserType | null>();
-  useEffect(() => {
-    if (typeof window !== undefined) {
-      setUserStatus(getUser());
-    }
-  }, []);
+  const { query } = useRouter();
 
   const setUserDataHandler = useCallback(async () => {
     try {
-      const userData = await getUserMe();
-      if (userData)
-        setUser({ user_id: userData.id, auth_status: AUTH_STATUS.LOGIN });
+      if (query && query.id)
+        setUser({
+          user_id: +query.id,
+          auth_status: AUTH_STATUS.LOGIN,
+        });
     } catch (error) {
       const { response } = error as unknown as AxiosError;
       if (response) {
@@ -50,7 +45,7 @@ function SignUpDonePage() {
           });
       }
     }
-  }, [toast]);
+  }, [query, toast]);
 
   return (
     <>
@@ -81,7 +76,7 @@ function SignUpDonePage() {
           </Link>
         </Button>
       </Flex>
-      {userStatus && <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />}
+      {!query.id && <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />}
     </>
   );
 }

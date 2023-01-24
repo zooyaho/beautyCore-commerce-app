@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useDisclosure, useToast } from '@chakra-ui/react';
 
 import { postPresigned_url, postReview } from '@apis/reveiw/ReviewListApi';
+
+import AuthRouteModal from '@components/common/AuthRouteModal';
+
+import { AUTH_STATUS } from '@constants/authStatus';
+import { UserType, getUser } from '@utils/localStorage/user';
 
 import ReviewWritePageView from './ReviewWritePage.view';
 import ReviewWriteDoneModal from './_fragments/ReviewWriteDoneModal';
@@ -20,6 +25,13 @@ const ReviewWritePage = () => {
   const imgNameArr: string[] = [];
   const setFormData: setFormData = {};
   const toast = useToast();
+  const [userStatus, setUserStatus] = useState<UserType | null>();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserStatus(getUser());
+    }
+  }, []);
 
   const setImgName = (name?: string, index?: number) => {
     if (name) imgNameArr.push(name);
@@ -81,6 +93,7 @@ const ReviewWritePage = () => {
         setImgNameHandler={setImgName}
       />
       <ReviewWriteDoneModal isOpen={isOpen} onClose={onClose} />
+      {!userStatus && <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />}
     </>
   );
 };

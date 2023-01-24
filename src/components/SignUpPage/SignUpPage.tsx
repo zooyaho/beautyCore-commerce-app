@@ -37,7 +37,10 @@ const SignUpPage = () => {
       })
         .then((data) => {
           setToken(data);
-          push(ROUTES.SIGN_UP_DONE);
+          push({
+            pathname: ROUTES.SIGN_UP_DONE,
+            query: { token: data.id }, // user ID query String으로 전달
+          });
         })
         .catch((error) => {
           const { response } = error as unknown as AxiosError;

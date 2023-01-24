@@ -12,7 +12,7 @@ const REST_API_URL = `${CONFIG.KAKAO_REST_API_KEY}`;
 const SOCIAL_REDIRECT_URL = `${CONFIG.KAKAO_REDIRECT_URI}`;
 
 const SOCAIL_KAKAO: { social: SocialType; link: string } = {
-  social: 'kakao',
+  social: 'kakao', // 버튼 text와 icon설정하기 위함, 확장성 용이
   link: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_URL}&redirect_uri=${SOCIAL_REDIRECT_URL}&state=kakao`,
 };
 

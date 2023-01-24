@@ -17,15 +17,18 @@ function ArrowBtnSection({
 }: ArrowBtnSectionProps) {
   const route = useRouter();
 
+  const activeHandler = () => {
+    if (routerPath) route.push(routerPath);
+    else if (modalOpen) modalOpen();
+  };
+
   return (
     <Flex
       justifyContent="space-between"
       alignItems="center"
       p="1rem"
       cursor="pointer"
-      onClick={() => {
-        return routerPath ? route.push(routerPath) : modalOpen;
-      }}
+      onClick={activeHandler}
     >
       <Text>{text}</Text>
       <RightArrowIcon />

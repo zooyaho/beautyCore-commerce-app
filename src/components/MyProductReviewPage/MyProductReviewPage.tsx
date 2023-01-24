@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {
   Box,
@@ -15,12 +15,15 @@ import { useGetReviewList } from '@apis/reveiw/ReviewApi.query';
 import { getReviewList } from '@apis/reveiw/ReviewListApi';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
+import AuthRouteModal from '@components/common/AuthRouteModal';
 import Pagination from '@components/common/Pagination';
 import PrintRatingStars from '@components/common/PrintRatingStars';
 
+import { AUTH_STATUS } from '@constants/authStatus';
 import { LAYOUT } from '@constants/layout';
 import { useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/format';
+import { UserType, getUser } from '@utils/localStorage/user';
 
 function MyProductReviewPage() {
   const queryClient = useQueryClient();
@@ -30,6 +33,14 @@ function MyProductReviewPage() {
     userData,
     userData?.id,
   );
+  const [userStatus, setUserStatus] = useState<UserType | null>();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserStatus(getUser());
+    }
+  }, []);
+
   const getReviewListHandler = useCallback(
     async (currentPage: number) => {
       if (userData) {
@@ -42,7 +53,9 @@ function MyProductReviewPage() {
 
   return (
     <>
-      {isLoading || !reviewData ? (
+      {!userStatus ? (
+        <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />
+      ) : isLoading || !reviewData ? (
         <Center h="100vh">
           <CircularProgress isIndeterminate color="primary.500" />
         </Center>
@@ -89,22 +102,6 @@ function MyProductReviewPage() {
                         alt="리뷰 이미지"
                       />
                     ))}
-                  {/* <Img
-                    key="img1"
-                    src="/public/images/리뷰1.jpeg"
-                    w="80px"
-                    h="80px"
-                    borderRadius="5px"
-                    alt="리뷰 이미지"
-                  />
-                  <Img
-                    key="img2"
-                    src="/public/images/리뷰2.jpeg"
-                    w="80px"
-                    h="80px"
-                    borderRadius="5px"
-                    alt="리뷰 이미지"
-                  /> */}
                 </Flex>
               </Flex>
               <Divider />

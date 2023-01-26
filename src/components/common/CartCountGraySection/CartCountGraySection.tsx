@@ -23,7 +23,7 @@ interface GrayCountSectionProps {
   ) => () => void;
 }
 
-function GrayCountSection({
+function CartCountGraySection({
   name,
   count,
   price,
@@ -80,4 +80,4 @@ function GrayCountSection({
     </Box>
   );
 }
-export default GrayCountSection;
+export default CartCountGraySection;

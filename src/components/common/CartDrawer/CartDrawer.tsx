@@ -19,12 +19,13 @@ import { getProduct } from '@apis/product/ProductApi';
 import { cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
-import GrayCountSection from '@components/CartPage/_fragments/GrayCountSection';
 import AddCartModal from '@components/ProductListDetailByIdPage/_fragment/AddCartModal';
 import CartButton from '@components/common/CartButton';
 
 import { ROUTES } from '@constants/routes';
 import { setLocalStorage } from '@utils/localStorage/helper';
+
+import CartCountGraySection from '../CartCountGraySection';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -106,7 +107,7 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               cartProductList.map((product) => {
                 return (
                   <React.Fragment key={product.productId}>
-                    <GrayCountSection
+                    <CartCountGraySection
                       name={product.name}
                       count={product.productQuantity}
                       price={product.price}

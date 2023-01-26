@@ -3,7 +3,6 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
-  Box,
   Button,
   Center,
   Drawer,
@@ -21,12 +20,11 @@ import { cartSliceAction } from '@features/cart/cartSlice';
 import useAppStore from '@features/useAppStore';
 
 import GrayCountSection from '@components/CartPage/_fragments/GrayCountSection';
+import AddCartModal from '@components/ProductListDetailByIdPage/_fragment/AddCartModal';
 import CartButton from '@components/common/CartButton';
 
 import { ROUTES } from '@constants/routes';
 import { setLocalStorage } from '@utils/localStorage/helper';
-
-import AddCartModal from './AddCartModal';
 
 interface CartDrawerProps {
   isOpen: boolean;

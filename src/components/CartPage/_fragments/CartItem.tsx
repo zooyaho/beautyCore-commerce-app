@@ -1,15 +1,7 @@
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Img,
-  Spacer,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Spacer } from '@chakra-ui/react';
 
 import {
   useDeleteCartItemMutation,

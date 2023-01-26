@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Box, Button, Flex, Spacer, Text } from '@chakra-ui/react';
 
-import { SelectedProductType } from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
+import { SelectedProductType } from '@components/common/CartDrawer/CartDrawer';
 
 import {
   MinusCartButtonIcon,

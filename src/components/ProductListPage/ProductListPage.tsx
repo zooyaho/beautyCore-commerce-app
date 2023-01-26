@@ -19,8 +19,8 @@ import {
 import { getProductList } from '@apis/product/ProductApi';
 import { cartSliceAction } from '@features/cart/cartSlice';
 
-import CartDrawer from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
 import { RatingStarIcon } from '@components/common/@Icons/MyIcons';
+import CartDrawer from '@components/common/CartDrawer';
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';

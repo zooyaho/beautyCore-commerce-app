@@ -15,14 +15,14 @@ import { getUser } from '@utils/localStorage/user';
 
 interface CartButtonProps extends ChakraProps {
   children: JSX.Element;
-  variant: string;
-  size?: string;
-  drawerOpen?: () => void;
+  variant: string; // 버튼 스타일
+  size?: string; // 버튼 사이즈
+  drawerOpen?: () => void; // 장바구니 모달창 open메서드
 }
 
 function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
   const userData = getUser();
-  const { data: cartData } = useGetCart(userData?.user_id as number);
+  const { data: cartData } = useGetCart(userData?.user_id as number); // user의 cart list data
   const { mutate: postCartMutate } = usePostCartMutation();
   const { mutateAsync: postCartItemMutate } = usePostCartItemMutation();
   const { mutate: patchCartItemMutate } = usePatchCartItemMutation();
@@ -31,55 +31,67 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
   const queryClient = useQueryClient();
 
   const cartList = useMemo(() => {
+    // user의 cart item list data
     if (cartData && !!cartData.length) return cartData[0].cartitem;
   }, [cartData]);
 
   const cartClickHandler = useCallback(() => {
     try {
-      // console.log('⭐️cartList: ', cartList);
       if (cartData && !cartData.length && userData && userData.user_id) {
+        // user의 cart item data가 하나도 없을 경우 user의 장바구니 id생성
+        // user initial cart id post요청
         postCartMutate(userData?.user_id);
-      } // user initial cart id post요청
+      }
       if (cartList && cartData && !cartList.length) {
-        // store의 cart list 서버에 post요청
+        // user의 서버 장바구니에 상품이 하나도 없을 경우 상품 추가
+        // cart store의 productList의 각 item 별로 장바구니 id 생성
         storeCartList.forEach((product) => {
           postCartItemMutate(
             {
               productId: product.productId,
-              cartId: cartData[0].id,
+              cartId: cartData[0].id, // user의 cart id
               count: product.productQuantity,
             },
             {
               onSuccess: () => {
-                queryClient.invalidateQueries(['cart']);
+                queryClient.invalidateQueries(['cart']); // 캐싱 업데이트
               },
             },
           );
         });
       }
       if (cartData && cartList && !!cartList.length) {
-        // 새로운 제품 장바구니에 추가(post)
+        // user의 서버 장바구니에 새로운 상품 추가
+        // cart store의 productList에서 새롭게 추가된 상품의 장바구니 id 생성
+
+        // cart store와 cart query(서버데이터)를 비교하여 새롭게 추가할 상품 filtering
         const addPostCartRes = storeCartList.filter((storeP) => {
           let flag = true;
-          // console.log('🔪cartList: ', cartList);
-          // console.log('💥qeuryCartList: ', qeuryCartList);
           cartList.forEach((queryP) => {
             if (queryP.productId === storeP.productId) flag = false;
           });
           return flag;
         });
-        // console.log('🔥addPostCartRes: ', addPostCartRes);
+
         if (addPostCartRes.length) {
-          // console.log('post cart item 실행(추가)');
+          // 새롭게 추가할 상품이 있으면 해당 상품의 장바구니 id 생성
           addPostCartRes.forEach((product) => {
-            postCartItemMutate({
-              productId: product.productId,
-              cartId: cartData[0].id,
-              count: product.productQuantity,
-            });
+            postCartItemMutate(
+              {
+                productId: product.productId,
+                cartId: cartData[0].id,
+                count: product.productQuantity,
+              },
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries(['cart']); // 캐싱 업데이트
+                },
+              },
+            );
           });
         }
-        // cart에 담겨있는 제품은 수량 비교해서 업데이트(patch)
+
+        // cart store와 cart query(서버데이터)를 비교하여 수량이 변경된 상품 filtering
         const updatePatchCartRes = storeCartList.filter((storeP) => {
           let flag = false;
           cartList.forEach((queryP) => {
@@ -91,15 +103,17 @@ function CartButton({ children, variant, size, drawerOpen }: CartButtonProps) {
           });
           return flag;
         });
+
+        // 업데이트할 상품의 id로 해당 상품의 장바구니 id 찾아 반환
         const addCartProductId = updatePatchCartRes.map((updateP) => {
           const queryP = cartList.find((queryP) => {
             return queryP.productId === updateP.productId;
           });
           return { ...updateP, id: queryP?.id };
         });
-        // console.log('🤮updatePatchCartRes: ', addCartProductId);
+
         if (addCartProductId.length) {
-          // console.log('patch cart item 실행(업데이트)');
+          // 수량이 변경된 장바구니 상품이 있을 경우 업데이트
           addCartProductId.forEach((product) => {
             patchCartItemMutate({
               id: product.id,

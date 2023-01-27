@@ -1,15 +1,7 @@
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Img,
-  Spacer,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Spacer } from '@chakra-ui/react';
 
 import {
   useDeleteCartItemMutation,
@@ -23,11 +15,11 @@ import useAppStore from '@features/useAppStore';
 
 import OrderProductItem from '@components/OrderPage/_fragments/OrderProductItem';
 import { CloseButtonIcon } from '@components/common/@Icons/MyIcons';
+import CartCountGraySection from '@components/common/CartCountGraySection';
 
 import { useQueryClient } from '@tanstack/react-query';
 
 import CheckBox from './CheckBox';
-import GrayCountSection from './GrayCountSection';
 
 interface CartItemProps {
   productQueryData: CartItemType;
@@ -143,7 +135,7 @@ function CartItem({ productQueryData, index }: CartItemProps) {
                 </>
               </OrderProductItem>
               {printCount && (
-                <GrayCountSection
+                <CartCountGraySection
                   name={productData.name}
                   count={printCount.count}
                   price={productData.price}

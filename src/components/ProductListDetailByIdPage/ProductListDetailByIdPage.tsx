@@ -23,6 +23,7 @@ import {
   RatingStarIcon,
   UpArrowIcon,
 } from '@components/common/@Icons/MyIcons';
+import CartDrawer from '@components/common/CartDrawer';
 import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
@@ -30,7 +31,6 @@ import { ROUTES } from '@constants/routes';
 import { setLocalStorage } from '@utils/localStorage/helper';
 import { productImgSrc } from '@utils/productImgSrc';
 
-import CartDrawer from './_fragment/CartDrawer';
 import OrderInfoSection from './_fragment/OrderInfoSection';
 import ReviewSection from './_fragment/ReviewSection';
 

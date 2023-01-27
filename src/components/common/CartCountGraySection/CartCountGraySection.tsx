@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Box, Button, Flex, Spacer, Text } from '@chakra-ui/react';
 
-import { SelectedProductType } from '@components/ProductListDetailByIdPage/_fragment/CartDrawer';
+import { SelectedProductType } from '@components/common/CartDrawer/CartDrawer';
 
 import {
   MinusCartButtonIcon,
@@ -23,7 +23,7 @@ interface GrayCountSectionProps {
   ) => () => void;
 }
 
-function GrayCountSection({
+function CartCountGraySection({
   name,
   count,
   price,
@@ -80,4 +80,4 @@ function GrayCountSection({
     </Box>
   );
 }
-export default GrayCountSection;
+export default CartCountGraySection;

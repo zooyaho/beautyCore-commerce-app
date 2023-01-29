@@ -36,7 +36,7 @@
 <a href="https://youtu.be/v0hGzzNT_BM" target="_blank">
   <img src="https://i.imgur.com/FJU6mli.png" width="600">
  <br/> <br/>
- <a href="https://beautycore-commerce.vercel.app/">✨ Beauty CORE</a> 실행하기!
+ <del><a href="https://beautycore-commerce.vercel.app/">✨ Beauty CORE</a> 실행하기!</del>
 </a>
 </div>
 <br><br><br>

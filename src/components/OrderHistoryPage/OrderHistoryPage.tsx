@@ -33,11 +33,7 @@ export interface uniqueObj {
 function OrderHistoryPage() {
   const queryClient = useQueryClient();
   const { data: userData } = useGetUserMe();
-  const { data: orderList, isLoading } = useGetOrderStatus(
-    1,
-    userData,
-    userData?.id,
-  );
+  const { data: orderList, isLoading } = useGetOrderStatus(1, userData);
   const uniqueObj: uniqueObj = {};
   console.log(orderList);
   orderList?.results.forEach((order) => {

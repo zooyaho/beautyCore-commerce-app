@@ -52,11 +52,7 @@ function RiewviewWritePageView({
   const router = useRouter();
   const { productId, orderItemId } = router.query;
   const { data: userData } = useGetUserMe();
-  const { data: orderList, isLoading } = useGetOrderStatus(
-    1,
-    userData,
-    userData?.id as number,
-  );
+  const { data: orderList, isLoading } = useGetOrderStatus(1, userData);
   const order = orderList?.results.filter(
     (order) =>
       order.productId === Number(productId) && order.id === Number(orderItemId),

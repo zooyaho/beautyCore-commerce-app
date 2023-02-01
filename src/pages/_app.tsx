@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: any) {
       theme={{ ...theme, colors: { ...theme.colors, ...mode[colorMode] } }}
     >
       <Component {...pageProps} />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={true} />
     </ThemeProvider>
   );
 }

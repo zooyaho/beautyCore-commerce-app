@@ -1,11 +1,8 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import {
-  Box,
   Button,
-  Center,
   Divider,
   Flex,
   Select,
@@ -15,8 +12,7 @@ import {
 } from '@chakra-ui/react';
 
 import { putOrderStatus } from '@apis/order/OrderApi';
-import { useGetOrder } from '@apis/order/OrderApi.query';
-import { OrderGetStatus } from '@apis/order/OrderApi.type';
+import { useGetOrder, useGetOrderStatus } from '@apis/order/OrderApi.query';
 import { UserMe } from '@apis/user/userApi.type';
 
 import OrderSection from '@components/PaymentHistoryPage/_fragments/OrderSection';
@@ -44,11 +40,8 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
   const queryClient = useQueryClient();
   const { data: orderData } = useGetOrder(orderId);
   const userData = queryClient.getQueryData(['user']) as UserMe;
-  const orderList = queryClient.getQueryData([
-    'order',
-    userData.id,
-  ]) as OrderGetStatus;
-  const order = orderList.results.filter((order) => order.orderId === orderId);
+  const { data: orderList } = useGetOrderStatus(1, userData);
+  const order = orderList?.results.filter((order) => order.orderId === orderId);
   const [shippingStatus, setShippingStatus] = useState<string>();
 
   useEffect(() => {
@@ -107,7 +100,7 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
       </Flex>
       <Divider />
       {/* order list section */}
-      {order.map((order) => {
+      {order?.map((order) => {
         return (
           <OrderSection
             key={order.productId}

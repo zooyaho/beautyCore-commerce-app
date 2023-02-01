@@ -10,7 +10,8 @@ function FailPage() {
   const { query } = useRouter();
   return (
     <Flex
-      h="80vh"
+      h="90vh"
+      pt="3rem"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"

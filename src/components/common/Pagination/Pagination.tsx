@@ -13,6 +13,7 @@ function Pagination({ page, getListHandler }: PaginationProps) {
   const [pageGroup, setPageGroup] = useState(1);
   const [allPage, setAllPage] = useState<number[] | undefined>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  console.log('👾: ', page);
 
   useEffect(() => {
     const temp = [];

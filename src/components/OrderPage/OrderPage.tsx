@@ -31,7 +31,7 @@ const OrderPage = () => {
   useEffect(() => {
     const localData = getLocalStorage<localOrderListType[]>('order', []);
     if (localData.length) {
-      setOrderList(getLocalStorage<localOrderListType[]>('order', []));
+      setOrderList(localData);
     } else {
       router.back();
     }
@@ -86,7 +86,7 @@ const OrderPage = () => {
               orderList.length === 1
                 ? ''
                 : '외 ' + (orderList.length - 1) + '건';
-            tossPayments //post 요청
+            tossPayments // 카드 결제창 호출하는 메서드
               .requestPayment('카드', {
                 amount: totalPrice + (totalPrice > 30000 ? 0 : 3000),
                 orderId: orderData.id,

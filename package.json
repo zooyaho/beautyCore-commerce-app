@@ -8,6 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "vercel-deploy": "next build && next export",
     "prepare": "husky install && node_modules/.bin/ls-engines",
     "gen:theme-typings": "chakra-cli tokens src/styles/theme",
     "tokript": "tokript",

@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { getProductList } from '@apis/product/ProductApi';
@@ -30,7 +30,7 @@ function ProductList({ productListData }: ProductListProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const productListData = await getProductList();
 
   return {

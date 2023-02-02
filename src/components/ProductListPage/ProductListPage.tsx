@@ -42,15 +42,15 @@ function ProductListPage({ productListData }: ProductListPageProps) {
   );
   const {
     data: productListDataQuery,
-    hasNextPage,
-    fetchNextPage,
+    hasNextPage, // 수집할 데이터가 더 있는지를 결정하는 불리언값
+    fetchNextPage, // 어느 함수를 실행할지를 infiniteScroll에 지시한다.
   } = useInfiniteQuery(
     ['product-list'],
     ({ pageParam = cursor }) => {
       return getProductList(pageParam);
     },
     {
-      getNextPageParam: (lastPage) => lastPage.cursor || undefined,
+      getNextPageParam: (lastPage) => lastPage.cursor || undefined, // 다음 페이지로 가는 방식을 정의하는 함수
     },
   );
 

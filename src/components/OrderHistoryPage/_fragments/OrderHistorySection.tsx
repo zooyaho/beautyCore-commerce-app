@@ -40,7 +40,7 @@ function OrderHistorySection({ orderId, created }: OrderHistorySectionProps) {
   const queryClient = useQueryClient();
   const { data: orderData } = useGetOrder(orderId);
   const userData = queryClient.getQueryData(['user']) as UserMe;
-  const { data: orderList } = useGetOrderStatus(1, userData);
+  const { data: orderList } = useGetOrderStatus(1, userData, userData?.id);
   const order = orderList?.results.filter((order) => order.orderId === orderId);
   const [shippingStatus, setShippingStatus] = useState<string>();
 

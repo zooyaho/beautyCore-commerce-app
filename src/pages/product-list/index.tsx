@@ -33,6 +33,12 @@ function ProductList({ productListData }: ProductListProps) {
 export const getStaticProps: GetStaticProps = async () => {
   const productListData = await getProductList();
 
+  if (!productListData) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: { productListData },
   };

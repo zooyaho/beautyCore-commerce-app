@@ -4,6 +4,7 @@
   "private": true,
   "description": "Simple project that shows the usage of Next.js with TypeScript",
   "author": "TOKTOKHAN.DEV<dev@toktokhan.dev>",
+  "proxy": "https://beautycore-commerce.vercel.app",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

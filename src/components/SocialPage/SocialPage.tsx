@@ -8,12 +8,12 @@ import SocialButton, { SocialType } from '@components/common/SocialButton';
 
 import { SOCIAL } from '@constants/social';
 
-const SOCIAL_REDIRECT_URL = `${CONFIG.DOMAIN}`;
+const SOCIAL_REDIRECT_URI = `${CONFIG.KAKAO_REDIRECT_URI}`;
 
 const SOCIAL_LIST: Array<{ social: SocialType; link: string }> = [
   {
     social: 'kakao',
-    link: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${SOCIAL.KAKAO_CLIENT_ID}&redirect_uri=${SOCIAL_REDIRECT_URL}&state=kakao`,
+    link: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${SOCIAL.KAKAO_CLIENT_ID}&redirect_uri=${SOCIAL_REDIRECT_URI}&state=kakao`,
   },
 ];
 

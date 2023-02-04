@@ -39,7 +39,9 @@ const SignUpPage = () => {
           setToken(data);
           push({
             pathname: ROUTES.SIGN_UP_DONE,
-            query: { token: data.id }, // user ID query String으로 전달
+            query: {
+              access: data.access,
+            },
           });
         })
         .catch((error) => {

@@ -19,9 +19,9 @@ function SignUpDonePage() {
 
   const setUserDataHandler = useCallback(async () => {
     try {
-      if (query && query.id)
+      if (query && query.access)
         setUser({
-          user_id: +query.id,
+          user_id: undefined,
           auth_status: AUTH_STATUS.LOGIN,
         });
     } catch (error) {
@@ -76,7 +76,7 @@ function SignUpDonePage() {
           </Link>
         </Button>
       </Flex>
-      {!query.id && <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />}
+      {!query.access && <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />}
     </>
   );
 }

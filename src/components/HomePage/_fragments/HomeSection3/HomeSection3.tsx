@@ -25,7 +25,7 @@ function HomeSection3() {
           중간 유통 거품을 제거
         </Text>
         한<br />
-        인코스런만의 투명한 유통혁신
+        뷰티코어만의 투명한 유통혁신
       </Text>
       <Flex>
         <Flex pos="relative">
@@ -91,14 +91,14 @@ function HomeSection3() {
         * 온라인 직접 판매
       </Text>
       <Text textStyle="md" textAlign="center">
-        인코스런은 온라인으로만 직접판매하여,
+        뷰티코어는 온라인으로만 직접판매하여,
         <br />더 낮은 가격을 만들어냅니다.
       </Text>
       <Text mt="5rem" textStyle="xl">
         이렇게 <strong>비교하세요!</strong>
       </Text>
       <Text mt="1.3rem" textStyle="lg" textAlign="center">
-        인코스런은 부담스러운
+        뷰티코어는 부담스러운
         <br />
         영유아{' '}
         <Text as="span" fontWeight="700" boxShadow="inset 0 -11px 0 #FF710B">
@@ -157,7 +157,7 @@ function HomeSection3() {
             </Box>
           </Flex>
           <Text textStyle="sl_wb_cp" mt=".8rem">
-            인코스런
+            뷰티코어
           </Text>
         </Flex>
       </Flex>

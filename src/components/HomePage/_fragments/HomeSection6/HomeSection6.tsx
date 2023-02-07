@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Box, Button, ChakraProps, Flex, Text } from '@chakra-ui/react';
 
-import { ProductTag, ProductTagReview } from '@apis/product/ProductAPi.type';
+import { ProductReview, ProductTag } from '@apis/product/ProductAPi.type';
 
 import ReviewCarousel from '@components/HomePage/_fragments/HomeSection6/_fragments/Carousel/ReviewCarousel';
 import TabCarousel from '@components/HomePage/_fragments/HomeSection6/_fragments/Carousel/TabCarousel';
@@ -13,7 +13,7 @@ interface HomeSection6Props extends ChakraProps {
 }
 
 function HomeSection6({ productTagData }: HomeSection6Props) {
-  const [selectedTagData, setSelectedTagData] = useState<ProductTagReview[]>(
+  const [selectedTagData, setSelectedTagData] = useState<ProductReview[]>(
     productTagData
       .map((tag) => tag.reviewList)
       .filter((_a, i, arr) => arr[i].length !== 0)
@@ -26,8 +26,8 @@ function HomeSection6({ productTagData }: HomeSection6Props) {
           .map((tag) => tag.reviewList)
           .filter((_a, i, arr) => arr[i].length !== 0)
           .flat();
-      }
-      return productTagData.filter((tag) => tag.id === tabId)[0].reviewList;
+      } else
+        return productTagData.filter((tag) => tag.id === tabId)[0].reviewList;
     });
   };
 
@@ -35,7 +35,7 @@ function HomeSection6({ productTagData }: HomeSection6Props) {
     <>
       <Flex direction="column" alignItems="center">
         <Text mt="10vh" textAlign="center" textStyle="lg">
-          인코스런을 <strong>직접 사용해본</strong>
+          BeautyCore를 <strong>직접 사용해본</strong>
           <br />
           고객님의 솔직한 리뷰
         </Text>

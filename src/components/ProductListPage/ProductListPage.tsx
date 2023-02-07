@@ -94,10 +94,12 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                 key={product.id}
                 boxShadow="0 0 10px #1A1A1A1A"
                 borderRadius="20px"
-                my="2rem"
+                mb="2rem"
                 bg="white"
               >
-                <Img src={product.thumbnail} alt="상품이미지" />
+                <Center pt="1rem">
+                  <Img maxW="90%" src={product.thumbnail} alt="상품이미지" />
+                </Center>
                 <Box
                   px="1.5rem"
                   pt="1.5rem"

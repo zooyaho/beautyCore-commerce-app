@@ -53,7 +53,7 @@ function WithdrawPageView({
         회원 탈퇴
       </Text>
       <Text p="1.1rem 1rem" bg="gray.100" my="2rem">
-        회원 탈퇴 시 개인 정보 및 인코스런에서 만들어진 모든 데이터는
+        회원 탈퇴 시 개인 정보 및 뷰티코어에서 만들어진 모든 데이터는
         삭제됩니다. 한 번 삭제된 정보는 복구가 불가능합니다.
       </Text>
       <ProfileSection />

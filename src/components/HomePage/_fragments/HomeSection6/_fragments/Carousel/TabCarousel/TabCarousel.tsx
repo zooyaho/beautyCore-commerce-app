@@ -17,13 +17,20 @@ function TabCarousel({ seletedHandler }: TabCarouselProps) {
     centerMode: false,
     variableWidth: true,
   };
-  const tab = ['전체', '크림', '오일', '파우더 로션', '바스&샴푸'];
-  const [selectedTab, setSelectedTab] = useState<string>('전체');
+  const tab = {
+    전체: 0,
+    크림: 18,
+    핸드크림: 15,
+    '파우더 로션': 17,
+    '바스&샴푸': 16,
+  };
+  type TabKeyType = keyof typeof tab;
+  const [selectedTab, setSelectedTab] = useState<TabKeyType>('전체');
 
   return (
     <Slider {...settings}>
-      {tab.map((text, index) => (
-        <Box pr=".5rem" key={text}>
+      {Object.keys(tab).map((text, index) => (
+        <Box pr=".5rem" key={index}>
           <Button
             borderRadius="15px"
             px="1rem"
@@ -37,8 +44,8 @@ function TabCarousel({ seletedHandler }: TabCarouselProps) {
                 : undefined
             }
             onClick={() => {
-              seletedHandler(index);
-              setSelectedTab(text);
+              seletedHandler(tab[text as TabKeyType]);
+              setSelectedTab(text as TabKeyType);
             }}
           >
             {text}

@@ -16,7 +16,7 @@ function HomeSection4() {
       <Box position="absolute" left="5%" top="20%" textStyle="xl">
         <Text>
           <Text as="span" textStyle="sxl_wb_cp">
-            인코스런
+            뷰티코어
           </Text>
           가입하고
         </Text>

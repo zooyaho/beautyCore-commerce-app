@@ -18,7 +18,7 @@ function HomeSection1() {
         <Text as="h2" textStyle="sxl_wb">
           지속 가능한
           <br />
-          클린 &amp; 비건뷰티, 인코스런
+          클린 &amp; 비건뷰티, 뷰티코어
         </Text>
         <Text textStyle="lg" mt="1rem">
           자연과 사람에게

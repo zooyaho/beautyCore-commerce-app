@@ -1,8 +1,16 @@
 import Slider from 'react-slick';
 
-import { Box, ChakraProps, Divider, Flex, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  ChakraProps,
+  Divider,
+  Flex,
+  Image,
+  Text,
+} from '@chakra-ui/react';
 
-import { ProductTagReview } from '@apis/product/ProductAPi.type';
+import { ProductReview } from '@apis/product/ProductAPi.type';
 
 import PrintRatingStars from '@components/common/PrintRatingStars/PrintRatingStars';
 
@@ -12,7 +20,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 interface ReviewCarouselProps extends ChakraProps {
-  selectedTagData: ProductTagReview[];
+  selectedTagData: ProductReview[];
 }
 
 function ReviewCarousel({ selectedTagData: reviewList }: ReviewCarouselProps) {
@@ -28,8 +36,14 @@ function ReviewCarousel({ selectedTagData: reviewList }: ReviewCarouselProps) {
 
   return (
     <Slider {...settings}>
-      {reviewList &&
-        reviewList.map((review, i) => (
+      {reviewList && reviewList.length === 0 ? (
+        <Box minH="100px" p="4rem .5rem 1rem">
+          <Center as="p" textStyle="sm_wb">
+            ✨리뷰가 없습니다.✨
+          </Center>
+        </Box>
+      ) : (
+        reviewList.map((review) => (
           <Box p="4rem .5rem 1rem" key={review.created}>
             <Flex
               flexDirection="column"
@@ -72,7 +86,8 @@ function ReviewCarousel({ selectedTagData: reviewList }: ReviewCarouselProps) {
               </Box>
             </Flex>
           </Box>
-        ))}
+        ))
+      )}
     </Slider>
   );
 }

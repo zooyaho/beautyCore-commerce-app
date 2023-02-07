@@ -46,9 +46,9 @@ function HomeSection2() {
           부풀려지는 가격은 이제 그만!
           <br />
           <Text as="span" textStyle="sl_wb_cp">
-            인코스런
+            뷰티코어
           </Text>
-          은 가격거품을 제거한
+          는 가격거품을 제거한
           <br />
           착한소비를 위해 태어났습니다.
         </Text>

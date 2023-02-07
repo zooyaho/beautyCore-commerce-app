@@ -37,7 +37,7 @@ function OrderInfoSection({ focusTarget }: IOrderInfoSectionProps) {
             gap="4"
           >
             <GridItem>배송방법 :</GridItem>
-            <GridItem>인코스런 택배</GridItem>
+            <GridItem>뷰티코어 택배</GridItem>
             <GridItem>배송지역 :</GridItem>
             <GridItem>전국</GridItem>
             <GridItem>배송비용 :</GridItem>

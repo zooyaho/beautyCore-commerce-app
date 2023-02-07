@@ -2,8 +2,6 @@ import { Flex, Text } from '@chakra-ui/react';
 
 import { InstagramIcon } from '@components/common/@Icons/MyIcons';
 
-// interface HomeSection7Props extends ChakraProps { }
-
 function HomeSection7() {
   return (
     <Flex
@@ -14,15 +12,15 @@ function HomeSection7() {
       py="5.2rem"
       color="white"
     >
-      <Text textStyle="sl_wb_cw">인코스런에 대해 더 궁금하신가요?</Text>
+      <Text textStyle="sl_wb_cw">뷰티코어에 대해 더 궁금하신가요?</Text>
       <Text mt=".7rem" textStyle="md" textAlign="center">
         인스타그램을 방문하시면 더욱 다양한
         <br />
-        인코스런의 이야기를 확인하실 수 있어요!
+        뷰티코어의 이야기를 확인하실 수 있어요!
       </Text>
       <Flex mt=".8rem">
         <InstagramIcon mr=".3rem" />
-        <Text textStyle="sm_wb_cw">INCOURSE.RUN</Text>
+        <Text textStyle="sm_wb_cw">BEAUTY.CORE</Text>
       </Flex>
     </Flex>
   );

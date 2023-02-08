@@ -49,17 +49,23 @@
 
 <br>
 
-<!-- 노션 링크 필요 -->
-
-> 프로젝트의 자세한 설명은 <a href="https://gregarious-cathedral-9f7.notion.site/Beauty-CORE-b48feda861ca4f669dbbdb750b5cb117" target="_blank"><strong>여기</strong></a>로!
-
-<br>
-
 🔀 **User Flow** <a href="https://gregarious-cathedral-9f7.notion.site/User-Flow-6eafa146091a4ab3adf1a0271641e697" target="_blank"><strong>자세히</strong></a> 보기!
 
 <br>
 
 🔖 **기능 명세서** <a href="https://gregarious-cathedral-9f7.notion.site/7c1922df4fcc47abab62dcdcdf92ff0d" target="_blank"><strong>자세히</strong></a> 보기!
+
+<br>
+
+## ⭐️ 주요 기능
+- 👥 로그인, 회원가입, 로그아웃, 회원탈퇴 <a href="https://gregarious-cathedral-9f7.notion.site/8f6ee2b5558a475994db2b07102edd83" target="_blank"><strong>자세히</strong></a> 보기!
+- 🛒 장바구니 <a href="https://gregarious-cathedral-9f7.notion.site/2826cc4626794d77809a15c030f24f92" target="_blank"><strong>자세히</strong></a> 보기!
+- 💰 결제 <a href="https://gregarious-cathedral-9f7.notion.site/9087339546c744d0a7e5861582260383" target="_blank"><strong>자세히</strong></a> 보기!
+
+<br>
+
+> 프로젝트의 자세한 설명은 <a href="https://gregarious-cathedral-9f7.notion.site/Beauty-CORE-b48feda861ca4f669dbbdb750b5cb117" target="_blank"><strong>여기</strong></a>로!
+
 
 <br><br>
 
@@ -103,7 +109,7 @@ $ yarn dev or yarn start
 ✔️ 환경변수 설정
 
 ```
-NEXT_PUBLIC_API_BASE_URL=https://api.commerce.incourse.run/v1/
+NEXT_PUBLIC_API_BASE_URL=https://incourse-commerce.ddns.net/
 
 NEXT_PUBLIC_KAKAO_REST_API_KEY=[Kakao Client REST API Key]
 NEXT_PUBLIC_KAKAO_REDIRECT_URI=http://localhost:3000/social_login/callback

@@ -1,51 +1,17 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React from 'react';
 
-import { AxiosError } from 'axios';
-
-import { Button, Center, Flex, Spacer, Text, useToast } from '@chakra-ui/react';
+import { Button, Center, Flex, Spacer, Text } from '@chakra-ui/react';
 
 import { HandsClappingIcon } from '@components/common/@Icons/MyIcons';
 import AuthRouteModal from '@components/common/AuthRouteModal';
 
 import { AUTH_STATUS } from '@constants/authStatus';
 import { ROUTES } from '@constants/routes';
-import { setUser } from '@utils/localStorage/user';
 
 function SignUpDonePage() {
-  const toast = useToast();
   const { query } = useRouter();
-
-  const setUserDataHandler = useCallback(async () => {
-    try {
-      if (query && query.access)
-        setUser({
-          user_id: undefined,
-          auth_status: AUTH_STATUS.LOGIN,
-        });
-    } catch (error) {
-      const { response } = error as unknown as AxiosError;
-      if (response) {
-        if (response.status.toString().slice(0, 1) === '4')
-          toast({
-            title: response,
-            description: '재시도 부탁드립니다.',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          });
-        else if (response.status.toString().slice(0, 1) === '5')
-          toast({
-            title: response,
-            description: '서버가 불안정합니다. 재시도 부탁드립니다.',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          });
-      }
-    }
-  }, [query, toast]);
 
   return (
     <>
@@ -63,13 +29,8 @@ function SignUpDonePage() {
           <HandsClappingIcon />
         </Center>
         <Spacer />
-        <Button
-          size="lg"
-          variant="primaryButton"
-          mb="1.875rem"
-          onClick={setUserDataHandler}
-        >
-          <Link href={ROUTES.HOME}>
+        <Button size="lg" variant="primaryButton" mb="1.875rem">
+          <Link href={ROUTES.LOGIN}>
             <Center as="a" w="100%" h="100%">
               시작하기
             </Center>

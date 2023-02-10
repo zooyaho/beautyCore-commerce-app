@@ -13,7 +13,7 @@ import { ROUTES } from '@constants/routes';
 import { TokenType, setToken } from '@utils/localStorage/token';
 import { UserType, setUser } from '@utils/localStorage/user';
 
-const Callback = () => {
+const CallbackPage = () => {
   const toast = useToast();
   const {
     push,
@@ -86,4 +86,4 @@ const Callback = () => {
   );
 };
 
-export default Callback;
+export default CallbackPage;

@@ -32,6 +32,12 @@ import {
 
 interface FormPageProps extends BoxProps {
   formData: UseFormReturn<FormDataType>;
+  isMarketingAgreeFlag: boolean,
+  setMarketingAgreeFlag: {
+    on: () => void;
+    off: () => void;
+    toggle: () => void;
+  },
 }
 
 const FormPageView = ({
@@ -40,26 +46,21 @@ const FormPageView = ({
     control,
     formState: { errors, isValid },
   },
+  isMarketingAgreeFlag,
+  setMarketingAgreeFlag,
   onSubmit,
   ...basisProps
 }: FormPageProps) => {
   const [isAllAgreeFlag, setAllAgreeFlag] = useBoolean();
   const [isServiceAgreeFlag, setServiceAgreeFlag] = useBoolean();
   const [isPersonalInfoAgreeFlag, setPersonalInfoAgreeFlag] = useBoolean();
-  const [isMarketingAgreeFlag, setMarketingAgreeFlag] = useBoolean();
+
 
   useEffect(() => {
-    setServiceAgreeFlag.off();
-    setPersonalInfoAgreeFlag.off();
-    setMarketingAgreeFlag.off();
     if (isAllAgreeFlag) {
       setServiceAgreeFlag.on();
       setPersonalInfoAgreeFlag.on();
       setMarketingAgreeFlag.on();
-    } else {
-      setServiceAgreeFlag.off();
-      setPersonalInfoAgreeFlag.off();
-      setMarketingAgreeFlag.off();
     }
   }, [
     isAllAgreeFlag,
@@ -67,6 +68,10 @@ const FormPageView = ({
     setPersonalInfoAgreeFlag,
     setMarketingAgreeFlag,
   ]);
+
+  useEffect(() => {
+    if (!isServiceAgreeFlag || !isPersonalInfoAgreeFlag || !isMarketingAgreeFlag) setAllAgreeFlag.off();
+  }, [isMarketingAgreeFlag, isPersonalInfoAgreeFlag, isServiceAgreeFlag, setAllAgreeFlag])
 
   return (
     <>
@@ -137,6 +142,7 @@ const FormPageView = ({
                 autoComplete="off"
                 placeholder="01012345678"
               />
+              <Text as="p" textStyle="ss_wn_cg600" mt=".5rem">* - (하이픈) 제외한 숫자만 입력해주세요</Text>
             </FormHelper>
             <FormHelper
               mb="3.125rem"
@@ -152,13 +158,6 @@ const FormPageView = ({
                 placeholder="gildong123@gmail.com"
               />
             </FormHelper>
-          </Box>
-
-          {/* 추가정보입력 */}
-          <Box mb="5rem">
-            <Text as="h3" textStyle="sm_wb" mb="2.5rem">
-              추가정보입력
-            </Text>
             <Controller
               control={control}
               name="gender"
@@ -209,10 +208,10 @@ const FormPageView = ({
                     <option value="" disabled hidden>
                       연령대를 선택하세요
                     </option>
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={30}>30</option>
-                    <option value={40}>40</option>
+                    <option value={10}>10대</option>
+                    <option value={20}>20대</option>
+                    <option value={30}>30대</option>
+                    <option value={40}>40대</option>
                     <option value={50}>50대 이상</option>
                   </Select>
                 </FormHelper>
@@ -323,8 +322,7 @@ const FormPageView = ({
             disabled={
               isValid &&
                 ((isServiceAgreeFlag &&
-                  isPersonalInfoAgreeFlag &&
-                  isMarketingAgreeFlag) ||
+                  isPersonalInfoAgreeFlag) ||
                   isAllAgreeFlag)
                 ? false
                 : true

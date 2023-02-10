@@ -3,7 +3,7 @@ import React from 'react';
 
 import { AxiosError } from 'axios';
 
-import { useToast } from '@chakra-ui/react';
+import { useBoolean, useToast } from '@chakra-ui/react';
 
 import { postUserRegister } from '@apis/user/userApi';
 
@@ -21,6 +21,7 @@ const SignUpPage = () => {
   const formData = useFormValidate();
   const { handleSubmit, reset } = formData;
   const toast = useToast();
+  const [isMarketingAgreeFlag, setMarketingAgreeFlag] = useBoolean();
 
   const onSubmit = handleSubmit(
     ({ username, nickname, email, phone, gender, age }) => {
@@ -33,7 +34,7 @@ const SignUpPage = () => {
         gender,
         age,
         profilePath: 'www.naver.com',
-        marketingAdAgree: true,
+        marketingAdAgree: isMarketingAgreeFlag,
       })
         .then((data) => {
           setToken(data);
@@ -71,7 +72,12 @@ const SignUpPage = () => {
 
   return (
     <>
-      <SignupPageView formData={formData} onSubmit={onSubmit} />
+      <SignupPageView
+        formData={formData}
+        onSubmit={onSubmit}
+        isMarketingAgreeFlag={isMarketingAgreeFlag}
+        setMarketingAgreeFlag={setMarketingAgreeFlag}
+      />
       {!query.token && <AuthRouteModal authStatus={AUTH_STATUS.LOGIN} />}
     </>
   );

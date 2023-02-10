@@ -130,148 +130,144 @@ function ReviewSection({
       px="1rem"
       ref={(el) => (focusTarget.current[2] = el)}
     >
-      {reviewList.length === 0 ? (
-        <Center pt="2rem" pb="3rem">
-          <Text as="span" fontWeight="bold">
-            리뷰&nbsp;
-            <Box as="span" color="gray.700">
-              {reviewList.length}
-            </Box>
-            건
-          </Text>
-        </Center>
-      ) : (
-        <>
-          <Flex direction="column" w="100%" my="1rem">
-            <HStack justify="space-between">
-              <Text as="span" fontWeight="bold">
-                리뷰&nbsp;
-                <Box as="span" color="primary.500">
-                  {reviewList.length}
-                </Box>
-                건
-              </Text>
-              <HStack w="193px">
-                <Select
-                  size="xs"
-                  bg="gray.200"
-                  rounded="5px"
-                  fontWeight="bold"
-                  onChange={(e) => setRatingfilter(e.target.value)}
-                >
-                  <option value="최신순">최신순</option>
-                  <option value="평점높은순">평점 높은순</option>
-                  <option value="평점낮은순">평점 낮은순</option>
-                </Select>
-                <Select
-                  size="xs"
-                  bg="gray.200"
-                  rounded="5px"
-                  fontWeight="bold"
-                  onChange={(e) => setPhotofilter(e.target.value)}
-                >
-                  <option value="전체보기">전체보기</option>
-                  <option value="포토리뷰">포토리뷰</option>
-                </Select>
-              </HStack>
-            </HStack>
-          </Flex>
-          <Flex justify="space-between" align="center" mt="3rem">
-            <HStack>
-              <Text
-                w="40px"
-                h="20px"
-                bg="primary.500"
-                rounded="15px"
-                color="white"
+      <>
+        <Flex direction="column" w="100%" my="1rem">
+          <HStack justify="space-between">
+            <Text as="span" fontWeight="bold">
+              리뷰&nbsp;
+              <Box as="span" color="primary.500">
+                {reviewList.length}
+              </Box>
+              건
+            </Text>
+            <HStack w="193px">
+              <Select
+                size="xs"
+                bg="gray.200"
+                rounded="5px"
                 fontWeight="bold"
-                textAlign="center"
+                onChange={(e) => setRatingfilter(e.target.value)}
               >
-                {avgRate}
-              </Text>
-              <Flex>
-                {
-                  <PrintRatingStars
-                    rate={avgRate}
-                    alignItems="center"
-                    starBoxSize="16px"
-                  />
-                }
-              </Flex>
+                <option value="최신순">최신순</option>
+                <option value="평점높은순">평점 높은순</option>
+                <option value="평점낮은순">평점 낮은순</option>
+              </Select>
+              <Select
+                size="xs"
+                bg="gray.200"
+                rounded="5px"
+                fontWeight="bold"
+                onChange={(e) => setPhotofilter(e.target.value)}
+              >
+                <option value="전체보기">전체보기</option>
+                <option value="포토리뷰">포토리뷰</option>
+              </Select>
             </HStack>
-            <Divider orientation="vertical" h="80px" />
-            <HStack spacing="-6">
-              {countNums.reverse().map((num, i) => {
-                return (
-                  <VStack key={i}>
-                    <Flex>
-                      <Progress
-                        bg="#fff6d5"
-                        colorScheme="primary"
-                        pos="relative"
-                        value={(num / reviewList.length) * 100}
-                        w="3rem"
-                        h=".7rem"
-                        mb=".7rem"
-                        roundedRight="3rem"
-                        transform="rotateZ(-90deg)"
-                      />
-                    </Flex>
-                    <Divider transform={'translateY(1px)'} />
-                    <Text textStyle="ss_wn_cg600">{5 - i}점</Text>
-                  </VStack>
-                );
-              })}
-            </HStack>
-          </Flex>
-          {/* s: 리뷰 리스트 */}
-          <Box pt="1.5rem">
-            {printReviewList &&
-              printReviewList.map((review) => {
-                return (
-                  <Box key={review.id} mb="1.5rem">
-                    <Flex justifyContent="space-between">
-                      <Text textStyle="ss_wb">{review.nickname}</Text>
-                      <PrintRatingStars
-                        rate={review.rate}
-                        starBoxSize="12px"
-                        alignItems="center"
-                      />
-                    </Flex>
-                    <Text textStyle="ss_wn_cg700">
-                      {formatDate(review.created)}
+          </HStack>
+        </Flex>
+        <Flex justify="space-between" align="center" mt="3rem">
+          <HStack>
+            <Text
+              w="40px"
+              h="20px"
+              bg="primary.500"
+              rounded="15px"
+              color="white"
+              fontWeight="bold"
+              textAlign="center"
+            >
+              {avgRate}
+            </Text>
+            <Flex>
+              {
+                <PrintRatingStars
+                  rate={avgRate}
+                  alignItems="center"
+                  starBoxSize="16px"
+                />
+              }
+            </Flex>
+          </HStack>
+          <Divider orientation="vertical" h="80px" />
+          <HStack spacing="-6">
+            {countNums.reverse().map((num, i) => {
+              return (
+                <VStack key={i}>
+                  <Flex>
+                    <Progress
+                      bg="#fff6d5"
+                      colorScheme="primary"
+                      pos="relative"
+                      value={num === 0 ? 0 : (num / reviewList.length) * 100}
+                      w="3rem"
+                      h=".7rem"
+                      mb=".7rem"
+                      roundedRight="3rem"
+                      transform="rotateZ(-90deg)"
+                    />
+                  </Flex>
+                  <Divider transform={'translateY(1px)'} />
+                  <Text textStyle="ss_wn_cg600">{5 - i}점</Text>
+                </VStack>
+              );
+            })}
+          </HStack>
+        </Flex>
+        {/* s: 리뷰 리스트 */}
+        <Box pt="1.5rem">
+          {printReviewList &&
+            printReviewList.map((review) => {
+              return (
+                <Box key={review.id} mb="1.5rem">
+                  <Flex justifyContent="space-between">
+                    <Text textStyle="ss_wb">{review.nickname}</Text>
+                    <PrintRatingStars
+                      rate={review.rate}
+                      starBoxSize="12px"
+                      alignItems="center"
+                    />
+                  </Flex>
+                  <Text textStyle="ss_wn_cg700">
+                    {formatDate(review.created)}
+                  </Text>
+                  <Flex flexDirection="column" mt="1rem" mb="1.5rem">
+                    <Text
+                      textOverflow="ellipsis"
+                      overflow="hidden"
+                      whiteSpace="nowrap"
+                      textStyle="md"
+                    >
+                      {review.content}
                     </Text>
-                    <Flex flexDirection="column" mt="1rem" mb="1.5rem">
-                      <Text
-                        textOverflow="ellipsis"
-                        overflow="hidden"
-                        whiteSpace="nowrap"
-                        textStyle="md"
-                      >
-                        {review.content}
-                      </Text>
-                      <Flex mt="1.3rem" gap=".6rem">
-                        {review.reviewimageSet.map((img, i) => {
-                          return (
-                            <Img
-                              key={i}
-                              src={`${img.url}`}
-                              alt="리뷰 이미지"
-                              w="80px"
-                              h="80px"
-                              borderRadius="5px"
-                            />
-                          );
-                        })}
-                      </Flex>
+                    <Flex mt="1.3rem" gap=".6rem">
+                      {review.reviewimageSet.map((img, i) => {
+                        return (
+                          <Img
+                            key={i}
+                            src={`${img.url}`}
+                            alt="리뷰 이미지"
+                            w="80px"
+                            h="80px"
+                            borderRadius="5px"
+                          />
+                        );
+                      })}
                     </Flex>
-                    <Divider />
-                  </Box>
-                );
-              })}
+                  </Flex>
+                  <Divider />
+                </Box>
+              );
+            })}
+        </Box>
+        {/* e: 리뷰 리스트 */}
+        {/* s: 페이지 버튼 */}
+        {!printReviewList ? (
+          <Box minH="100px" p="2rem .5rem 4rem">
+            <Center as="p" textStyle="sm_wb">
+              ✨리뷰가 없습니다.✨
+            </Center>
           </Box>
-          {/* e: 리뷰 리스트 */}
-          {/* s: 페이지 버튼 */}
+        ) : (
           <Flex justifyContent="center" h="5vh" mb="1rem">
             {selectedAllPage !== 0 && (
               <Button
@@ -325,9 +321,10 @@ function ReviewSection({
               </Button>
             )}
           </Flex>
-          {/* e: 페이지 버튼 */}
-        </>
-      )}
+        )}
+
+        {/* e: 페이지 버튼 */}
+      </>
     </Flex>
   );
 }

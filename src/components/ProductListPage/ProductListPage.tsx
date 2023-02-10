@@ -26,6 +26,7 @@ import ScrollToTop from '@components/common/ScrollToTop';
 import { LAYOUT } from '@constants/layout';
 import { ROUTES } from '@constants/routes';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { intComma } from '@utils/format';
 import { setLocalStorage } from '@utils/localStorage/helper';
 
 import { Product, ProductList } from '../../apis/product/ProductAPi.type';
@@ -97,9 +98,6 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                 mb="2rem"
                 bg="white"
               >
-                <Center pt="1rem">
-                  <Img maxW="90%" src={product.thumbnail} alt="상품이미지" />
-                </Center>
                 <Box
                   px="1.5rem"
                   pt="1.5rem"
@@ -113,19 +111,29 @@ function ProductListPage({ productListData }: ProductListPageProps) {
                     });
                   }}
                 >
+                  <Center pb="1rem">
+                    <Img
+                      maxW="100%"
+                      minW="60%"
+                      src={product.thumbnail}
+                      alt="상품이미지"
+                    />
+                  </Center>
                   <Flex gap="5px">
                     <Text textStyle="sm_wb">{product.name}</Text>
                     <Text textStyle="sm_wn_cg600">{product.capacity}ml</Text>
                   </Flex>
                   <Flex mt=".7rem">
-                    <Text textStyle="sl_wb_cp">{product.price}</Text>
+                    <Text textStyle="sl_wb_cp">{intComma(product.price)}</Text>
                     <Text as="span" textStyle="md">
                       원
                     </Text>
                   </Flex>
                   <Flex alignItems="center" gap="3px">
                     <RatingStarIcon color="primary.500" />
-                    <Text textStyle="sm_wb">{product.avgRate}</Text>
+                    <Text textStyle="sm_wb">
+                      {product.avgRate ? product.avgRate.toFixed(1) : 0}
+                    </Text>
                     <Text textStyle="sm_wn_cg700">
                       (리뷰 {product.reviewCount}개)
                     </Text>

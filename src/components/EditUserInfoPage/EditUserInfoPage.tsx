@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useDisclosure } from '@chakra-ui/react';
 
 import { usePutUserMeMutation } from '@apis/user/userApi.mutation';
 import { useGetUserMe } from '@apis/user/userApi.query';
+
+import AuthRouteModal from '@components/common/AuthRouteModal';
+
+import { AUTH_STATUS } from '@constants/authStatus';
+import { UserType, getUser } from '@utils/localStorage/user';
 
 import EditUserInfoPageView from './EditUserInfoPage.view';
 import useFormValidate from './_hooks/useFormValidate';
@@ -13,7 +18,6 @@ const EditUserInfoPage = () => {
   const formData = useFormValidate();
   const { handleSubmit } = formData;
   const { data: userData } = useGetUserMe();
-
   const { mutate } = usePutUserMeMutation({
     options: {
       onSuccess: () => {
@@ -21,6 +25,14 @@ const EditUserInfoPage = () => {
       },
     },
   });
+
+  const [userStatus, setUserStatus] = useState<UserType | null>();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserStatus(getUser());
+    }
+  }, []);
 
   const onSubmit = handleSubmit(
     ({ username, nickname, email, phone, gender, age }) => {
@@ -43,12 +55,18 @@ const EditUserInfoPage = () => {
   );
 
   return (
-    <EditUserInfoPageView
-      formData={formData}
-      onSubmit={onSubmit}
-      isOpen={isOpen}
-      onClose={onClose}
-    />
+    <>
+      {!userStatus ? (
+        <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />
+      ) : (
+        <EditUserInfoPageView
+          formData={formData}
+          onSubmit={onSubmit}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      )}
+    </>
   );
 };
 

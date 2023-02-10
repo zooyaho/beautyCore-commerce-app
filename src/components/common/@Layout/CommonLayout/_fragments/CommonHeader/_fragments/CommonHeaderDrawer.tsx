@@ -3,10 +3,10 @@ import Link from 'next/link';
 import {
   Box,
   Button,
-  ChakraProps,
   Container,
   Divider,
-  DrawerProps,
+  DrawerFooter,
+  DrawerHeader,
   Flex,
   List,
   ListItem,
@@ -26,74 +26,58 @@ import { LogoutIcon } from '@components/common/@Icons/MyIcons';
 
 import { ROUTES } from '@constants/routes';
 
-interface CommonHeaderDrawerProps extends Omit<DrawerProps, 'children'> {
-  bodyProps?: ChakraProps;
+interface CommonHeaderDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-const CommonHeaderDrawer = ({
-  bodyProps,
-  ...basisProps
-}: CommonHeaderDrawerProps) => {
-  const { onOpen, isOpen, onClose } = useDisclosure();
+const CommonHeaderDrawer = ({ isOpen, onClose }: CommonHeaderDrawerProps) => {
+  const {
+    onOpen,
+    isOpen: logoutIsOpen,
+    onClose: logoutOnClose,
+  } = useDisclosure();
 
   return (
-    <Drawer placement="left" {...basisProps}>
+    <Drawer placement="left" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
-      <DrawerContent>
-        <DrawerBody {...bodyProps} py="0px" px="0px" position="relative">
-          <DrawerCloseButton
-            w="40px"
-            h="40px"
-            top="20px"
-            right={{ base: '16px', md: '80px' }}
-            onClick={basisProps.onClose}
-          />
-          <Flex flexDirection="column">
-            <Container as="header">
-              <Text as="h3" textStyle="sl_wb" mt="80px" mb="30px">
-                카테고리
-              </Text>
-            </Container>
-            <Divider />
-            <Box as="nav">
-              <List textStyle="sm_wb">
-                <ListItem p="1rem" onClick={basisProps.onClose}>
-                  <Link href={ROUTES.HOME}>홈</Link>
-                </ListItem>
-                <Divider />
-                <ListItem p="1rem">
-                  <Link href={ROUTES.PRODUCT_LIST}>상품보기</Link>
-                </ListItem>
-                <Divider />
-                <ListItem p="1rem">
-                  <Link href={ROUTES.MYPAGE}>마이페이지</Link>
-                </ListItem>
-                <Divider />
-              </List>
-            </Box>
-            <Container
-              as="footer"
-              mb="1rem"
-              position="absolute"
-              bottom="0"
-              left="0"
-            >
-              <Button variant="transparentButton" onClick={onOpen}>
-                <Text
-                  as="span"
-                  textStyle="sl_wb"
-                  w="100%"
-                  h="100%"
-                  cursor="pointer"
-                >
-                  <LogoutIcon />
-                  로그아웃
-                </Text>
-              </Button>
-              <LogoutModal isOpen={isOpen} onClose={onClose} />
-            </Container>
-          </Flex>
+      <DrawerContent p="0px">
+        <DrawerCloseButton w="40px" h="40px" top="20px" onClick={onClose} />
+        <DrawerHeader borderBottomWidth="1px" p="0 0 0 16px">
+          <Text as="h3" textStyle="sl_wb" mt="80px" mb="30px">
+            카테고리
+          </Text>
+        </DrawerHeader>
+
+        <DrawerBody as="nav" p="0">
+          <List textStyle="sm_wb">
+            <ListItem p="1rem" onClick={onClose} borderBottomWidth="1px">
+              <Link href={ROUTES.HOME}>홈</Link>
+            </ListItem>
+            <ListItem p="1rem" borderBottomWidth="1px">
+              <Link href={ROUTES.PRODUCT_LIST}>상품보기</Link>
+            </ListItem>
+            <ListItem p="1rem" borderBottomWidth="1px">
+              <Link href={ROUTES.MYPAGE}>마이페이지</Link>
+            </ListItem>
+          </List>
         </DrawerBody>
+
+        <DrawerFooter mb="1rem" ml="1rem" position="relative" w="100%">
+          <Button
+            variant="transparentButton"
+            onClick={onOpen}
+            position="absolute"
+            bottom="0"
+            left="0"
+          >
+            <LogoutIcon />
+            <Text as="span" textStyle="sl_wb" ml=".3rem">
+              로그아웃
+            </Text>
+          </Button>
+          <LogoutModal isOpen={logoutIsOpen} onClose={logoutOnClose} />
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

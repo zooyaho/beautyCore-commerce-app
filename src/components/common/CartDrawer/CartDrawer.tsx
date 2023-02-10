@@ -23,6 +23,7 @@ import AddCartModal from '@components/ProductListDetailByIdPage/_fragment/AddCar
 import CartButton from '@components/common/CartButton';
 
 import { ROUTES } from '@constants/routes';
+import { intComma } from '@utils/format';
 import { setLocalStorage } from '@utils/localStorage/helper';
 
 import CartCountGraySection from '../CartCountGraySection';
@@ -134,10 +135,13 @@ function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <Text>
                 합계&nbsp;
                 <Text as="strong" textStyle="sm_wb">
-                  {cartProductList.reduce(
-                    (prev, cur) => prev + cur.price * cur.productQuantity,
-                    0,
+                  {intComma(
+                    cartProductList.reduce(
+                      (prev, cur) => prev + cur.price * cur.productQuantity,
+                      0,
+                    ),
                   )}
+                  원
                 </Text>
               </Text>
             </Flex>

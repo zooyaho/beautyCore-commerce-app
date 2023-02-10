@@ -7,6 +7,7 @@ import {
   MinusCartButtonIcon,
   PlusCartButtonIcon,
 } from '@components/common/@Icons/MyIcons';
+import { intComma } from '@utils/format';
 
 interface GrayCountSectionProps {
   name: string;
@@ -75,7 +76,7 @@ function CartCountGraySection({
           </Button>
         </Flex>
         <Spacer />
-        <Text textStyle="sm_wb_cg600">{count * price}원</Text>
+        <Text textStyle="sm_wb_cg600">{intComma(count * price)}원</Text>
       </Flex>
     </Box>
   );

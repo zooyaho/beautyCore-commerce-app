@@ -74,44 +74,52 @@ function MyProductReviewPage() {
             </Text>
           </Box>
           {/* s: review item */}
-          {reviewData.results.map((review) => (
-            <Container pt="1.5rem" key={review.id}>
-              <Box as="header" mb="1.5rem" textStyle="sm">
-                <Flex justifyContent="space-between">
-                  <Text textStyle="ss_wb">{review.nickname}</Text>
-                  <PrintRatingStars
-                    rate={review.rate ? review.rate : 0}
-                    starBoxSize="14px"
-                  />
-                </Flex>
-                <Text textStyle="ss_wn_cg600">
-                  {formatDate(review.created)}
-                </Text>
-              </Box>
-              <Flex flexDirection="column" mt="1rem" mb="1.5rem">
-                <Text>{review.content}</Text>
-                <Flex gap=".7rem" mt=".5rem">
-                  {review.reviewimageSet &&
-                    review.reviewimageSet.map((img) => (
-                      <Img
-                        key={img.reviewId}
-                        src={img.url}
-                        w="80px"
-                        h="80px"
-                        borderRadius="5px"
-                        alt="리뷰 이미지"
+          {reviewData.results.length === 0 ? (
+            <Box minH="100px" py="5rem">
+              <Center as="p" textStyle="sm_wb">
+                ✨작성한 리뷰가 없습니다.✨
+              </Center>
+            </Box>
+          ) : (
+            reviewData.results.map((review) => (
+              <>
+                <Container pt="1.5rem" key={review.id}>
+                  <Box as="header" mb="1.5rem" textStyle="sm">
+                    <Flex justifyContent="space-between">
+                      <Text textStyle="ss_wb">{review.nickname}</Text>
+                      <PrintRatingStars
+                        rate={review.rate ? review.rate : 0}
+                        starBoxSize="14px"
                       />
-                    ))}
-                </Flex>
-              </Flex>
-              <Divider />
-            </Container>
-          ))}
-          {reviewData && (
-            <Pagination
-              page={Math.ceil(reviewData.count / 5)}
-              getListHandler={getReviewListHandler}
-            />
+                    </Flex>
+                    <Text textStyle="ss_wn_cg600">
+                      {formatDate(review.created)}
+                    </Text>
+                  </Box>
+                  <Flex flexDirection="column" mt="1rem" mb="1.5rem">
+                    <Text>{review.content}</Text>
+                    <Flex gap=".7rem" mt=".5rem">
+                      {review.reviewimageSet &&
+                        review.reviewimageSet.map((img) => (
+                          <Img
+                            key={img.reviewId}
+                            src={img.url}
+                            w="80px"
+                            h="80px"
+                            borderRadius="5px"
+                            alt="리뷰 이미지"
+                          />
+                        ))}
+                    </Flex>
+                  </Flex>
+                  <Divider />
+                </Container>
+                <Pagination
+                  page={Math.ceil(reviewData.count / 5)}
+                  getListHandler={getReviewListHandler}
+                />
+              </>
+            ))
           )}
         </Box>
       )}

@@ -36,7 +36,7 @@ function WithdrawPageView({
   formData: {
     register,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
   },
   onSubmit,
   isOpen,
@@ -112,7 +112,7 @@ function WithdrawPageView({
         </Container>
         <Container>
           <Text as="h3" py=".8rem" textStyle="sm_wb">
-            인코스런을 입력해주세요
+            해당 문구를 입력해주세요.
           </Text>
           <FormHelper errorText={errors.requireText?.message}>
             <Input
@@ -121,7 +121,7 @@ function WithdrawPageView({
               borderColor="black"
               {...register('requireText')}
               autoComplete="off"
-              placeholder="인코스런"
+              placeholder="탈퇴하겠습니다"
             />
           </FormHelper>
         </Container>

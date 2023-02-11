@@ -15,9 +15,9 @@ export const reasonFormSchema = yup.object().shape({
   additionalReason: yup.string().nullable(),
   requireText: yup
     .string()
-    .required('인코스런을 입력해주세요.')
-    .test('validate', '인코스런을 입력해주세요.', (val) => {
-      if (val !== '인코스런') return false;
+    .required('"탈퇴하겠습니다"를 입력해주세요.')
+    .test('validate', '"탈퇴하겠습니다"를 입력해주세요.', (val) => {
+      if (val !== '탈퇴하겠습니다') return false;
       return true;
     }),
 });

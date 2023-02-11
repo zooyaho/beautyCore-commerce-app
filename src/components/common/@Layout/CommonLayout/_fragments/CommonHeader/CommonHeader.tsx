@@ -11,21 +11,11 @@ import CartButton from '@components/common/CartButton';
 import { LAYOUT } from '@constants/layout';
 import { ROUTES } from '@constants/routes';
 
-import {
-  CommonHeaderVariantType,
-  HOME_HEADER_VARIANTS,
-} from './CommonHeader.data';
 import CommonHeaderDrawer from './_fragments/CommonHeaderDrawer';
 
-interface CommonHeaderProps {
-  variant?: CommonHeaderVariantType;
-}
-
-const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
+const CommonHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-
-  const cssByVariant = HOME_HEADER_VARIANTS[variant];
 
   return (
     <>
@@ -40,10 +30,8 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
         zIndex="sticky"
         transition="all 0.3s"
         h={LAYOUT.HEADER.HEIGHT}
-        {...cssByVariant.header}
       >
         <IconButton // 메뉴 버튼
-          color={cssByVariant.pointColor}
           icon={<MenuIcon w="24px" h="24px" />}
           onClick={onOpen}
           variant="transparentButton"
@@ -65,11 +53,7 @@ const CommonHeader = ({ variant = 'light' }: CommonHeaderProps) => {
           </Link>
         </CartButton>
       </Flex>
-      <CommonHeaderDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        bodyProps={cssByVariant.drawer}
-      />
+      <CommonHeaderDrawer isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

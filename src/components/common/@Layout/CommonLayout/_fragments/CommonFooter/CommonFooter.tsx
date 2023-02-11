@@ -15,7 +15,7 @@ const CommonFooter = () => {
       p="2rem 1rem 2.5rem"
     >
       <Box as="header">
-        <Text textStyle="sm_wb_cw">INCOURSE.RUN</Text>
+        <Text textStyle="sm_wb_cw">BEAUTY.CORE</Text>
       </Box>
       <Box mt="1.5rem">
         <Text>팀명 | 쥬야호</Text>
@@ -23,7 +23,7 @@ const CommonFooter = () => {
         <Text mt=".3rem">이메일 | jiwoo1268@naver.com</Text>
       </Box>
       <Box as="footer" mt="2rem">
-        <Text as="span">ⓒINCOURSE.RUN All Right Reserved.</Text>
+        <Text as="span">ⓒBEAUTY.CORE All Right Reserved.</Text>
       </Box>
     </Flex>
   );

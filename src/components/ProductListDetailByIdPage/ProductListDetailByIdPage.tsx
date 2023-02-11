@@ -28,6 +28,7 @@ import ScrollToTop from '@components/common/ScrollToTop';
 
 import { LAYOUT } from '@constants/layout';
 import { ROUTES } from '@constants/routes';
+import { intComma } from '@utils/format';
 import { setLocalStorage } from '@utils/localStorage/helper';
 import { productImgSrc } from '@utils/productImgSrc';
 
@@ -90,7 +91,7 @@ function ProductListDetailByIdPage({
             </Text>
           </Text>
           <Text textStyle="sl_wb_cp" mt=".7rem">
-            {productData.price}
+            {intComma(productData.price)}
             <Text as="span" textColor="black" fontWeight="normal">
               원
             </Text>
@@ -108,7 +109,7 @@ function ProductListDetailByIdPage({
             <RatingStarIcon color="primary.500" boxSize="14px" />
             <Text textStyle="sm_wb">
               {productData.avgRate !== null
-                ? productData.avgRate.toFixed(2)
+                ? productData.avgRate.toFixed(1)
                 : 0}
             </Text>
             <Text textStyle="sm_wn_cg700">
@@ -200,7 +201,7 @@ function ProductListDetailByIdPage({
               boxShadow="0 0 10px #1A1A1A1A"
               onClick={detailShowToggleHandler}
             >
-              상세정보 접기
+              상세정보 {isShowDetail ? '접기' : '펴기'}
               {isShowDetail ? (
                 <DownArrowIcon ml=".7rem" />
               ) : (

@@ -36,11 +36,13 @@ export const signupFormSchema = yup.object().shape({
   phone: yup
     .string()
     .required('해당 항목은 필수값 입니다.')
-    .test('isNumber', '정확한 핸드폰 번호를 입력해주세요.', (val) => {
-      return !Number.isNaN(Number(val));
+    .test('validate', '정확한 핸드폰 번호를 입력해주세요.', (val) => {
+      const phoneRegExp = /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
+      if (val && phoneRegExp.test(val)) return true;
+      else return false;
     })
     .min(10, '정확한 핸드폰 번호를 입력해주세요.')
-    .max(13, '정확한 핸드폰 번호를 입력해주세요.'),
+    .max(11, '정확한 핸드폰 번호를 입력해주세요.'),
   email: yup
     .string()
     .required('해당 항목은 필수값 입니다.')

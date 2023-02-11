@@ -39,7 +39,7 @@ const OrderPageView = ({
   formData: {
     register,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
     getValues,
   },
@@ -404,11 +404,20 @@ const OrderPageView = ({
               variant="primaryButton"
               size="lg"
               mt="1.25rem"
-              mb="5rem"
+              mb="1.5rem"
               type="submit"
+              disabled={isValid ? false : true}
             >
               결제하기
             </Button>
+            <Box>
+              <Text textStyle="ss_wb_cg700" mb="5rem">
+                * BeautyCore는 tossPay로만 결제 가능하며,&nbsp;
+                <Text as="strong" color="red.400">
+                  실제 결제되지 않습니다.
+                </Text>
+              </Text>
+            </Box>
           </Container>
           {/* e: 최종 결제 금액 */}
         </Box>

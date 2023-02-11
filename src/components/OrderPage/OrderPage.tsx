@@ -9,8 +9,12 @@ import { postOrder } from '@apis/order/OrderApi';
 import { localOrderListType } from '@apis/order/OrderApi.type';
 import { useGetUserMe } from '@apis/user/userApi.query';
 
+import AuthRouteModal from '@components/common/AuthRouteModal';
+
+import { AUTH_STATUS } from '@constants/authStatus';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { getLocalStorage } from '@utils/localStorage/helper';
+import { UserType, getUser } from '@utils/localStorage/user';
 
 import OrderPageView from './OrderPage.view';
 import useFormValidate from './_hooks/useFormValidate';
@@ -27,6 +31,13 @@ const OrderPage = () => {
   const { data: userData } = useGetUserMe();
   const [orderList, setOrderList] = useState<localOrderListType[]>();
   const router = useRouter();
+  const [userStatus, setUserStatus] = useState<UserType | null>();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setUserStatus(getUser());
+    }
+  }, []);
 
   useEffect(() => {
     const localData = getLocalStorage<localOrderListType[]>('order', []);
@@ -76,7 +87,6 @@ const OrderPage = () => {
           orderMessage:
             orderRequest.length === 0 ? '요청 메세지 없음' : orderRequest,
         };
-        console.log('⭐️order: ', order);
         try {
           const orderData = await postOrder(order);
           const tossPayments = await loadTossPayments(TOSSPAYMENT_CLIENT_KEY);
@@ -117,12 +127,18 @@ const OrderPage = () => {
     },
   );
   return (
-    <OrderPageView
-      formData={formData}
-      onSubmit={onSubmit}
-      orderList={orderList}
-      totalPrice={totalPrice}
-    />
+    <>
+      {!userStatus ? (
+        <AuthRouteModal authStatus={AUTH_STATUS.LOGOUT} />
+      ) : (
+        <OrderPageView
+          formData={formData}
+          onSubmit={onSubmit}
+          orderList={orderList}
+          totalPrice={totalPrice}
+        />
+      )}
+    </>
   );
 };
 

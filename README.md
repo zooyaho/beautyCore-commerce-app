@@ -61,7 +61,8 @@
 - 👥 로그인, 회원가입, 로그아웃, 회원탈퇴 <a href="https://gregarious-cathedral-9f7.notion.site/8f6ee2b5558a475994db2b07102edd83" target="_blank"><strong>자세히</strong></a> 보기!
 - 🛒 장바구니 <a href="https://gregarious-cathedral-9f7.notion.site/2826cc4626794d77809a15c030f24f92" target="_blank"><strong>자세히</strong></a> 보기!
 - 💰 결제 <a href="https://gregarious-cathedral-9f7.notion.site/9087339546c744d0a7e5861582260383" target="_blank"><strong>자세히</strong></a> 보기!
-
+- 💄 SSR, SSG를 사용하여 SEO최적화 <a href="https://gregarious-cathedral-9f7.notion.site/SSR-SSG-020790262bc547bc86ada314b3b0dc5d" target="_blank"><strong>자세히</strong></a> 보기!
+- ⌨️ React Hook Form과 yup을 사용하여 폼 최적화 <a href="https://gregarious-cathedral-9f7.notion.site/Form-083cafe4950e443f9fdeca239e03aa5b" target="_blank"><strong>자세히</strong></a> 보기!
 <br>
 
 > 프로젝트의 자세한 설명은 <a href="https://gregarious-cathedral-9f7.notion.site/Beauty-CORE-b48feda861ca4f669dbbdb750b5cb117" target="_blank"><strong>여기</strong></a>로!
